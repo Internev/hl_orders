@@ -2,7 +2,7 @@
   "name": "hl_orders",
   "version": "1.0.0",
   "description": "hl_orders",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
     "start": "node server/server.js",
     "prestart": "webpack",
@@ -26,7 +26,6 @@
     "express": "^4.14.0",
     "jsonwebtoken": "^7.2.1",
     "material-ui": "^0.16.5",
-    "mongoose": "^4.7.3",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pg": "^6.1.5",
@@ -42,10 +41,12 @@
     "validator": "^6.2.0"
   },
   "devDependencies": {
-    "babel-core": "^6.21.0",
+    "babel": "^6.5.2",
+    "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-react": "^6.16.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
     "nodemon": "^1.11.0",
     "webpack": "^1.14.0"
   }
