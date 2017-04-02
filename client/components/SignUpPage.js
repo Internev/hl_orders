@@ -6,19 +6,35 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
 const SignUpPage = React.createClass({
-  handleFormSubmit () {
-    console.log('form submitted')
+  handleFormSubmit (e) {
+    e.preventDefault()
+
+    
+
+    console.log('form submitted, name:', this.refs.name.input.value, '\nemail:', this.refs.email.input.value, '\npassword:', this.refs.password.input.value)
   },
   render () {
     return (
       <Card className='container'>
-        <form action='/' onSubmit={this.handleFormSubmit}>
+        <form onSubmit={this.handleFormSubmit}>
           <h2 className='card-heading'>Signup</h2>
 
           <div className='field-line'>
             <TextField
+              floatingLabelText='Name'
+              name='name'
+              ref='name'
+              errorText={this.props.user.errors.name}
+            />
+          </div>
+
+          <div className='field-line'>
+            <TextField
               floatingLabelText='Email'
+              type='email'
               name='email'
+              ref='email'
+              errorText={this.props.user.errors.email}
             />
           </div>
 
@@ -27,6 +43,8 @@ const SignUpPage = React.createClass({
               floatingLabelText='Password'
               type='password'
               name='password'
+              ref='password'
+              errorText={this.props.user.errors.password}
             />
           </div>
 
@@ -43,7 +61,7 @@ const SignUpPage = React.createClass({
 
 const mapStateToProps = (state) => {
   return {
-    activeFeed: state.activeFeed
+    user: state.user
   }
 }
 

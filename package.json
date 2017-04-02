@@ -4,7 +4,7 @@
   "description": "hl_orders",
   "main": "main.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "server.js",
     "prestart": "webpack",
     "test": "jest",
     "update-test": "npm run test -- -u",

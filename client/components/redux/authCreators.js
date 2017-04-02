@@ -41,7 +41,7 @@ export function signupUser (creds) {
   return dispatch => {
     dispatch(requestSignup(creds))
 
-    return axios.post('/users', {username: creds.username, password: creds.password})
+    return axios.post('/auth/signup', {name: creds.name, email: creds.email, password: creds.password})
       .then(res => {
         if (!res.ok) dispatch(signupError(res))
         localStorage.setItem('id_token', res.user.id_token)
@@ -84,7 +84,7 @@ export function loginUser (creds) {
   return dispatch => {
     dispatch(requestLogin(creds))
 
-    return axios.post('/sessions/create', {username: creds.username, password: creds.password})
+    return axios.post('/auth/login', {username: creds.username, password: creds.password})
       .then(res => {
         if (!res.ok) dispatch(loginError(res))
         localStorage.setItem('id_token', res.user.id_token)
