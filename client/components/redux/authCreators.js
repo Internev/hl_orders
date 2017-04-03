@@ -10,12 +10,11 @@ import {
  } from './actions'
 import axios from 'axios'
 
-function requestSignup (creds) {
+function requestSignup () {
   return {
     type: SIGNUP_REQUEST,
     isFetching: true,
-    isAuthenticated: false,
-    creds
+    isAuthenticated: false
   }
 }
 
@@ -39,16 +38,18 @@ function signupError (msg) {
 
 export function signupUser (creds) {
   return dispatch => {
-    dispatch(requestSignup(creds))
+    dispatch(requestSignup())
 
-    return axios.post('/auth/signup', {name: creds.name, email: creds.email, password: creds.password})
+    axios.post('/auth/signup', {name: creds.name, email: creds.email, password: creds.password})
       .then(res => {
-        if (!res.ok) dispatch(signupError(res))
-        localStorage.setItem('id_token', res.user.id_token)
-        dispatch(receiveSignup(res.user))
+        console.log('auth signup route response:', res)
+        if (!res.ok) return dispatch(signupError(res))
+        // localStorage.setItem('id_token', res.user.id_token)
+        return dispatch(receiveSignup(res.user))
       })
       .catch(err => {
-        console.error('auth error:', err)
+        console.log('auth error:', err.response, err.response.data.message)
+        return dispatch(signupError(err.response.data))
       })
   }
 }

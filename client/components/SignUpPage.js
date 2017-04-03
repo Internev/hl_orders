@@ -4,14 +4,21 @@ import { Link } from 'react-router'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import { signupUser } from './redux/authCreators'
 
 const SignUpPage = React.createClass({
+  componentDidUpdate () {
+    console.log('Signup component updated, props:', this.props)
+  },
   handleFormSubmit (e) {
     e.preventDefault()
 
-    
-
-    console.log('form submitted, name:', this.refs.name.input.value, '\nemail:', this.refs.email.input.value, '\npassword:', this.refs.password.input.value)
+    const creds = {
+      name: this.refs.name.input.value,
+      email: this.refs.email.input.value,
+      password: this.refs.password.input.value
+    }
+    this.props.dispatch(signupUser(creds))
   },
   render () {
     return (
@@ -19,12 +26,14 @@ const SignUpPage = React.createClass({
         <form onSubmit={this.handleFormSubmit}>
           <h2 className='card-heading'>Signup</h2>
 
+        {!this.props.authErrors.success && <p className='error-message'>{!this.props.authErrors.message}</p>}
+
           <div className='field-line'>
             <TextField
               floatingLabelText='Name'
               name='name'
               ref='name'
-              errorText={this.props.user.errors.name}
+              errorText={this.props.authErrors.errors.name}
             />
           </div>
 
@@ -34,7 +43,7 @@ const SignUpPage = React.createClass({
               type='email'
               name='email'
               ref='email'
-              errorText={this.props.user.errors.email}
+              errorText={this.props.authErrors.errors.email}
             />
           </div>
 
@@ -44,7 +53,7 @@ const SignUpPage = React.createClass({
               type='password'
               name='password'
               ref='password'
-              errorText={this.props.user.errors.password}
+              errorText={this.props.authErrors.errors.password}
             />
           </div>
 
@@ -61,7 +70,10 @@ const SignUpPage = React.createClass({
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    isFetching: state.isFetching,
+    isAuthenticated: state.isAuthenticated,
+    authErrors: state.authErrors
   }
 }
 
