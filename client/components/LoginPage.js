@@ -1,16 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import { loginUser } from './redux/authCreators'
 
 const SignUpPage = React.createClass({
+  componentDidUpdate () {
+    if (this.props.auth.success) {
+      browserHistory.push('/')
+    }
+  },
   handleFormSubmit (e) {
     e.preventDefault()
 
-    console.log('form submitted')
+    const creds = {
+      email: this.refs.email.input.value,
+      password: this.refs.password.input.value
+    }
+    this.props.dispatch(loginUser(creds))
   },
   render () {
     return (
@@ -18,10 +27,14 @@ const SignUpPage = React.createClass({
         <form action='/' onSubmit={this.handleFormSubmit}>
           <h2 className='card-heading'>Login</h2>
 
+          {this.props.auth.message && <p className='success-message'>{this.props.auth.message}</p>}
+
           <div className='field-line'>
             <TextField
               floatingLabelText='Email'
               name='email'
+              ref='email'
+              errorText={this.props.auth.errors.email}
             />
           </div>
 
@@ -30,6 +43,8 @@ const SignUpPage = React.createClass({
               floatingLabelText='Password'
               type='password'
               name='password'
+              ref='password'
+              errorText={this.props.auth.errors.password}
             />
           </div>
 
@@ -46,7 +61,7 @@ const SignUpPage = React.createClass({
 
 const mapStateToProps = (state) => {
   return {
-    activeFeed: state.activeFeed
+    auth: state.auth
   }
 }
 

@@ -18,12 +18,12 @@ function requestSignup () {
   }
 }
 
-function receiveSignup (user) {
+function receiveSignup (msg) {
   return {
     type: SIGNUP_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user.id_token
+    msg
   }
 }
 
@@ -42,14 +42,10 @@ export function signupUser (creds) {
 
     axios.post('/auth/signup', {name: creds.name, email: creds.email, password: creds.password})
       .then(res => {
-        console.log('auth signup route response:', res)
-        if (!res.ok) return dispatch(signupError(res))
-        // localStorage.setItem('id_token', res.user.id_token)
-        return dispatch(receiveSignup(res.user))
+        return dispatch(receiveSignup(res.data))
       })
       .catch(err => {
-        console.log('auth error:', err.response, err.response.data.message)
-        return dispatch(signupError(err.response.data))
+        if (err) return dispatch(signupError(err.response.data))
       })
   }
 }
@@ -58,17 +54,16 @@ function requestLogin (creds) {
   return {
     type: LOGIN_REQUEST,
     isFetching: true,
-    isAuthenticated: false,
-    creds
+    isAuthenticated: false
   }
 }
 
-function receiveLogin (user) {
+function receiveLogin (data) {
   return {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    id_token: user.id_token
+    data
   }
 }
 
@@ -83,16 +78,16 @@ function loginError (msg) {
 
 export function loginUser (creds) {
   return dispatch => {
-    dispatch(requestLogin(creds))
+    dispatch(requestLogin())
 
-    return axios.post('/auth/login', {username: creds.username, password: creds.password})
+    return axios.post('/auth/login', {email: creds.email, password: creds.password})
       .then(res => {
-        if (!res.ok) dispatch(loginError(res))
-        localStorage.setItem('id_token', res.user.id_token)
-        dispatch(receiveLogin(res.user))
+        localStorage.setItem('id_token', res.data.token)
+        return dispatch(receiveLogin(res.data))
       })
       .catch(err => {
-        console.error('auth error:', err)
+        console.log('loginUser auth error:', err)
+        if (err) return dispatch(loginError(err.respose.data))
       })
   }
 }

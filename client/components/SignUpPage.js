@@ -1,14 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import { signupUser } from './redux/authCreators'
+import { signupUser, loginRedirect } from './redux/authCreators'
 
 const SignUpPage = React.createClass({
   componentDidUpdate () {
-    console.log('Signup component updated, props:', this.props)
+    if (this.props.auth.success) {
+      this.props.dispatch({type: 'SIGNUP_REDIRECT'})
+      browserHistory.push('/login')
+    }
   },
   handleFormSubmit (e) {
     e.preventDefault()
@@ -26,14 +29,14 @@ const SignUpPage = React.createClass({
         <form onSubmit={this.handleFormSubmit}>
           <h2 className='card-heading'>Signup</h2>
 
-        {!this.props.authErrors.success && <p className='error-message'>{!this.props.authErrors.message}</p>}
+          {!this.props.auth.success && <p className='error-message'>{!this.props.auth.message}</p>}
 
           <div className='field-line'>
             <TextField
               floatingLabelText='Name'
               name='name'
               ref='name'
-              errorText={this.props.authErrors.errors.name}
+              errorText={this.props.auth.errors.name}
             />
           </div>
 
@@ -43,7 +46,7 @@ const SignUpPage = React.createClass({
               type='email'
               name='email'
               ref='email'
-              errorText={this.props.authErrors.errors.email}
+              errorText={this.props.auth.errors.email}
             />
           </div>
 
@@ -53,15 +56,15 @@ const SignUpPage = React.createClass({
               type='password'
               name='password'
               ref='password'
-              errorText={this.props.authErrors.errors.password}
+              errorText={this.props.auth.errors.password}
             />
           </div>
 
           <div className='button-line'>
-            <RaisedButton type='submit' label='Log in' primary />
+            <RaisedButton type='submit' label='Sign Up' primary />
           </div>
 
-          <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
+          <CardText>Already have an account? <Link to={'/login'}>Log In</Link>.</CardText>
         </form>
       </Card>
     )
@@ -73,7 +76,7 @@ const mapStateToProps = (state) => {
     user: state.user,
     isFetching: state.isFetching,
     isAuthenticated: state.isAuthenticated,
-    authErrors: state.authErrors
+    auth: state.auth
   }
 }
 
