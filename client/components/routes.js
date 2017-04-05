@@ -1,33 +1,24 @@
-// import Base from './components/Base.jsx'
-// import HomePage from './components/HomePage.jsx'
-// import DashboardPage from './containers/DashboardPage.jsx'
-// import LoginPage from './containers/LoginPage.jsx'
-// import SignUpPage from './containers/SignUpPage.jsx'
-// import Auth from './modules/Auth'
+
 import Frame from './Frame'
 import SignUpPage from './SignUpPage'
 import LoginPage from './LoginPage'
 import Dashboard from './Dashboard'
+import store from './redux/store'
+import { logoutUser } from './redux/authCreators'
 
 const routes = {
   // base component (wrapper for the whole application).
   component: Frame,
   childRoutes: [
-
-    // {
-    //   path: '/',
-    //   getComponent: (location, callback) => {
-    //     if (Auth.isUserAuthenticated()) {
-    //       callback(null, DashboardPage)
-    //     } else {
-    //       callback(null, HomePage)
-    //     }
-    //   }
-    // // },
-    //
     {
       path: '/',
-      component: Dashboard
+      getComponent: (location, callback) => {
+        if (store.getState().isAuthenticated) {
+          callback(null, Dashboard)
+        } else {
+          callback(null, LoginPage)
+        }
+      }
     },
     {
       path: '/login',
@@ -37,18 +28,16 @@ const routes = {
     {
       path: '/signup',
       component: SignUpPage
+    },
+
+    {
+      path: '/logout',
+      onEnter: (nextState, replace) => {
+        store.dispatch(logoutUser())
+        // change the current URL to /
+        replace('/')
+      }
     }
-
-    // {
-    //   path: '/logout',
-    //   onEnter: (nextState, replace) => {
-    //     Auth.deauthenticateUser()
-    //
-    //     // change the current URL to /
-    //     replace('/')
-    //   }
-    // }
-
   ]
 }
 

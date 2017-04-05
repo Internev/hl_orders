@@ -82,6 +82,27 @@ const loginSuccess = (state, action) => {
   return newState
 }
 
+const logoutRequest = (state, action) => {
+  const newState = {...state, ...{isFetching: action.isFetching, isAuthenticated: action.isAuthenticated}}
+  return newState
+}
+
+const logoutSuccess = (state, action) => {
+  // const newState = {
+  //   ...state,
+  //   ...{
+  //     isFetching: action.isFetching,
+  //     isAuthenticated: action.isAuthenticated,
+  //     id_token: null,
+  //     auth: {
+  //       success: false,
+  //       message: '',
+  //       errors: {}
+  //     }
+  //   }}
+  return DEFAULT_STATE
+}
+
 const rootReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case SIGNUP_REQUEST:
@@ -98,6 +119,10 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return loginError(state, action)
     case LOGIN_SUCCESS:
       return loginSuccess(state, action)
+    case LOGOUT_REQUEST:
+      return logoutRequest(state, action)
+    case LOGOUT_SUCCESS:
+      return logoutSuccess(state, action)
     default:
       return state
   }

@@ -7,6 +7,9 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
 const Dashboard = React.createClass({
+  componentDidUpdate () {
+    console.log('Dashboard, props:', this.props)
+  },
   handleFormSubmit () {
     console.log('form submitted')
   },
@@ -30,7 +33,10 @@ const Dashboard = React.createClass({
 
 const mapStateToProps = (state) => {
   return {
-    activeFeed: state.activeFeed
+    user: state.user,
+    auth: state.auth,
+    id_token: state.id_token,
+    isAuthenticated: state.isAuthenticated
   }
 }
 

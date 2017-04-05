@@ -1,7 +1,8 @@
 const express = require('express')
 const validator = require('validator')
 const passport = require('passport')
-
+const jwt = require('jsonwebtoken')
+const config = require('../../config')
 const router = new express.Router()
 
 /**
@@ -113,7 +114,6 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/login', (req, res, next) => {
-  console.log('login req received. body:', req.body)
   const validationResult = validateLoginForm(req.body)
   if (!validationResult.success) {
     return res.status(400).json({
@@ -145,6 +145,12 @@ router.post('/login', (req, res, next) => {
       user: userData
     })
   })(req, res, next)
+})
+
+router.post('/token', (req, res, next) => {
+  jwt.verify(req.body.token, config.jwtSecret, {maxAge: '2 days'}, (err, decoded) => {
+    return !err
+  })
 })
 
 module.exports = router
