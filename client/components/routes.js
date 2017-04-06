@@ -3,6 +3,7 @@ import Frame from './Frame'
 import SignUpPage from './SignUpPage'
 import LoginPage from './LoginPage'
 import Dashboard from './Dashboard'
+import Radmin from './Radmin'
 import store from './redux/store'
 import { logoutUser } from './redux/authCreators'
 
@@ -15,6 +16,16 @@ const routes = {
       getComponent: (location, callback) => {
         if (store.getState().isAuthenticated) {
           callback(null, Dashboard)
+        } else {
+          callback(null, LoginPage)
+        }
+      }
+    },
+    {
+      path: '/radmin',
+      getComponent: (location, callback) => {
+        if (store.getState().isAuthenticated) {
+          callback(null, Radmin)
         } else {
           callback(null, LoginPage)
         }
