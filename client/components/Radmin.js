@@ -9,8 +9,14 @@ const Radmin = React.createClass({
   componentDidUpdate () {
     console.log('Radmin, props:', this.props)
   },
-  handleFormSubmit () {
-    console.log('form submitted')
+  uploadCustomerList (e) {
+    let reader = new FileReader()
+    reader.onload = (file) => {
+      console.log('upload csv, file:', file.target)
+
+      // this.props.dispatch(importFeeds(OPMLParse(file.target.result)))
+    }
+    reader.readAsText(e.target.files[0])
   },
   render () {
     return (
@@ -21,7 +27,22 @@ const Radmin = React.createClass({
             <h3>Recent Orders</h3>
           </div>
           <CardActions>
-            <RaisedButton label='Upload Customer List' />
+            <input
+              type='file'
+              accept='.csv'
+              id='customerInput'
+              ref={ref => this.customerInput = ref}
+              style={{display: 'none'}}
+              onChange={this.uploadCustomerList}
+            />
+            <RaisedButton
+              label='Upload Customer List'
+              onClick={e => {
+                setTimeout(() => {
+                  this.customerInput.click()
+                }, 200)
+              }}
+            />
             <RaisedButton label='Upload Order Form' />
           </CardActions>
 
