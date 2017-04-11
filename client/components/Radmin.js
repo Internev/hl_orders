@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import { uploadOrderForm } from './redux/actionCreators'
 import parseOrderForm from '../utils/utils'
 
 const Radmin = React.createClass({
@@ -23,8 +24,9 @@ const Radmin = React.createClass({
     let reader = new FileReader()
     reader.onload = (file) => {
       // console.log('OrderForm csv, file:', file.target.result)
-      parseOrderForm(file.target.result)
-      // this.props.dispatch()
+
+      this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
+      console.log('props from upload order form', this.props)
     }
     reader.readAsText(e.target.files[0])
   },
@@ -82,7 +84,8 @@ const mapStateToProps = (state) => {
     user: state.user,
     auth: state.auth,
     id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated
+    isAuthenticated: state.isAuthenticated,
+    orderForm: state.orderForm
   }
 }
 

@@ -7,6 +7,9 @@ import { SIGNUP_REQUEST,
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
+  UPLOAD_ORDER_FORM,
+  UPLOAD_ORDER_FORM_SUCCESS,
+  UPLOAD_ORDER_FORM_FAILURE
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -22,8 +25,28 @@ const DEFAULT_STATE = {
     success: false,
     message: '',
     errors: {}
-  }
+  },
+  orderForm: [],
+  msg: ''
 }
+
+const uploadOrderForm = (state, action) => {
+  console.log('uploadOrderForm action:', action)
+}
+
+const uploadOrderFormSuccess = (state, action) => {
+  const newState = {...state, ...{orderForm: action.data, msg: action.msg}}
+  return newState
+}
+
+const uploadOrderFormFailure = (state, action) => {
+  const newState = {...state, ...{msg: action.msg}}
+  return newState
+}
+
+// ************************
+// Authentication Start
+// ************************
 
 const signupRequest = (state, action) => {
   const newState = {...state, ...{isFetching: action.isFetching, isAuthenticated: action.isAuthenticated}}
@@ -88,20 +111,12 @@ const logoutRequest = (state, action) => {
 }
 
 const logoutSuccess = (state, action) => {
-  // const newState = {
-  //   ...state,
-  //   ...{
-  //     isFetching: action.isFetching,
-  //     isAuthenticated: action.isAuthenticated,
-  //     id_token: null,
-  //     auth: {
-  //       success: false,
-  //       message: '',
-  //       errors: {}
-  //     }
-  //   }}
   return DEFAULT_STATE
 }
+
+// ************************
+// Authentication End
+// ************************
 
 const rootReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
@@ -123,6 +138,12 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return logoutRequest(state, action)
     case LOGOUT_SUCCESS:
       return logoutSuccess(state, action)
+    case UPLOAD_ORDER_FORM:
+      return uploadOrderForm(state, action)
+    case UPLOAD_ORDER_FORM_SUCCESS:
+      return uploadOrderFormSuccess(state, action)
+    case UPLOAD_ORDER_FORM_FAILURE:
+      return uploadOrderFormFailure(state, action)
     default:
       return state
   }

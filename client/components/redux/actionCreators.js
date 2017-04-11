@@ -1,43 +1,39 @@
-import { ADD_FEED, IMPORT_FEEDS, SHOW_FEED, USER_AUTH } from './actions'
+import {
+  UPLOAD_ORDER_FORM,
+  UPLOAD_ORDER_FORM_SUCCESS,
+  UPLOAD_ORDER_FORM_FAILURE
+} from './actions'
 import axios from 'axios'
 
-export function addFeed (feed) {
-  return { type: ADD_FEED, feed }
+const config = {
+  headers: {'authorization': localStorage.getItem('id_token')}
 }
 
-export function importFeeds (feeds) {
-  return { type: IMPORT_FEEDS, feeds }
-}
-
-function showFeed (feed, posts) {
-  return { type: SHOW_FEED, feed, posts }
-}
-
-export function getFeed (feed) {
-  return (dispatch, getState) => {
-    axios.post('/getFeed', {'site': feed})
-      .then(res => {
-        dispatch(showFeed(feed, res.data.entries))
-      })
-      .catch(err => {
-        console.error('axios error:', err)
-      })
+function uploadOrderFormSuccess (data, msg) {
+  return {
+    type: UPLOAD_ORDER_FORM_SUCCESS,
+    data,
+    msg
   }
 }
 
-function userAuth (user) {
-  return { type: USER_AUTH, user }
+function uploadOrderFormFailure (msg) {
+  return {
+    type: UPLOAD_ORDER_FORM_FAILURE,
+    msg
+  }
 }
 
-export function getUser (user) {
-  return (dispatch, getState) => {
-    axios.post('/auth', {'email': user.email, 'password': user.password})
+export function uploadOrderForm (form) {
+  return dispatch => {
+    axios.post('/api/upload-order-form', form, config)
       .then(res => {
-        console.log('get user response received:', res.data.email)
-        dispatch(userAuth({'email': res.data.email, 'auth': true, 'feeds': res.data.feeds}))
+        // console.log('res from upload of form:', res)
+        return dispatch(uploadOrderFormSuccess(res.data, 'Order Form Saved to Database'))
       })
       .catch(err => {
-        console.error('getUser axios error:', err)
+        // if (err) console.log('err from upload of form:', err)
+        if (err) return dispatch(uploadOrderFormFailure(err.response.data))
       })
   }
 }

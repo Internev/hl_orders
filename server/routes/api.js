@@ -1,5 +1,5 @@
 const express = require('express')
-const { Order } = require('../models/db')
+const { Order, storedOrder } = require('../models/db')
 
 const router = new express.Router()
 let counter = 0
@@ -29,9 +29,20 @@ router.post('/order', (req, res) => {
   counter++
 })
 
-router.post('/update-order-form', (req, res) => {
-  console.log('update order form, reqbody:', req.body)
-  res.status(200)
+router.post('/upload-order-form', (req, res) => {
+  storedOrder.sync({force: true})
+  .then(() => {
+    return storedOrder.create({storedOrder: req.body})
+  })
+  .then(orderForm => {
+    res.status(200).json(orderForm)
+  })
+  .catch(err => {
+    if (err) {
+      console.log('upload order form db error:', err)
+      res.status(500).json(err)
+    }
+  })
 })
 
 module.exports = router

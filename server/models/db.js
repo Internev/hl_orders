@@ -17,13 +17,14 @@ const Order = db.define('order', {
 })
 
 const storedOrder = db.define('storedOrder', {
-  order: Sequelize.JSON
+  storedOrder: Sequelize.JSON
 })
 
 Order.belongsTo(User)
 
 User.sync()
 Order.sync({force: true})
+storedOrder.sync()
 
 const genHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
