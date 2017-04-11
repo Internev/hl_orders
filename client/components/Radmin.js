@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import parseOrderForm from '../utils/utils'
 
 const Radmin = React.createClass({
   componentDidUpdate () {
@@ -15,6 +16,15 @@ const Radmin = React.createClass({
       console.log('upload csv, file:', file.target)
 
       // this.props.dispatch(importFeeds(OPMLParse(file.target.result)))
+    }
+    reader.readAsText(e.target.files[0])
+  },
+  uploadOrderForm (e) {
+    let reader = new FileReader()
+    reader.onload = (file) => {
+      // console.log('OrderForm csv, file:', file.target.result)
+      parseOrderForm(file.target.result)
+      // this.props.dispatch()
     }
     reader.readAsText(e.target.files[0])
   },
@@ -43,7 +53,22 @@ const Radmin = React.createClass({
                 }, 200)
               }}
             />
-            <RaisedButton label='Upload Order Form' />
+            <input
+              type='file'
+              accept='.csv'
+              id='orderInput'
+              ref={ref => this.orderInput = ref}
+              style={{display: 'none'}}
+              onChange={this.uploadOrderForm}
+            />
+            <RaisedButton
+              label='Upload Order Form'
+              onClick={e => {
+                setTimeout(() => {
+                  this.orderInput.click()
+                }, 200)
+              }}
+            />
           </CardActions>
 
         </CardText>

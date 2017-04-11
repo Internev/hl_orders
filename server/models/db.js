@@ -16,6 +16,10 @@ const Order = db.define('order', {
   order: Sequelize.JSON
 })
 
+const storedOrder = db.define('storedOrder', {
+  order: Sequelize.JSON
+})
+
 Order.belongsTo(User)
 
 User.sync()
@@ -31,5 +35,6 @@ const validPass = (password, storedPassword) => {
 
 module.exports.User = User
 module.exports.Order = Order
+module.exports.storedOrder = storedOrder
 module.exports.genHash = genHash
 module.exports.validPass = validPass

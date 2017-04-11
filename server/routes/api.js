@@ -29,4 +29,9 @@ router.post('/order', (req, res) => {
   counter++
 })
 
+router.post('/update-order-form', (req, res) => {
+  console.log('update order form, reqbody:', req.body)
+  res.status(200)
+})
+
 module.exports = router
