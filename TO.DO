@@ -1,5 +1,5 @@
-- import order form to db and to state.
 - make sock component properly.
+- Check DB for orderform on dashboard load. (need route etc)
 - import customer csv
 - default customer to 'fresh: true', can be reset to this so signup page allows new password.
 - change signup page to be 'register password' or something.

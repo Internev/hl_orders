@@ -35,7 +35,7 @@ const uploadOrderForm = (state, action) => {
 }
 
 const uploadOrderFormSuccess = (state, action) => {
-  const newState = {...state, ...{orderForm: action.data, msg: action.msg}}
+  const newState = {...state, ...{orderForm: action.data.storedOrder, msg: action.msg}}
   return newState
 }
 

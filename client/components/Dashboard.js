@@ -7,8 +7,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
 const Dashboard = React.createClass({
-  componentDidUpdate () {
-    console.log('Dashboard, props:', this.props)
+  componentDidMount () {
+    console.log('Dashboard, props:', this.props.orderForm.length)
   },
   handleFormSubmit () {
     console.log('form submitted')
@@ -17,15 +17,18 @@ const Dashboard = React.createClass({
     return (
       <Card className='container'>
         <h2 className='card-heading'>Dashboard</h2>
-        <GridList>
-          <GridTile>Hi I'm a gridtile</GridTile>
-          <GridTile>Hi I'm a gridtile</GridTile>
-          <GridTile>Hi I'm a gridtile</GridTile>
-          <GridTile>Hi I'm a gridtile</GridTile>
-          <GridTile>Hi I'm a gridtile</GridTile>
-          <GridTile>Hi I'm a gridtile</GridTile>
-          <GridTile>Hi I'm a gridtile</GridTile>
-        </GridList>
+        {this.props.orderForm.map((sock, index) => {
+          return (
+          <GridTile
+            key={index}
+            title={sock.styleID}
+            subtitle={sock.desc}
+            >
+            {sock.styleID}
+          </GridTile>
+
+        )
+        })}
       </Card>
     )
   }
@@ -36,7 +39,8 @@ const mapStateToProps = (state) => {
     user: state.user,
     auth: state.auth,
     id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated
+    isAuthenticated: state.isAuthenticated,
+    orderForm: state.orderForm
   }
 }
 

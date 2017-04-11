@@ -23,10 +23,7 @@ const Radmin = React.createClass({
   uploadOrderForm (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
-      // console.log('OrderForm csv, file:', file.target.result)
-
       this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
-      console.log('props from upload order form', this.props)
     }
     reader.readAsText(e.target.files[0])
   },
