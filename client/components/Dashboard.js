@@ -17,18 +17,18 @@ const Dashboard = React.createClass({
     return (
       <Card className='container'>
         <h2 className='card-heading'>Dashboard</h2>
-        {this.props.orderForm.map((sock, index) => {
-          return (
-          <GridTile
-            key={index}
-            title={sock.styleID}
-            subtitle={sock.desc}
-            >
-            {sock.styleID}
-          </GridTile>
-
-        )
-        })}
+        <GridList cellHeight={180}>
+          {this.props.orderForm.map(sock => (
+            <GridTile key={sock.styleID}>
+              <div>
+                {sock.styleID}
+              </div>
+              <div>
+                {sock.desc}
+              </div>
+            </GridTile>
+          ))}
+        </GridList>
       </Card>
     )
   }
