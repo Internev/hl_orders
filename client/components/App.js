@@ -5,7 +5,7 @@ import store from './redux/store'
 import { browserHistory, Router } from 'react-router'
 import routes from './routes'
 
-const App = React.createClass({
+class App extends React.Component {
   render () {
     return (
       <Provider store={store}>
@@ -15,6 +15,6 @@ const App = React.createClass({
       </Provider>
     )
   }
-})
+}
 
 export default App

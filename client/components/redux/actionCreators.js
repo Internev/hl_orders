@@ -1,7 +1,9 @@
 import {
   UPLOAD_ORDER_FORM,
   UPLOAD_ORDER_FORM_SUCCESS,
-  UPLOAD_ORDER_FORM_FAILURE
+  UPLOAD_ORDER_FORM_FAILURE,
+  GET_ORDER_FORM_SUCCESS,
+  GET_ORDER_FORM_FAILURE
 } from './actions'
 import axios from 'axios'
 
@@ -26,7 +28,7 @@ function uploadOrderFormFailure (msg) {
 
 export function uploadOrderForm (form) {
   return dispatch => {
-    axios.post('/api/upload-order-form', form, config)
+    axios.post('/api/order-form', form, config)
       .then(res => {
         // console.log('res from upload of form:', res)
         return dispatch(uploadOrderFormSuccess(res.data, 'Order Form Saved to Database'))
@@ -34,6 +36,33 @@ export function uploadOrderForm (form) {
       .catch(err => {
         // if (err) console.log('err from upload of form:', err)
         if (err) return dispatch(uploadOrderFormFailure(err.response.data))
+      })
+  }
+}
+
+function getOrderFormSuccess (data) {
+  return {
+    type: GET_ORDER_FORM_SUCCESS,
+    data
+  }
+}
+
+function getOrderFormFailure (msg) {
+  return {
+    type: GET_ORDER_FORM_FAILURE,
+    msg
+  }
+}
+
+export function getOrderForm () {
+  return dispatch => {
+    axios.get('/api/order-form', config)
+      .then(res => {
+        console.log('order form retrieval success, data:', res.data)
+        return dispatch(getOrderFormSuccess(res.data))
+      })
+      .catch(err => {
+        if (err) return dispatch(getOrderFormFailure(err.response.data))
       })
   }
 }

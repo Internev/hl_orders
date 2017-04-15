@@ -118,13 +118,15 @@ export function logoutUser () {
 
 export function checkToken (token) {
   console.log('check token token:', token)
-  axios.post('/auth/token', {token})
+  return dispatch => {
+    axios.post('/auth/token', {token})
     .then(res => {
       console.log('check token axios res:', res)
-      return res.ok
+      return dispatch(receiveLogin(res.data))
     })
     .catch(err => {
       console.log('check token axios err:', err)
-      if (err) return false
+      if (err) return dispatch(loginError(err.respose.data))
     })
+  }
 }

@@ -9,7 +9,9 @@ import { SIGNUP_REQUEST,
   LOGOUT_SUCCESS,
   UPLOAD_ORDER_FORM,
   UPLOAD_ORDER_FORM_SUCCESS,
-  UPLOAD_ORDER_FORM_FAILURE
+  UPLOAD_ORDER_FORM_FAILURE,
+  GET_ORDER_FORM_SUCCESS,
+  GET_ORDER_FORM_FAILURE
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -40,6 +42,16 @@ const uploadOrderFormSuccess = (state, action) => {
 }
 
 const uploadOrderFormFailure = (state, action) => {
+  const newState = {...state, ...{msg: action.msg}}
+  return newState
+}
+
+const getOrderFormSuccess = (state, action) => {
+  const newState = {...state, ...{orderForm: action.data.storedOrder}}
+  return newState
+}
+
+const getOrderFormFailure = (state, action) => {
   const newState = {...state, ...{msg: action.msg}}
   return newState
 }
@@ -144,6 +156,10 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return uploadOrderFormSuccess(state, action)
     case UPLOAD_ORDER_FORM_FAILURE:
       return uploadOrderFormFailure(state, action)
+    case GET_ORDER_FORM_SUCCESS:
+      return getOrderFormSuccess(state, action)
+    case GET_ORDER_FORM_FAILURE:
+      return getOrderFormFailure(state, action)
     default:
       return state
   }

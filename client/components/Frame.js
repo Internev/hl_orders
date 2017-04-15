@@ -6,7 +6,7 @@ import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
-const Frame = React.createClass({
+class Frame extends React.Component {
   render () {
     return (
       <div>
@@ -38,7 +38,7 @@ const Frame = React.createClass({
       </div>
     )
   }
-})
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {

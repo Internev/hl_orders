@@ -29,11 +29,24 @@ router.post('/order', (req, res) => {
   counter++
 })
 
-router.post('/upload-order-form', (req, res) => {
+router.post('/order-form', (req, res) => {
   storedOrder.sync({force: true})
   .then(() => {
     return storedOrder.create({storedOrder: req.body})
   })
+  .then(orderForm => {
+    res.status(200).json(orderForm)
+  })
+  .catch(err => {
+    if (err) {
+      console.log('upload order form db error:', err)
+      res.status(500).json(err)
+    }
+  })
+})
+
+router.get('/order-form', (req, res) => {
+  storedOrder.findOne()
   .then(orderForm => {
     res.status(200).json(orderForm)
   })

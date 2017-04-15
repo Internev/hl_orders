@@ -4,4 +4,4 @@
 - default customer to 'fresh: true', can be reset to this so signup page allows new password.
 - change signup page to be 'register password' or something.
 - get geolocation?
-- squarespace: overlay text on image.
+- squarespace: overlay text on image. (done-ish)

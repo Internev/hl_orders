@@ -4,15 +4,15 @@ import { Link, browserHistory } from 'react-router'
 import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import { signupUser, loginRedirect } from './redux/authCreators'
+import { signupUser } from './redux/authCreators'
 
-const SignUpPage = React.createClass({
+class SignUpPage extends React.Component {
   componentDidUpdate () {
     if (this.props.auth.success) {
       this.props.dispatch({type: 'SIGNUP_REDIRECT'})
       browserHistory.push('/login')
     }
-  },
+  }
   handleFormSubmit (e) {
     e.preventDefault()
 
@@ -22,7 +22,7 @@ const SignUpPage = React.createClass({
       password: this.refs.password.input.value
     }
     this.props.dispatch(signupUser(creds))
-  },
+  }
   render () {
     return (
       <Card className='container'>
@@ -69,7 +69,7 @@ const SignUpPage = React.createClass({
       </Card>
     )
   }
-})
+}
 
 const mapStateToProps = (state) => {
   return {

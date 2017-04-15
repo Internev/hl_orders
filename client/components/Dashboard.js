@@ -5,14 +5,16 @@ import { Card, CardText } from 'material-ui/Card'
 import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import { getOrderForm } from './redux/actionCreators'
 
-const Dashboard = React.createClass({
+class Dashboard extends React.Component {
   componentDidMount () {
+    this.props.dispatch(getOrderForm())
     console.log('Dashboard, props:', this.props.orderForm.length)
-  },
+  }
   handleFormSubmit () {
     console.log('form submitted')
-  },
+  }
   render () {
     return (
       <Card className='container'>
@@ -32,7 +34,7 @@ const Dashboard = React.createClass({
       </Card>
     )
   }
-})
+}
 
 const mapStateToProps = (state) => {
   return {

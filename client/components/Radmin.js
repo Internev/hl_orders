@@ -7,10 +7,10 @@ import TextField from 'material-ui/TextField'
 import { uploadOrderForm } from './redux/actionCreators'
 import parseOrderForm from '../utils/utils'
 
-const Radmin = React.createClass({
+class Radmin extends React.Component {
   componentDidUpdate () {
     console.log('Radmin, props:', this.props)
-  },
+  }
   uploadCustomerList (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
@@ -19,14 +19,14 @@ const Radmin = React.createClass({
       // this.props.dispatch(importFeeds(OPMLParse(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
-  },
+  }
   uploadOrderForm (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
       this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
-  },
+  }
   render () {
     return (
       <Card className='container'>
@@ -74,7 +74,7 @@ const Radmin = React.createClass({
       </Card>
     )
   }
-})
+}
 
 const mapStateToProps = (state) => {
   return {
