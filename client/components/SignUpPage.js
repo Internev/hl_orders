@@ -29,7 +29,7 @@ class SignUpPage extends React.Component {
         <form onSubmit={this.handleFormSubmit}>
           <h2 className='card-heading'>Signup</h2>
 
-          {!this.props.auth.success && <p className='error-message'>{!this.props.auth.message}</p>}
+          {!this.props.auth.success && <p className='error-message'>{this.props.auth.message}</p>}
 
           <div className='field-line'>
             <TextField

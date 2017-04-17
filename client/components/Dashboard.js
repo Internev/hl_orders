@@ -28,6 +28,12 @@ class Dashboard extends React.Component {
               <div>
                 {sock.desc}
               </div>
+              {sock.colours.map(colour => (
+                <div>
+                  <div>{colour.colourID} - {colour.colourName}</div>
+                  {colour.patternName !== 'NONE' ? <div>{colour.patternID} - {colour.patternName}</div> : ''}
+                </div>
+              ))}
             </GridTile>
           ))}
         </GridList>
