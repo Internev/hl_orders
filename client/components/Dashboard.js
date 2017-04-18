@@ -12,8 +12,8 @@ class Dashboard extends React.Component {
     this.props.dispatch(getOrderForm())
     console.log('Dashboard, props:', this.props.orderForm.length)
   }
-  handleFormSubmit () {
-    console.log('form submitted')
+  handleFormSubmit (sock, colour, amount) {
+    console.log('form submitted sock is:', sock, '\n', colour, '\n', amount)
   }
   render () {
     return (
@@ -29,10 +29,10 @@ class Dashboard extends React.Component {
                 {sock.desc}
               </div>
               {sock.colours.map(colour => (
-                <div>
-                  <div>{colour.colourID} - {colour.colourName}</div>
+                <form>
+                  <div>{colour.colourID} - {colour.colourName}: <input type='number' onChange={(e) => this.handleFormSubmit(sock, colour, e.target.value)} /></div>
                   {colour.patternName !== 'NONE' ? <div>{colour.patternID} - {colour.patternName}</div> : ''}
-                </div>
+                </form>
               ))}
             </GridTile>
           ))}
