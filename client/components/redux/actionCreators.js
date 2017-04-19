@@ -3,7 +3,8 @@ import {
   UPLOAD_ORDER_FORM_SUCCESS,
   UPLOAD_ORDER_FORM_FAILURE,
   GET_ORDER_FORM_SUCCESS,
-  GET_ORDER_FORM_FAILURE
+  GET_ORDER_FORM_FAILURE,
+  SET_SEARCH_TERM
 } from './actions'
 import axios from 'axios'
 
@@ -64,5 +65,12 @@ export function getOrderForm () {
       .catch(err => {
         if (err) return dispatch(getOrderFormFailure(err.response.data))
       })
+  }
+}
+
+export function setSearchTerm (searchTerm) {
+  return {
+    type: SET_SEARCH_TERM,
+    searchTerm
   }
 }

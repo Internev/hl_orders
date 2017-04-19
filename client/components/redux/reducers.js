@@ -11,7 +11,8 @@ import { SIGNUP_REQUEST,
   UPLOAD_ORDER_FORM_SUCCESS,
   UPLOAD_ORDER_FORM_FAILURE,
   GET_ORDER_FORM_SUCCESS,
-  GET_ORDER_FORM_FAILURE
+  GET_ORDER_FORM_FAILURE,
+  SET_SEARCH_TERM
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -29,7 +30,8 @@ const DEFAULT_STATE = {
     errors: {}
   },
   orderForm: [],
-  msg: ''
+  msg: '',
+  searchTerm: ''
 }
 
 const uploadOrderForm = (state, action) => {
@@ -53,6 +55,11 @@ const getOrderFormSuccess = (state, action) => {
 
 const getOrderFormFailure = (state, action) => {
   const newState = {...state, ...{msg: action.msg}}
+  return newState
+}
+
+const setSearchTerm = (state, action) => {
+  const newState = {...state, ...{searchTerm: action.searchTerm}}
   return newState
 }
 
@@ -160,6 +167,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return getOrderFormSuccess(state, action)
     case GET_ORDER_FORM_FAILURE:
       return getOrderFormFailure(state, action)
+    case SET_SEARCH_TERM:
+      return setSearchTerm(state, action)
     default:
       return state
   }

@@ -14,6 +14,10 @@ a:hover {
   color: #1976d2;
 }
 
+.sock-tile {
+  border: 1px dashed #00bcd4;
+}
+
 .text-center {
   text-align: center;
 }
@@ -45,7 +49,7 @@ a:hover {
 .container {
   margin: 0 auto;
   text-align: center;
-  width: 700px;
+  max-width: 1000px;
 }
 
 .card-heading {
@@ -64,4 +68,8 @@ a:hover {
 .success-message {
   padding: 0 16px;
   color: green;
+}
+
+.order-input {
+  width: 3em;
 }
