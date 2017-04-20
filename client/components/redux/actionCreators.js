@@ -4,7 +4,8 @@ import {
   UPLOAD_ORDER_FORM_FAILURE,
   GET_ORDER_FORM_SUCCESS,
   GET_ORDER_FORM_FAILURE,
-  SET_SEARCH_TERM
+  SET_SEARCH_TERM,
+  UPDATE_ORDER
 } from './actions'
 import axios from 'axios'
 
@@ -72,5 +73,12 @@ export function setSearchTerm (searchTerm) {
   return {
     type: SET_SEARCH_TERM,
     searchTerm
+  }
+}
+
+export function updateOrder (sock) {
+  return {
+    type: UPDATE_ORDER,
+    sock
   }
 }

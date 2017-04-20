@@ -5,16 +5,18 @@ import { Card, CardText } from 'material-ui/Card'
 import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import { getOrderForm, setSearchTerm } from './redux/actionCreators'
+import { getOrderForm, setSearchTerm, updateOrder } from './redux/actionCreators'
 
 class Dashboard extends React.Component {
   componentDidMount () {
     this.props.dispatch(getOrderForm())
     console.log('Dashboard, props:', this.props)
   }
-  handleFormSubmit (sock, colour, amount) {
-    console.log('form submitted sock is:', sock, '\n', colour, '\n', amount)
-    console.log('this is:', this)
+  handleFormSubmit (sock, colour, amount, size, index) {
+    colour[size] = parseInt(amount)
+    sock[index] = colour
+    this.props.dispatch(updateOrder(sock))
+    console.log('form submitted sock is:', sock, '\ncolor:', colour, '\namount:', amount, '\nsize:', size)
   }
   handleLiveSearch (e) {
     this.props.dispatch(setSearchTerm(e.target.value))
@@ -56,13 +58,28 @@ class Dashboard extends React.Component {
                           {colour.patternName !== 'NONE'
                             ? <td>{colour.patternID} - {colour.patternName}</td> : <td />}
                           {colour.small
-                            ? <td><input className='order-input' type='number' onChange={(e) => this.handleFormSubmit(sock, colour, e.target.value, 'small')} /></td>
+                            ? <td><input
+                              className='order-input'
+                              type='number'
+                              value={colour.smallAmt === 0 ? '' : colour.smallAmt}
+                              onChange={(e) => this.handleFormSubmit(sock, colour, e.target.value, 'smallAmt', index)}
+                            /></td>
                             : <td />}
                           {colour.regular
-                            ? <td><input className='order-input' type='number' onChange={(e) => this.handleFormSubmit(sock, colour, e.target.value, 'regular')} /></td>
+                            ? <td><input
+                              className='order-input'
+                              type='number'
+                              value={colour.regularAmt === 0 ? '' : colour.regularAmt}
+                              onChange={(e) => this.handleFormSubmit(sock, colour, e.target.value, 'regularAmt', index)}
+                            /></td>
                             : <td />}
                           {colour.king
-                            ? <td><input className='order-input' type='number' onChange={(e) => this.handleFormSubmit(sock, colour, e.target.value, 'king')} /></td>
+                            ? <td><input
+                              className='order-input'
+                              type='number'
+                              value={colour.kingAmt === 0 ? '' : colour.kingAmt}
+                              onChange={(e) => this.handleFormSubmit(sock, colour, e.target.value, 'kingAmt', index)}
+                            /></td>
                             : <td />}
                         </tr>
                     ))}

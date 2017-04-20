@@ -12,7 +12,8 @@ import { SIGNUP_REQUEST,
   UPLOAD_ORDER_FORM_FAILURE,
   GET_ORDER_FORM_SUCCESS,
   GET_ORDER_FORM_FAILURE,
-  SET_SEARCH_TERM
+  SET_SEARCH_TERM,
+  UPDATE_ORDER
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -60,6 +61,17 @@ const getOrderFormFailure = (state, action) => {
 
 const setSearchTerm = (state, action) => {
   const newState = {...state, ...{searchTerm: action.searchTerm}}
+  return newState
+}
+
+const updateOrder = (state, action) => {
+  let orderFormUpdate = [...state.orderForm]
+  const index = orderFormUpdate.reduce((memo, item, index) => {
+    if (item.styleID === action.sock.styleID) memo = index
+    return memo
+  }, -1)
+  orderFormUpdate[index] = action.sock
+  const newState = {...state, ...{orderForm: orderFormUpdate}}
   return newState
 }
 
@@ -169,6 +181,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return getOrderFormFailure(state, action)
     case SET_SEARCH_TERM:
       return setSearchTerm(state, action)
+    case UPDATE_ORDER:
+      return updateOrder(state, action)
     default:
       return state
   }
