@@ -35,6 +35,7 @@ router.post('/order-form', (req, res) => {
     return storedOrder.create({storedOrder: req.body})
   })
   .then(orderForm => {
+    console.log('\n\norder form uploaded\n\n', orderForm)
     res.status(200).json(orderForm)
   })
   .catch(err => {

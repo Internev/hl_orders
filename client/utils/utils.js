@@ -23,7 +23,10 @@ const parseOrderForm = (csv) => {
         patternName: item[5],
         small: false,
         regular: false,
-        king: false
+        king: false,
+        smallAmt: 0,
+        regularAmt: 0,
+        kingAmt: 0
       }
       if (item[0].charAt(4) === '5') colourObj.small = true
       if (item[0].charAt(4) === '7') colourObj.regular = true
@@ -45,7 +48,7 @@ const parseOrderForm = (csv) => {
   orderForm = orderForm.sort((a, b) => {
     return a.styleID.slice(0, 3) > b.styleID.slice(0, 3) ? 1 : -1
   })
-
+  orderForm.shift() // ? Get rid of empty result
   return orderForm
 }
 

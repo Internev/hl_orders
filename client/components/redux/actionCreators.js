@@ -31,7 +31,7 @@ export function uploadOrderForm (form) {
   return dispatch => {
     axios.post('/api/order-form', form, config)
       .then(res => {
-        // console.log('res from upload of form:', res)
+        console.log('res from upload of form:', res)
         return dispatch(uploadOrderFormSuccess(res.data, 'Order Form Saved to Database'))
       })
       .catch(err => {

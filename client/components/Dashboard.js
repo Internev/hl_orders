@@ -8,9 +8,6 @@ import TextField from 'material-ui/TextField'
 import { getOrderForm, setSearchTerm } from './redux/actionCreators'
 
 class Dashboard extends React.Component {
-  constructor (props) {
-    super(props)
-  }
   componentDidMount () {
     this.props.dispatch(getOrderForm())
     console.log('Dashboard, props:', this.props)
@@ -26,7 +23,7 @@ class Dashboard extends React.Component {
     return (
       <Card className='container'>
         <h2 className='card-heading'>Humphrey Law Order Form</h2>
-        <TextField onChange={e => this.handleLiveSearch(e)} placeholder='Filter Socks' />
+        <TextField id='filterSocks' onChange={e => this.handleLiveSearch(e)} placeholder='Filter Socks' />
         <GridList cellHeight={'auto'}>
           {this.props.orderForm
             .filter(sock =>
@@ -52,8 +49,8 @@ class Dashboard extends React.Component {
                         <th>Reg</th>
                         <th>King</th>
                       </tr>
-                      {sock.colours.map(colour => (
-                        <tr>
+                      {sock.colours.map((colour, index) => (
+                        <tr key={index}>
                           <td>{colour.colourID}</td>
                           <td>{colour.colourName}</td>
                           {colour.patternName !== 'NONE'

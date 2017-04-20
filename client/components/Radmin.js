@@ -7,10 +7,10 @@ import TextField from 'material-ui/TextField'
 import { uploadOrderForm } from './redux/actionCreators'
 import parseOrderForm from '../utils/utils'
 
-class Radmin extends React.Component {
+const Radmin = React.createClass({
   componentDidUpdate () {
-    console.log('Radmin, props:', this.props)
-  }
+    console.log('Radmin, props:', this.props.msg)
+  },
   uploadCustomerList (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
@@ -19,18 +19,19 @@ class Radmin extends React.Component {
       // this.props.dispatch(importFeeds(OPMLParse(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
-  }
+  },
   uploadOrderForm (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
       this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
-  }
+  },
   render () {
     return (
       <Card className='container'>
         <h2 className='card-heading'>HL Orders Admin</h2>
+        { this.props.msg ? <div className='success'>{this.props.msg}</div> : <div /> }
         <CardText>
           <div>
             <h3>Recent Orders</h3>
@@ -74,7 +75,7 @@ class Radmin extends React.Component {
       </Card>
     )
   }
-}
+})
 
 const mapStateToProps = (state) => {
   return {
@@ -82,7 +83,8 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     id_token: state.id_token,
     isAuthenticated: state.isAuthenticated,
-    orderForm: state.orderForm
+    orderForm: state.orderForm,
+    msg: state.msg
   }
 }
 
