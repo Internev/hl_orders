@@ -32,7 +32,7 @@ export function uploadOrderForm (form) {
   return dispatch => {
     axios.post('/api/order-form', form, config)
       .then(res => {
-        console.log('res from upload of form:', res)
+        // console.log('res from upload of form:', res)
         return dispatch(uploadOrderFormSuccess(res.data, 'Order Form Saved to Database'))
       })
       .catch(err => {
@@ -60,7 +60,7 @@ export function getOrderForm () {
   return dispatch => {
     axios.get('/api/order-form', config)
       .then(res => {
-        console.log('order form retrieval success, data:', res.data)
+        // console.log('order form retrieval success, data:', res.data)
         return dispatch(getOrderFormSuccess(res.data))
       })
       .catch(err => {
