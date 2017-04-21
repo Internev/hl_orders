@@ -4,8 +4,20 @@ const parseOrderForm = (csv) => {
   let orderObj = {}
   socks.forEach(item => {
     let style = item[0].slice(0, 3)
-    if (!orderObj[style]) orderObj[style] = {}
-    orderObj[style].styleID = style
+    if (!orderObj[style]) {
+      orderObj[style] = {}
+    } else if (orderObj[style].desc !== item[1]) {
+      if (/.*[Ll]adies/.test(item[1])) {
+        style = item[0]
+        if (!orderObj[style]) {
+          orderObj[style] = {}
+        }
+      } else if (/.*[Ll]adies/.test(orderObj[style].desc)) {
+        orderObj[item[0]] = orderObj[style]
+        orderObj[style] = {}
+      }
+    }
+    orderObj[style].styleID = item[0].charAt(4) === '5' ? item[0] : style
     orderObj[style].desc = item[1]
     orderObj[style].price = item[6]
 

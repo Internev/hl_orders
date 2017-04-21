@@ -1,5 +1,6 @@
 - make sock component properly.
-- Check DB for orderform on dashboard load. (need route etc)
+- Check DB for orderform on dashboard load. (need route etc) DONE
+- Have totals on sock component, and overall one on orderform. Can all be part of the orderform reducer I think.
 - import customer csv
 - default customer to 'fresh: true', can be reset to this so signup page allows new password.
 - change signup page to be 'register password' or something.
