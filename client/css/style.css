@@ -46,6 +46,17 @@ a:hover {
   margin: 0 8px;
 }
 
+.bottom-bar {
+  position: fixed;
+  text-align: center;
+  left: 0px;
+  bottom: 0px;
+  height: 4em;
+  width: 100%;
+  color: #00bcd4;
+  background: #FFF;
+}
+
 .container {
   margin: 0 auto;
   text-align: center;

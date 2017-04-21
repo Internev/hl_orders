@@ -6,7 +6,7 @@ import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Sock from './Sock'
-import { getOrderForm, setSearchTerm, updateOrder } from './redux/actionCreators'
+import { getOrderForm, setSearchTerm, updateOrder, updateTotals } from './redux/actionCreators'
 
 class Dashboard extends React.Component {
   constructor (props) {
@@ -25,7 +25,7 @@ class Dashboard extends React.Component {
       return memo
     }, 0)
     this.props.dispatch(updateOrder(sock))
-    console.log(sock)
+    this.props.dispatch(updateTotals())
   }
   handleLiveSearch (e) {
     this.props.dispatch(setSearchTerm(e.target.value))

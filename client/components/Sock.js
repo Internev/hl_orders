@@ -55,7 +55,7 @@ const Sock = ({sock, handleFormSubmit}) => (
         </tbody>
       </table>
     </form>
-    <div>{sock.totalAmt} Total pairs @ ${sock.price}: ${(sock.price * sock.totalAmt).toFixed(2)}</div>
+    <div>{sock.totalAmt} Total pairs @ ${sock.price.toFixed(2)}: ${(sock.price * sock.totalAmt).toFixed(2)}</div>
   </GridTile>
 )
 

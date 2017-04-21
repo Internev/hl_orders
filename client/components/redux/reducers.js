@@ -13,7 +13,8 @@ import { SIGNUP_REQUEST,
   GET_ORDER_FORM_SUCCESS,
   GET_ORDER_FORM_FAILURE,
   SET_SEARCH_TERM,
-  UPDATE_ORDER
+  UPDATE_ORDER,
+  UPDATE_TOTALS
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -31,6 +32,8 @@ const DEFAULT_STATE = {
     errors: {}
   },
   orderForm: [],
+  orderTotalAmt: 0,
+  orderTotalPrice: 0,
   msg: '',
   searchTerm: ''
 }
@@ -72,6 +75,20 @@ const updateOrder = (state, action) => {
   }, -1)
   orderFormUpdate[index] = action.sock
   const newState = {...state, ...{orderForm: orderFormUpdate}}
+  return newState
+}
+
+const updateTotals = (state, action) => {
+  let orderFormUpdate = [...state.orderForm]
+  let newAmt = 0
+  let newPrice = 0
+  orderFormUpdate.forEach(sock => {
+    newAmt += sock.totalAmt ? sock.totalAmt : 0
+    newPrice += sock.totalAmt ? (sock.totalAmt * sock.price) : 0
+  })
+  const newState = {
+    ...state,
+    ...{orderTotalAmt: newAmt, orderTotalPrice: newPrice}}
   return newState
 }
 
@@ -183,6 +200,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return setSearchTerm(state, action)
     case UPDATE_ORDER:
       return updateOrder(state, action)
+    case UPDATE_TOTALS:
+      return updateTotals(state, action)
     default:
       return state
   }

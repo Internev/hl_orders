@@ -5,7 +5,8 @@ import {
   GET_ORDER_FORM_SUCCESS,
   GET_ORDER_FORM_FAILURE,
   SET_SEARCH_TERM,
-  UPDATE_ORDER
+  UPDATE_ORDER,
+  UPDATE_TOTALS
 } from './actions'
 import axios from 'axios'
 
@@ -80,5 +81,11 @@ export function updateOrder (sock) {
   return {
     type: UPDATE_ORDER,
     sock
+  }
+}
+
+export function updateTotals () {
+  return {
+    type: UPDATE_TOTALS
   }
 }
