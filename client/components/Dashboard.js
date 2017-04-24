@@ -35,16 +35,17 @@ class Dashboard extends React.Component {
       <Card className='container'>
         <h2 className='card-heading'>Humphrey Law Order Form</h2>
         <TextField id='filterSocks' onChange={e => this.handleLiveSearch(e)} placeholder='Filter Socks' />
-        <GridList cellHeight={'auto'}>
+        { this.props.orderForm.length > 0
+        ? <GridList cellHeight={'auto'}>
           {this.props.orderForm
             .filter(sock =>
               !this.props.searchTerm
               ? true
               : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0)
-            .map(sock => (
-              <Sock sock={sock} handleFormSubmit={this.handleFormSubmit} key={sock.styleID} />
-          ))}
+            .map(sock => (<Sock sock={sock} handleFormSubmit={this.handleFormSubmit} key={sock.styleID} />)
+            )}
         </GridList>
+        : <div /> }
       </Card>
     )
   }

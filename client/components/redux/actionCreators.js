@@ -10,10 +10,6 @@ import {
 } from './actions'
 import axios from 'axios'
 
-const config = {
-  headers: {'authorization': localStorage.getItem('id_token')}
-}
-
 function uploadOrderFormSuccess (data, msg) {
   return {
     type: UPLOAD_ORDER_FORM_SUCCESS,
@@ -31,6 +27,9 @@ function uploadOrderFormFailure (msg) {
 
 export function uploadOrderForm (form) {
   return dispatch => {
+    const config = {
+      headers: {'authorization': localStorage.getItem('id_token')}
+    }
     axios.post('/api/order-form', form, config)
       .then(res => {
         // console.log('res from upload of form:', res)
@@ -59,13 +58,17 @@ function getOrderFormFailure (msg) {
 
 export function getOrderForm () {
   return dispatch => {
+    const config = {
+      headers: {'authorization': localStorage.getItem('id_token')}
+    }
     axios.get('/api/order-form', config)
       .then(res => {
         // console.log('order form retrieval success, data:', res.data)
         return dispatch(getOrderFormSuccess(res.data))
       })
       .catch(err => {
-        if (err) return dispatch(getOrderFormFailure(err.response.data))
+        console.log('get order form error', err)
+        if (err) return dispatch(getOrderFormFailure(err))
       })
   }
 }

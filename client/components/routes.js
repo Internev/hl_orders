@@ -45,8 +45,8 @@ const routes = {
       path: '/logout',
       onEnter: (nextState, replace) => {
         store.dispatch(logoutUser())
-        // change the current URL to /
-        replace('/')
+        // change the current URL to /login
+        replace('/login')
       }
     }
   ]

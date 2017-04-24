@@ -19,7 +19,7 @@ const parseOrderForm = (csv) => {
     }
     orderObj[style].styleID = item[0].charAt(4) === '5' ? item[0] : style
     orderObj[style].desc = item[1]
-    orderObj[style].price = item[6]
+    orderObj[style].price = parseInt(item[6])
     orderObj[style].totalAmt = 0
 
     if (!orderObj[style].colours) orderObj[style].colours = []

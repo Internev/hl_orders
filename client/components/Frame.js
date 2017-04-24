@@ -6,7 +6,7 @@ import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 
-class Frame extends React.Component {
+const Frame = React.createClass({
   render () {
     return (
       <div>
@@ -35,13 +35,17 @@ class Frame extends React.Component {
           { /* child component will be rendered here */ }
           {this.props.children}
         </div>
-        <div className='bottom-bar'>
-          <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
-        </div>
+        {this.props.orderTotalAmt
+          ? <div className='bottom-bar'>
+            <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+          </div>
+          : <div />
+        }
+
       </div>
     )
   }
-}
+})
 
 const mapStateToProps = (state, ownProps) => {
   return {
