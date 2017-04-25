@@ -2,8 +2,9 @@
 import Frame from './Frame'
 import SignUpPage from './SignUpPage'
 import LoginPage from './LoginPage'
-import Dashboard from './Dashboard'
+import OrderForm from './OrderForm'
 import Radmin from './Radmin'
+import ConfirmOrder from './ConfirmOrder'
 import store from './redux/store'
 import { logoutUser } from './redux/authCreators'
 
@@ -15,7 +16,17 @@ const routes = {
       path: '/',
       getComponent: (location, callback) => {
         if (store.getState().isAuthenticated) {
-          callback(null, Dashboard)
+          callback(null, OrderForm)
+        } else {
+          callback(null, LoginPage)
+        }
+      }
+    },
+    {
+      path: '/orderform',
+      getComponent: (location, callback) => {
+        if (store.getState().isAuthenticated) {
+          callback(null, OrderForm)
         } else {
           callback(null, LoginPage)
         }
@@ -26,6 +37,16 @@ const routes = {
       getComponent: (location, callback) => {
         if (store.getState().isAuthenticated) {
           callback(null, Radmin)
+        } else {
+          callback(null, LoginPage)
+        }
+      }
+    },
+    {
+      path: '/confirm',
+      getComponent: (location, callback) => {
+        if (store.getState().isAuthenticated) {
+          callback(null, ConfirmOrder)
         } else {
           callback(null, LoginPage)
         }

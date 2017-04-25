@@ -30,6 +30,7 @@ const Sock = ({sock, handleFormSubmit}) => (
                 ? <td><input
                   className='order-input'
                   type='number'
+                  min='0'
                   value={colour.smallAmt === 0 ? '' : colour.smallAmt}
                   onChange={(e) => handleFormSubmit(sock, colour, e.target.value, 'smallAmt', index)}
                 /></td>
@@ -38,6 +39,7 @@ const Sock = ({sock, handleFormSubmit}) => (
                 ? <td><input
                   className='order-input'
                   type='number'
+                  min='0'
                   value={colour.regularAmt === 0 ? '' : colour.regularAmt}
                   onChange={(e) => handleFormSubmit(sock, colour, e.target.value, 'regularAmt', index)}
                 /></td>
@@ -46,6 +48,7 @@ const Sock = ({sock, handleFormSubmit}) => (
                 ? <td><input
                   className='order-input'
                   type='number'
+                  min='0'
                   value={colour.kingAmt === 0 ? '' : colour.kingAmt}
                   onChange={(e) => handleFormSubmit(sock, colour, e.target.value, 'kingAmt', index)}
                 /></td>
@@ -55,7 +58,8 @@ const Sock = ({sock, handleFormSubmit}) => (
         </tbody>
       </table>
     </form>
-    <div>{sock.totalAmt} Total pairs @ ${sock.price.toFixed(2)}: ${(sock.price * sock.totalAmt).toFixed(2)}</div>
+    <div>{sock.totalAmt ? sock.totalAmt : '0'} Total pairs @ ${sock.price.toFixed(2)}: ${sock.totalAmt
+        ? (sock.price * sock.totalAmt).toFixed(2) : '0.00'}</div>
   </GridTile>
 )
 

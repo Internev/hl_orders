@@ -55,6 +55,18 @@ a:hover {
   width: 100%;
   color: #00bcd4;
   background: #FFF;
+  border-top: 1px dashed #00bcd4;
+}
+
+.bottom-bar-left {
+  float: left;
+  padding-left: 3em;
+}
+
+.bottom-bar-right {
+  float: right;
+  padding-right: 3em;
+  padding-top: 0.5em;
 }
 
 .container {

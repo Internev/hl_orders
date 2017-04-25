@@ -35,12 +35,7 @@ const Frame = React.createClass({
           { /* child component will be rendered here */ }
           {this.props.children}
         </div>
-        {this.props.orderTotalAmt
-          ? <div className='bottom-bar'>
-            <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
-          </div>
-          : <div />
-        }
+
 
       </div>
     )
@@ -49,8 +44,6 @@ const Frame = React.createClass({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    orderTotalAmt: state.orderTotalAmt,
-    orderTotalPrice: state.orderTotalPrice
   }
 }
 

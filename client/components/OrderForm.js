@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import { Card, CardText } from 'material-ui/Card'
 import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -8,14 +8,18 @@ import TextField from 'material-ui/TextField'
 import Sock from './Sock'
 import { getOrderForm, setSearchTerm, updateOrder, updateTotals } from './redux/actionCreators'
 
-class Dashboard extends React.Component {
+class OrderForm extends React.Component {
   constructor (props) {
     super(props)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
   }
   componentDidMount () {
-    this.props.dispatch(getOrderForm())
-    // console.log('Dashboard, props:', this.props)
+    if (!this.props.orderForm.length) {
+      console.log('loading orderForm')
+      this.props.dispatch(getOrderForm())
+    }
+    // console.log('OrderForm, props:', this.props)
   }
   handleFormSubmit (sock, colour, amount, size, index) {
     colour[size] = parseInt(amount)
@@ -30,8 +34,12 @@ class Dashboard extends React.Component {
   handleLiveSearch (e) {
     this.props.dispatch(setSearchTerm(e.target.value))
   }
+  handleOrderSubmit () {
+    browserHistory.push('/confirm')
+  }
   render () {
     return (
+      <div>
       <Card className='container'>
         <h2 className='card-heading'>Humphrey Law Order Form</h2>
         <TextField id='filterSocks' onChange={e => this.handleLiveSearch(e)} placeholder='Filter Socks' />
@@ -47,6 +55,21 @@ class Dashboard extends React.Component {
         </GridList>
         : <div /> }
       </Card>
+      {this.props.orderTotalAmt
+        ? <div className='bottom-bar'>
+          <div className='bottom-bar-left'>
+            <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+          </div>
+          <div className='bottom-bar-right'>
+            <RaisedButton
+              label='Submit Order'
+              onClick={this.handleOrderSubmit}
+              />
+          </div>
+        </div>
+        : <div />
+      }
+      </div>
     )
   }
 }
@@ -58,8 +81,10 @@ const mapStateToProps = (state) => {
     id_token: state.id_token,
     isAuthenticated: state.isAuthenticated,
     orderForm: state.orderForm,
-    searchTerm: state.searchTerm
+    searchTerm: state.searchTerm,
+    orderTotalAmt: state.orderTotalAmt,
+    orderTotalPrice: state.orderTotalPrice
   }
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps)(OrderForm)
