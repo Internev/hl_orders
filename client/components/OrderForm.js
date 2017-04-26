@@ -22,7 +22,7 @@ class OrderForm extends React.Component {
     // console.log('OrderForm, props:', this.props)
   }
   handleFormSubmit (sock, colour, amount, size, index) {
-    colour[size] = parseInt(amount)
+    colour[size] = parseInt(amount) || 0
     sock.colours[index] = colour
     sock.totalAmt = sock.colours.reduce((memo, colour) => {
       memo += colour.smallAmt + colour.regularAmt + colour.kingAmt
@@ -55,6 +55,7 @@ class OrderForm extends React.Component {
         </GridList>
         : <div /> }
       </Card>
+      <div className='bottom-bar-padding' />
       {this.props.orderTotalAmt
         ? <div className='bottom-bar'>
           <div className='bottom-bar-left'>

@@ -27,9 +27,38 @@ class ConfirmOrder extends React.Component {
           {this.props.orderForm
             .filter(sock => sock.totalAmt)
             .map(sock => (
-              <div key={sock.styleID}>
-                Hi i am a sock called: {sock.styleID}
-              </div>
+              <table width='100%' key={sock.styleID}>
+                <th>{sock.styleID} - {sock.desc}</th>
+                <tbody>
+                <tr>
+                  <td>Colour</td>
+                  <td>Pattern</td>
+                  <td>{sock.styleID + '05'}</td>
+                  <td>{sock.styleID + '07'}</td>
+                  <td>{sock.styleID + '10'}</td>
+                  <td>Price</td>
+                </tr>
+                  {sock.colours
+                    .filter(colour => {
+                      if (colour.smallAmt) return true
+                      if (colour.regularAmt) return true
+                      if (colour.kingAmt) return true
+                      return false
+                    })
+                    .map(colour => (
+                    <tr key={colour.colourID}>
+                    <td>{colour.colourID}: {colour.colourName}</td>
+                    <td>{colour.patternID > 0
+                        ? colour.patternID+': ' + colour.patternName
+                        : ''}</td>
+                    <td>{colour.smallAmt}</td>
+                    <td>{colour.regularAmt}</td>
+                    <td>{colour.kingAmt}</td>
+                    <td>{sock.price}</td>
+                  </tr>
+                  ))}
+                  </tbody>
+              </table>
             ))}
         </Card>
       </div>

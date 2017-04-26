@@ -3,6 +3,7 @@ const parseOrderForm = (csv) => {
   socks.shift()
   let orderObj = {}
   socks.forEach(item => {
+    item[1] = fixTrademark(item[1])
     let style = item[0].slice(0, 3)
     if (!orderObj[style]) {
       orderObj[style] = {}
@@ -18,6 +19,7 @@ const parseOrderForm = (csv) => {
       }
     }
     orderObj[style].styleID = item[0].charAt(4) === '5' ? item[0] : style
+    console.log('Does it have �?', item[1])
     orderObj[style].desc = item[1]
     orderObj[style].price = Number(item[6])
     orderObj[style].totalAmt = 0
@@ -63,6 +65,14 @@ const parseOrderForm = (csv) => {
   })
   orderForm.shift() // ? Get rid of empty result
   return orderForm
+}
+
+const fixTrademark = (s) => {
+  if (s) {
+    const re = /�/g
+    return s.replace(re, '\xAE')
+  }
+  return s
 }
 
 export default parseOrderForm

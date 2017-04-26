@@ -2,7 +2,7 @@ import React from 'react'
 import {GridTile} from 'material-ui/GridList'
 
 const Sock = ({sock, handleFormSubmit}) => (
-  <GridTile key={sock.styleID} className='sock-tile'>
+  <GridTile className='sock-tile'>
     <h3>
       {sock.styleID}
     </h3>

@@ -9,7 +9,7 @@ import parseOrderForm from '../utils/utils'
 
 const Radmin = React.createClass({
   componentDidUpdate () {
-    console.log('Radmin, props:', this.props.msg)
+    console.log('Radmin, props:', this.props)
   },
   uploadCustomerList (e) {
     let reader = new FileReader()
