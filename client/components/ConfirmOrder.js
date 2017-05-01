@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link, browserHistory } from 'react-router'
-import { Card, CardText } from 'material-ui/Card'
-import {GridList, GridTile} from 'material-ui/GridList'
+import { browserHistory } from 'react-router'
+import { Card } from 'material-ui/Card'
+// import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
-import Sock from './Sock'
+// import TextField from 'material-ui/TextField'
 // import {  } from './redux/actionCreators'
 
 class ConfirmOrder extends React.Component {
@@ -14,7 +13,7 @@ class ConfirmOrder extends React.Component {
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
   }
   componentDidMount () {
-    console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
+    // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
   }
   handleOrderSubmit () {
     console.log('order submit')
@@ -26,18 +25,20 @@ class ConfirmOrder extends React.Component {
           <h2 className='card-heading'>Confirm Your Order</h2>
           {this.props.orderForm
             .filter(sock => sock.totalAmt)
-            .map(sock => (
+            .map(sock => (<div>
+              <h3>{sock.styleID} - {sock.desc}</h3>
+
               <table width='100%' key={sock.styleID}>
-                <th>{sock.styleID} - {sock.desc}</th>
                 <tbody>
-                <tr>
-                  <td>Colour</td>
-                  <td>Pattern</td>
-                  <td>{sock.styleID + '05'}</td>
-                  <td>{sock.styleID + '07'}</td>
-                  <td>{sock.styleID + '10'}</td>
-                  <td>Price</td>
-                </tr>
+                  <tr>
+                    <th width='20%'>Colour</th>
+                    <th width='20%'>Pattern</th>
+                    <th width='10%'>{sock.styleID + '05'}</th>
+                    <th width='10%'>{sock.styleID + '07'}</th>
+                    <th width='10%'>{sock.styleID + '10'}</th>
+                    <th width='15%'>Price</th>
+                    <th width='15%'>Total</th>
+                  </tr>
                   {sock.colours
                     .filter(colour => {
                       if (colour.smallAmt) return true
@@ -46,20 +47,36 @@ class ConfirmOrder extends React.Component {
                       return false
                     })
                     .map(colour => (
-                    <tr key={colour.colourID}>
-                    <td>{colour.colourID}: {colour.colourName}</td>
-                    <td>{colour.patternID > 0
-                        ? colour.patternID+': ' + colour.patternName
-                        : ''}</td>
-                    <td>{colour.smallAmt}</td>
-                    <td>{colour.regularAmt}</td>
-                    <td>{colour.kingAmt}</td>
-                    <td>{sock.price}</td>
-                  </tr>
+                      <tr key={colour.colourID}>
+                        <td>{colour.colourID}: {colour.colourName}</td>
+                        <td>{colour.patternID > 0
+                            ? colour.patternID + ': ' + colour.patternName
+                            : ''}</td>
+                        <td>{colour.smallAmt}</td>
+                        <td>{colour.regularAmt}</td>
+                        <td>{colour.kingAmt}</td>
+                        <td>${sock.price.toFixed(2)}</td>
+                        <td>${((colour.smallAmt + colour.regularAmt + colour.kingAmt) * sock.price).toFixed(2)}</td>
+                      </tr>
                   ))}
-                  </tbody>
+                </tbody>
               </table>
+            </div>
             ))}
+          <div>
+            <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+            <div>
+              <RaisedButton
+                label='Adjust Order'
+                onClick={browserHistory.goBack}
+                />
+              <span>&nbsp;</span>
+              <RaisedButton
+                label='Confirm and Submit Order'
+                onClick={this.handleOrderSubmit}
+                />
+            </div>
+          </div>
         </Card>
       </div>
     )

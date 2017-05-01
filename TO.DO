@@ -2,8 +2,8 @@
 - Check DB for orderform on dashboard load. (need route etc) DONE
 - Have totals on sock component, and overall one on orderform. Can all be part of the orderform reducer I think. DONE
 - Submit Order:
-  - Summary of order (also for email).
-  - Confirm Submit>>
+  - Summary of order (also for email). Mostly Done
+  - Confirm Submit>> Need to do redux/db writing.
   - Write to user DB as an order (linked to user?)
 - import customer csv
 - default customer to 'fresh: true', can be reset to this so signup page allows new password.
