@@ -14,7 +14,9 @@ import { SIGNUP_REQUEST,
   GET_ORDER_FORM_FAILURE,
   SET_SEARCH_TERM,
   UPDATE_ORDER,
-  UPDATE_TOTALS
+  UPDATE_TOTALS,
+  SAVE_ORDER_SUCCESS,
+  SAVE_ORDER_FAILURE
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -89,6 +91,22 @@ const updateTotals = (state, action) => {
   const newState = {
     ...state,
     ...{orderTotalAmt: newAmt, orderTotalPrice: newPrice}}
+  return newState
+}
+
+const saveOrderSuccess = (state, action) => {
+  const newState = {
+    ...state,
+    ...{msg: action.data.message}
+  }
+  return newState
+}
+
+const saveOrderFailure = (state, action) => {
+  const newState = {
+    ...state,
+    ...{msg: action.err.message}
+  }
   return newState
 }
 
@@ -202,6 +220,10 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return updateOrder(state, action)
     case UPDATE_TOTALS:
       return updateTotals(state, action)
+    case SAVE_ORDER_SUCCESS:
+      return saveOrderSuccess(state, action)
+    case SAVE_ORDER_FAILURE:
+      return saveOrderFailure(state, action)
     default:
       return state
   }

@@ -9,7 +9,8 @@ import { checkToken } from './redux/authCreators'
 
 const Frame = React.createClass({
   componentDidMount () {
-    this.props.dispatch(checkToken(localStorage.getItem('id_token')))
+    const token = localStorage.getItem('id_token')
+    if (token) this.props.dispatch(checkToken(token))
   },
   render () {
     return (
@@ -20,7 +21,7 @@ const Frame = React.createClass({
             <Link to='/login'>Log In</Link>
             <Link to='/signup'>Sign up</Link>
             <Link to='/logout'>Log Out</Link>
-            <span>Welcome, {this.props.user.name}, email: {this.props.user.email}</span>
+            <span>Welcome {this.props.user.name}, email: {this.props.user.email}, id: {this.props.user.id}</span>
           </div>
 
           {// Auth.isUserAuthenticated() ? (

@@ -13,7 +13,8 @@ const User = db.define('user', {
 })
 
 const Order = db.define('order', {
-  order: Sequelize.JSON
+  order: Sequelize.JSON,
+  totalPrice: Sequelize.INTEGER
 })
 
 const storedOrder = db.define('storedOrder', {

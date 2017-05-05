@@ -3,17 +3,18 @@ const { Order, storedOrder } = require('../models/db')
 
 const router = new express.Router()
 
-router.get('/dashboard', (req, res) => {
-  res.status(200).json({
-    message: "You're authorized to see this secret message."
-  })
-})
+// router.get('/dashboard', (req, res) => {
+//   res.status(200).json({
+//     message: "You're authorized to see this secret message."
+//   })
+// })
 
 router.post('/order', (req, res) => {
-  console.log('dashboard POST for order, requestbody:', req.body.userId)
+  console.log('dashboard POST for order, requestbody:', req.body)
   Order.create({
     order: req.body.order,
-    userId: req.body.userId
+    userId: req.body.userId,
+    totalPrice: req.body.totalPrice
   })
     .then(order => {
       console.log('order written to db:', order)

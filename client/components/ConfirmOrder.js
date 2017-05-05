@@ -16,13 +16,15 @@ class ConfirmOrder extends React.Component {
     // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
   }
   handleOrderSubmit () {
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id))
+    // TotalPrice stored as cents in db.
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id, (this.props.orderTotalPrice * 100)))
   }
   render () {
     return (
       <div>
         <Card className='container'>
           <h2 className='card-heading'>Confirm Your Order</h2>
+          <div>Msg: {this.props.msg}</div>
           {this.props.orderForm
             .filter(sock => sock.totalAmt)
             .map(sock => (<div key={sock.styleID}>
@@ -91,7 +93,8 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.isAuthenticated,
     orderForm: state.orderForm,
     orderTotalAmt: state.orderTotalAmt,
-    orderTotalPrice: state.orderTotalPrice
+    orderTotalPrice: state.orderTotalPrice,
+    msg: state.msg
   }
 }
 

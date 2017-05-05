@@ -6,7 +6,9 @@ import {
   GET_ORDER_FORM_FAILURE,
   SET_SEARCH_TERM,
   UPDATE_ORDER,
-  UPDATE_TOTALS
+  UPDATE_TOTALS,
+  SAVE_ORDER_SUCCESS,
+  SAVE_ORDER_FAILURE
 } from './actions'
 import axios from 'axios'
 
@@ -93,17 +95,33 @@ export function updateTotals () {
   }
 }
 
-export function saveOrder (order, userId) {
+export function saveOrder (order, userId, totalPrice) {
   return dispatch => {
     const config = {
       headers: {'authorization': localStorage.getItem('id_token')}
     }
-    axios.post('/api/order', {order, userId}, config)
+    axios.post('/api/order', {order, userId, totalPrice}, config)
       .then(res => {
+        dispatch(saveOrderSuccess(res.data))
         console.log('response from saveorder:', res)
       })
       .catch(err => {
         if (err) console.log('error from saveorder:', err)
+        if (err) dispatch(saveOrderFailure(err))
       })
+  }
+}
+
+function saveOrderSuccess (data) {
+  return {
+    type: SAVE_ORDER_SUCCESS,
+    data
+  }
+}
+
+function saveOrderFailure (err) {
+  return {
+    type: SAVE_ORDER_FAILURE,
+    err
   }
 }
