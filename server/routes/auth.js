@@ -4,6 +4,7 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const config = require('../../config')
 const router = new express.Router()
+const { User } = require('../models/db')
 
 /**
  * Validate the sign up form
@@ -151,7 +152,18 @@ router.post('/token', (req, res, next) => {
   console.log('token request made, ', req.body)
   jwt.verify(req.body.token, config.jwtSecret, {maxAge: '2 days'}, (err, decoded) => {
     console.log('token jwt verify err', err, 'decoded', decoded)
-    return !err
+    const userId = decoded.sub
+
+    // check if a user exists
+    User.findById(userId)
+    .then(user => {
+      if (user) {
+        console.log('user found that matches token', user)
+        return res.json({user})
+      }
+
+      return res.status(401).end()
+    })
   })
 })
 

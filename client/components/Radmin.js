@@ -11,7 +11,7 @@ const Radmin = React.createClass({
   componentDidUpdate () {
     console.log('Radmin, props:', this.props)
   },
-  uploadCustomerList (e) {
+  uploadStoreLocatorData (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
       console.log('upload csv, file:', file.target)
@@ -43,10 +43,10 @@ const Radmin = React.createClass({
               id='customerInput'
               ref={ref => this.customerInput = ref}
               style={{display: 'none'}}
-              onChange={this.uploadCustomerList}
+              onChange={this.uploadStoreLocatorData}
             />
             <RaisedButton
-              label='Upload Customer List'
+              label='Upload Store Locator Data'
               onClick={e => {
                 setTimeout(() => {
                   this.customerInput.click()

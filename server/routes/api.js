@@ -2,7 +2,6 @@ const express = require('express')
 const { Order, storedOrder } = require('../models/db')
 
 const router = new express.Router()
-let counter = 0
 
 router.get('/dashboard', (req, res) => {
   res.status(200).json({
@@ -11,22 +10,39 @@ router.get('/dashboard', (req, res) => {
 })
 
 router.post('/order', (req, res) => {
-  console.log('dashboard POST for order')
-  Order.create({order: JSON.stringify({orderNum: counter, text: 'Hello, I am text for this order.'})})
+  console.log('dashboard POST for order, requestbody:', req.body.userId)
+  Order.create({
+    order: req.body.order,
+    userId: req.body.userId
+  })
     .then(order => {
-      console.log('we made an order: ', order)
-      res.status(200).json({
+      console.log('order written to db:', order)
+      res.json({
         message: 'Order received, thank you.',
         order: order
       })
     })
-    .catch(error => {
-      console.log('Order DB Error!', error)
+    .catch(err => {
+      console.log('order failed in writing to db:', err)
       res.status(500).json({
-        message: `Failed to save order: ${error}`
+        message: `Failed to save order: ${err}`
       })
     })
-  counter++
+  // Order.create({order: JSON.stringify({orderNum: counter, text: 'Hello, I am text for this order.'})})
+  //   .then(order => {
+  //     console.log('we made an order: ', order)
+  //     res.status(200).json({
+  //       message: 'Order received, thank you.',
+  //       order: order
+  //     })
+  //   })
+  //   .catch(error => {
+  //     console.log('Order DB Error!', error)
+  //     res.status(500).json({
+  //       message: `Failed to save order: ${error}`
+  //     })
+  //   })
+  // counter++
 })
 
 router.post('/order-form', (req, res) => {

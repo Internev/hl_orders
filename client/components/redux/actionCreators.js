@@ -92,3 +92,18 @@ export function updateTotals () {
     type: UPDATE_TOTALS
   }
 }
+
+export function saveOrder (order, userId) {
+  return dispatch => {
+    const config = {
+      headers: {'authorization': localStorage.getItem('id_token')}
+    }
+    axios.post('/api/order', {order, userId}, config)
+      .then(res => {
+        console.log('response from saveorder:', res)
+      })
+      .catch(err => {
+        if (err) console.log('error from saveorder:', err)
+      })
+  }
+}

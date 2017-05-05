@@ -10,3 +10,4 @@
 - change signup page to be 'register password' or something.
 - get geolocation?
 - squarespace: overlay text on image. (done-ish)
+- Tidy up the toolbar: radmin link for admins etc.

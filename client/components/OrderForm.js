@@ -16,7 +16,6 @@ class OrderForm extends React.Component {
   }
   componentDidMount () {
     if (!this.props.orderForm.length) {
-      console.log('loading orderForm')
       this.props.dispatch(getOrderForm())
     }
     // console.log('OrderForm, props:', this.props)

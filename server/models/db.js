@@ -20,10 +20,16 @@ const storedOrder = db.define('storedOrder', {
   storedOrder: Sequelize.JSON
 })
 
-Order.belongsTo(User)
+Order.belongsTo(User, {
+  onDelete: 'cascade',
+  foreignKey: {
+    field: 'userId',
+    allowNull: false
+  }
+})
 
 User.sync()
-Order.sync({force: true})
+Order.sync()
 storedOrder.sync()
 
 const genHash = (password) => {
