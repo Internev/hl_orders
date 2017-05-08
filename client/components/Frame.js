@@ -1,16 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { IndexLink, Link } from 'react-router'
+import { IndexLink, Link, browserHistory } from 'react-router'
 // import { Card, CardText } from 'material-ui/Card'
 // import {GridList, GridTile} from 'material-ui/GridList'
 // import RaisedButton from 'material-ui/RaisedButton'
 // import TextField from 'material-ui/TextField'
-import { checkToken } from './redux/authCreators'
 
 const Frame = React.createClass({
-  componentDidMount () {
-    const token = localStorage.getItem('id_token')
-    if (token) this.props.dispatch(checkToken(token))
+  componentDidUpdate () {
+    if (!this.props.isAuthenticated) {
+      browserHistory.push('/login')
+    }
   },
   render () {
     return (
@@ -49,7 +49,8 @@ const Frame = React.createClass({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user
+    user: state.user,
+    isAuthenticated: state.isAuthenticated
   }
 }
 

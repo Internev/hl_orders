@@ -120,10 +120,12 @@ export function checkToken (token) {
   return dispatch => {
     axios.post('/auth/token', {token})
     .then(res => {
+      console.log('token response received:', res)
       return dispatch(receiveLogin(res.data))
     })
     .catch(err => {
-      if (err.response) return dispatch(loginError(err.respose.data))
+      console.log('check token error, 401??', err)
+      // if (err.response) return dispatch(loginError(err.respose.data))
       if (err) return dispatch(loginError(err))
     })
   }
