@@ -1,5 +1,6 @@
 const express = require('express')
 const { Order, storedOrder } = require('../models/db')
+const {sendmail} = require('../utils/sendmail')
 
 const router = new express.Router()
 
@@ -18,6 +19,7 @@ router.post('/order', (req, res) => {
   })
     .then(order => {
       console.log('order written to db:', order)
+      sendmail(order)
       res.json({
         message: 'Order received, thank you.',
         order: order
@@ -29,21 +31,6 @@ router.post('/order', (req, res) => {
         message: `Failed to save order: ${err}`
       })
     })
-  // Order.create({order: JSON.stringify({orderNum: counter, text: 'Hello, I am text for this order.'})})
-  //   .then(order => {
-  //     console.log('we made an order: ', order)
-  //     res.status(200).json({
-  //       message: 'Order received, thank you.',
-  //       order: order
-  //     })
-  //   })
-  //   .catch(error => {
-  //     console.log('Order DB Error!', error)
-  //     res.status(500).json({
-  //       message: `Failed to save order: ${error}`
-  //     })
-  //   })
-  // counter++
 })
 
 router.post('/order-form', (req, res) => {

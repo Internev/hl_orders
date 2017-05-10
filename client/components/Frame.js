@@ -1,17 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { IndexLink, Link, browserHistory } from 'react-router'
-// import { Card, CardText } from 'material-ui/Card'
-// import {GridList, GridTile} from 'material-ui/GridList'
-// import RaisedButton from 'material-ui/RaisedButton'
-// import TextField from 'material-ui/TextField'
 
-const Frame = React.createClass({
+class Frame extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+
   componentDidUpdate () {
+    console.log('frame updated, context:', this.context)
     if (!this.props.isAuthenticated) {
-      browserHistory.push('/login')
+      this.context.router.push('/logout')
     }
-  },
+  }
   render () {
     return (
       <div>
@@ -45,7 +46,11 @@ const Frame = React.createClass({
       </div>
     )
   }
-})
+}
+
+Frame.contextTypes = {
+  router: React.PropTypes.object
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {
