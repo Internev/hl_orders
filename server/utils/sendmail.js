@@ -1,5 +1,11 @@
 const nodemailer = require('nodemailer')
 const config = require('../../config')
+const React = require('react')
+import { renderToString } from 'react-dom/server'
+require('babel-core/register')({
+  presets: ['es2015', 'react']
+})
+const Mailtest = require('../../client/components/Mailtest').default
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport(config.mail)
@@ -19,7 +25,8 @@ let mailOptions = {
 }
 
 const sendmail = (order) => {
-  console.log(order)
+  mailOptions.html = renderToString(<Mailtest />)
+
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
