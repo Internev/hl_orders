@@ -2,10 +2,10 @@ const nodemailer = require('nodemailer')
 const config = require('../../config')
 const React = require('react')
 import { renderToString } from 'react-dom/server'
-require('babel-core/register')({
-  presets: ['es2015', 'react']
-})
-const Mailtest = require('../../client/components/Mailtest').default
+// require('babel-core/register')({
+//   presets: ['es2015', 'react']
+// })
+import ConfirmSock from '../../client/components/ConfirmSock'
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport(config.mail)
@@ -25,7 +25,14 @@ let mailOptions = {
 }
 
 const sendmail = (order) => {
-  mailOptions.html = renderToString(<Mailtest />)
+  let html
+  // console.log(Array.isArray(order.order))
+  order.order
+    .filter(sock => sock.totalAmt)
+    .forEach(sock => (
+      html += renderToString(<ConfirmSock sock={sock} key={sock.styleID} />)
+    ))
+  mailOptions.html = html
 
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
