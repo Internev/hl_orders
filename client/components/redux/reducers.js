@@ -21,12 +21,13 @@ import { SIGNUP_REQUEST,
 
 const DEFAULT_STATE = {
   user: {
-    userId: null,
+    id: null,
     name: '',
-    email: ''
+    email: '',
+    admin: false
   },
   isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token') ? true : false,
+  isAuthenticated: localStorage.getItem('id_token') !== null,
   id_token: '',
   auth: {
     success: false,
@@ -160,6 +161,7 @@ const loginError = (state, action) => {
 }
 
 const loginSuccess = (state, action) => {
+  console.log('Login Success Reducer, actiondatauser:', action.data.user)
   const update = {
     isFetching: action.isFetching,
     isAuthenticated: action.isAuthenticated,

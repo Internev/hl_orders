@@ -8,33 +8,27 @@ class Frame extends React.Component {
   }
 
   componentDidUpdate () {
-    console.log('frame updated, context:', this.context)
-    if (!this.props.isAuthenticated) {
-      this.context.router.push('/logout')
-    }
+    console.log('frame updated, props:', this.props)
   }
   render () {
     return (
       <div>
         <div className='top-bar'>
           <div className='top-bar-left'>
-            <IndexLink to='/'>Home</IndexLink>
-            <Link to='/login'>Log In</Link>
-            <Link to='/signup'>Sign up</Link>
-            <Link to='/logout'>Log Out</Link>
-            <span>Welcome {this.props.user.name}, email: {this.props.user.email}, id: {this.props.user.id}</span>
+            <IndexLink to='/'>Order Form</IndexLink>
+            { this.props.user.admin ? (<Link to='/radmin'>Admin Tools</Link>) : ''}
           </div>
 
-          {// Auth.isUserAuthenticated() ? (
-          //   <div className='top-bar-right'>
-          //     <Link to='/logout'>Log out</Link>
-          //   </div>
-          // ) : (
-          //   <div className='top-bar-right'>
-          //     <Link to='/login'>Log in</Link>
-          //     <Link to='/signup'>Sign up</Link>
-          //   </div>
-          // )
+          { this.props.isAuthenticated ? (
+              <div className='top-bar-right'>
+                <span>Welcome {this.props.user.name}, email: {this.props.user.email}, id: {this.props.user.id}, {this.props.user.admin ? 'true' : 'false'}</span>
+                <Link to='/logout'>Log out</Link>
+              </div>
+            ) : (
+              <div className='top-bar-right'>
+                <Link to='/login'>Log in</Link>
+              </div>
+            )
         }
 
         </div>

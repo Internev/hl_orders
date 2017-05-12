@@ -20,6 +20,11 @@ class OrderForm extends React.Component {
     }
     // console.log('OrderForm, props:', this.props)
   }
+  componentDidUpdate () {
+    if (!this.props.isAuthenticated) {
+      this.context.router.push('/logout')
+    }
+  }
   handleFormSubmit (sock, colour, amount, size, index) {
     colour[size] = parseInt(amount) || 0
     sock.colours[index] = colour

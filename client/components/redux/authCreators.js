@@ -96,7 +96,7 @@ function requestLogout () {
   return {
     type: LOGOUT_REQUEST,
     isFetching: true,
-    isAuthenticated: true
+    isAuthenticated: false
   }
 }
 
@@ -112,6 +112,7 @@ export function logoutUser () {
   return dispatch => {
     dispatch(requestLogout())
     localStorage.removeItem('id_token')
+    console.log('removed token?', localStorage.getItem('id_token'))
     dispatch(receiveLogout())
   }
 }
