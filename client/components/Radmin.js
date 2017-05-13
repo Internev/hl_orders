@@ -1,20 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import { uploadOrderForm } from './redux/actionCreators'
-import parseOrderForm from '../utils/utils'
+import { uploadOrderForm, uploadStoreGeo } from './redux/actionCreators'
+import { parseOrderForm, parseStoreGeo } from '../utils/utils'
 
 const Radmin = React.createClass({
   componentDidUpdate () {
     console.log('Radmin, props:', this.props)
   },
-  uploadStoreLocatorData (e) {
+  uploadStoreGeo (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
-      console.log('upload csv, file:', file.target)
+      uploadStoreGeo(parseStoreGeo(file.target.result))
 
       // this.props.dispatch(importFeeds(OPMLParse(file.target.result)))
     }
@@ -43,7 +42,7 @@ const Radmin = React.createClass({
               id='customerInput'
               ref={ref => this.customerInput = ref}
               style={{display: 'none'}}
-              onChange={this.uploadStoreLocatorData}
+              onChange={this.uploadStoreGeo}
             />
             <RaisedButton
               label='Upload Store Locator Data'

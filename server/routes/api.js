@@ -1,6 +1,8 @@
 const express = require('express')
 const { Order, storedOrder } = require('../models/db')
 const {sendmail} = require('../utils/sendmail')
+const axios = require('axios')
+const config = require('../../config')
 
 const router = new express.Router()
 
@@ -60,6 +62,25 @@ router.get('/order-form', (req, res) => {
       console.log('upload order form db error:', err)
       res.status(500).json(err)
     }
+  })
+})
+
+router.post('/store-geo', (req, res) => {
+  console.log('\n\n*********\nStore Geo:', req.body)
+  for (let i = 180; i < 190; i++) {
+    let c = req.body[i]
+    let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
+    console.log('queryString looks like:', query)
+    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=AIzaSyB_tnq4J0bWvyDk0EUJiXgSoabFi76QEV8`)
+    .then(res => {
+      console.log(`\n${query} response data:`, res.data)
+    })
+    .catch(err => {
+      console.log('axios error:', err)
+    })
+  }
+  res.status(200).json({
+    message: 'Store locations uploaded, commencing geolocation.'
   })
 })
 

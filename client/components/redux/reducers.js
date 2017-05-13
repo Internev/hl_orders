@@ -161,7 +161,6 @@ const loginError = (state, action) => {
 }
 
 const loginSuccess = (state, action) => {
-  console.log('Login Success Reducer, actiondatauser:', action.data.user)
   const update = {
     isFetching: action.isFetching,
     isAuthenticated: action.isAuthenticated,

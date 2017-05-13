@@ -1,4 +1,4 @@
-const parseOrderForm = (csv) => {
+export const parseOrderForm = (csv) => {
   let socks = csv.split(/\n/).map(item => item.split(','))
   socks.shift()
   let orderObj = {}
@@ -19,7 +19,6 @@ const parseOrderForm = (csv) => {
       }
     }
     orderObj[style].styleID = item[0].charAt(4) === '5' ? item[0] : style
-    console.log('Does it have �?', item[1])
     orderObj[style].desc = item[1]
     orderObj[style].price = Number(item[6])
     orderObj[style].totalAmt = 0
@@ -75,12 +74,18 @@ const fixTrademark = (s) => {
   return s
 }
 
-export default parseOrderForm
-
-// StyleID 0
-// ShortDesc 1
-// ColourID 2
-// ColourName 3
-// PatternID 4
-// PatternName 5
-// WholesaleA 6
+export const parseStoreGeo = (csv) => {
+  let rows = csv.split(/\n/).map(item => item.split(','))
+  rows.pop()
+  return rows.map(store => {
+    let storeObj = {
+      custCode: store[0],
+      name: store[1],
+      street: store[2],
+      suburb: store[3],
+      state: store[4],
+      postcode: store[5].slice(0, 4)
+    }
+    return storeObj
+  })
+}
