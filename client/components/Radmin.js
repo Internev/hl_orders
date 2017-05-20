@@ -3,12 +3,15 @@ import { connect } from 'react-redux'
 import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import { uploadOrderForm, uploadStoreGeo } from './redux/actionCreators'
-import { parseOrderForm, parseStoreGeo } from '../utils/utils'
+import { uploadOrderForm, uploadStoreGeo, uploadCustomers } from './redux/actionCreators'
+import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 
 const Radmin = React.createClass({
   componentDidUpdate () {
     console.log('Radmin, props:', this.props)
+    if (!this.props.isAuthenticated) {
+      browserHistory.push('/logout')
+    }
   },
   uploadStoreGeo (e) {
     let reader = new FileReader()
@@ -26,6 +29,14 @@ const Radmin = React.createClass({
     }
     reader.readAsText(e.target.files[0])
   },
+  uploadCustomers (e) {
+    let reader = new FileReader()
+    reader.onload = (file) => {
+      this.props.dispatch(uploadCustomers(parseCustomers(file.target.result)))
+      // this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
+    }
+    reader.readAsText(e.target.files[0])
+  },
   render () {
     return (
       <Card className='container'>
@@ -39,8 +50,8 @@ const Radmin = React.createClass({
             <input
               type='file'
               accept='.csv'
-              id='customerInput'
-              ref={ref => this.customerInput = ref}
+              id='storeGeo'
+              ref={ref => this.storeGeo = ref}
               style={{display: 'none'}}
               onChange={this.uploadStoreGeo}
             />
@@ -48,7 +59,7 @@ const Radmin = React.createClass({
               label='Upload Store Locator Data'
               onClick={e => {
                 setTimeout(() => {
-                  this.customerInput.click()
+                  this.storeGeo.click()
                 }, 200)
               }}
             />
@@ -65,6 +76,22 @@ const Radmin = React.createClass({
               onClick={e => {
                 setTimeout(() => {
                   this.orderInput.click()
+                }, 200)
+              }}
+            />
+            <input
+              type='file'
+              accept='.csv'
+              id='customerUpload'
+              ref={ref => this.customerUpload = ref}
+              style={{display: 'none'}}
+              onChange={this.uploadCustomers}
+            />
+            <RaisedButton
+              label='Upload Customer List'
+              onClick={e => {
+                setTimeout(() => {
+                  this.customerUpload.click()
                 }, 200)
               }}
             />

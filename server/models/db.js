@@ -17,8 +17,8 @@ const Order = db.define('order', {
   totalPrice: Sequelize.INTEGER
 })
 
-const storedOrder = db.define('storedOrder', {
-  storedOrder: Sequelize.JSON
+const Storedorder = db.define('storedorder', {
+  storedorder: Sequelize.JSON
 })
 
 Order.belongsTo(User, {
@@ -31,7 +31,7 @@ Order.belongsTo(User, {
 
 User.sync()
 Order.sync()
-storedOrder.sync()
+Storedorder.sync()
 
 const genHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
@@ -43,6 +43,6 @@ const validPass = (password, storedPassword) => {
 
 module.exports.User = User
 module.exports.Order = Order
-module.exports.storedOrder = storedOrder
+module.exports.Storedorder = Storedorder
 module.exports.genHash = genHash
 module.exports.validPass = validPass

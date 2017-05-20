@@ -9,5 +9,8 @@
 - default customer to 'fresh: true', can be reset to this so signup page allows new password.
 - change signup page to be 'register password' or something.
 - get geolocation?
+  started: redux basics done, backend retrieval underway.
 - squarespace: overlay text on image. (done-ish)
 - Tidy up the toolbar: radmin link for admins etc. Mostly Done
+- Admin check for /radmin path
+- Style it!

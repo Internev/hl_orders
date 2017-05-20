@@ -8,7 +8,10 @@ import {
   UPDATE_ORDER,
   UPDATE_TOTALS,
   SAVE_ORDER_SUCCESS,
-  SAVE_ORDER_FAILURE
+  SAVE_ORDER_FAILURE,
+  CUSTOMERS_SUCCESS,
+  CUSTOMERS_FAILURE
+
 } from './actions'
 import axios from 'axios'
 
@@ -142,4 +145,36 @@ export function uploadStoreGeo (data) {
         // if (err) return dispatch(uploadOrderFormFailure(err.response.data))
       })
   // }
+}
+
+function uploadCustomersSuccess (data, msg) {
+  return {
+    type: CUSTOMERS_SUCCESS,
+    data,
+    msg
+  }
+}
+
+function uploadCustomersFailure (err) {
+  return {
+    type: CUSTOMERS_FAILURE,
+    err
+  }
+}
+
+export function uploadCustomers (data) {
+  return dispatch => {
+    const config = {
+      headers: {'authorization': localStorage.getItem('id_token')}
+    }
+    axios.post('/api/customers', data, config)
+      .then(res => {
+        console.log('res from customers api:', res)
+        return dispatch(uploadCustomersSuccess(res.data, 'Order Form Saved to Database'))
+      })
+      .catch(err => {
+        if (err) console.log('err from customers api:', err)
+        if (err) return dispatch(uploadCustomersFailure(err.response.data))
+      })
+  }
 }

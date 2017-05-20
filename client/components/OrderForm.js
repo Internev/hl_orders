@@ -22,7 +22,7 @@ class OrderForm extends React.Component {
   }
   componentDidUpdate () {
     if (!this.props.isAuthenticated) {
-      this.context.router.push('/logout')
+      browserHistory.push('/logout')
     }
   }
   handleFormSubmit (sock, colour, amount, size, index) {

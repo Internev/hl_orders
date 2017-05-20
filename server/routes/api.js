@@ -1,8 +1,9 @@
 const express = require('express')
-const { Order, storedOrder } = require('../models/db')
+const { Order, Storedorder } = require('../models/db')
 const {sendmail} = require('../utils/sendmail')
 const axios = require('axios')
 const config = require('../../config')
+const { User, genHash } = require('../models/db')
 
 const router = new express.Router()
 
@@ -36,9 +37,10 @@ router.post('/order', (req, res) => {
 })
 
 router.post('/order-form', (req, res) => {
-  storedOrder.sync({force: true})
+  console.log('order form upload, reqbody:', req.body)
+  Storedorder.sync({force: true})
   .then(() => {
-    return storedOrder.create({storedOrder: req.body})
+    return Storedorder.create({storedorder: req.body})
   })
   .then(orderForm => {
     console.log('\n\norder form uploaded\n\n', orderForm)
@@ -53,8 +55,9 @@ router.post('/order-form', (req, res) => {
 })
 
 router.get('/order-form', (req, res) => {
-  storedOrder.findOne()
+  Storedorder.findOne()
   .then(orderForm => {
+    console.log('\n\n\norder form received.', orderForm)
     res.status(200).json(orderForm)
   })
   .catch(err => {
@@ -82,6 +85,29 @@ router.post('/store-geo', (req, res) => {
   res.status(200).json({
     message: 'Store locations uploaded, commencing geolocation.'
   })
+})
+
+router.post('/customers', (req, res) => {
+  let count = 0
+  req.body.forEach(c => {
+    c.password = genHash(c.password)
+    User.findOrCreate({where: {password: c.password}, defaults: {name: c.name, email: c.email}})
+      .spread((user, created) => {
+        if (!created) {
+          console.log('user already exists')
+          // return done({name: 'exists'}, null)
+        } else {
+          console.log('created user', ++count)
+          // return done(null, user)
+        }
+      })
+      .catch(err => {
+        if (err) console.log('customers db writing err:', err)
+        User.sync
+        // return done(err)
+      })
+  })
+  res.status(200).send()
 })
 
 module.exports = router

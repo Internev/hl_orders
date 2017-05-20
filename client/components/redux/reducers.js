@@ -16,7 +16,9 @@ import { SIGNUP_REQUEST,
   UPDATE_ORDER,
   UPDATE_TOTALS,
   SAVE_ORDER_SUCCESS,
-  SAVE_ORDER_FAILURE
+  SAVE_ORDER_FAILURE,
+  CUSTOMERS_SUCCESS,
+  CUSTOMERS_FAILURE
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -46,7 +48,7 @@ const uploadOrderForm = (state, action) => {
 }
 
 const uploadOrderFormSuccess = (state, action) => {
-  const newState = {...state, ...{orderForm: action.data.storedOrder, msg: action.msg}}
+  const newState = {...state, ...{orderForm: action.data.storedorder, msg: action.msg}}
   return newState
 }
 
@@ -56,7 +58,7 @@ const uploadOrderFormFailure = (state, action) => {
 }
 
 const getOrderFormSuccess = (state, action) => {
-  const newState = {...state, ...{orderForm: action.data.storedOrder}}
+  const newState = {...state, ...{orderForm: action.data.storedorder}}
   return newState
 }
 
@@ -104,6 +106,22 @@ const saveOrderSuccess = (state, action) => {
 }
 
 const saveOrderFailure = (state, action) => {
+  const newState = {
+    ...state,
+    ...{msg: action.err.message}
+  }
+  return newState
+}
+
+const customersSuccess = (state, action) => {
+  const newState = {
+    ...state,
+    ...{msg: action.data.message}
+  }
+  return newState
+}
+
+const customersFailure = (state, action) => {
   const newState = {
     ...state,
     ...{msg: action.err.message}
@@ -178,7 +196,8 @@ const logoutRequest = (state, action) => {
 }
 
 const logoutSuccess = (state, action) => {
-  return DEFAULT_STATE
+  const newState = {...DEFAULT_STATE, ...{isAuthenticated: false}}
+  return newState
 }
 
 // ************************
@@ -225,6 +244,10 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return saveOrderSuccess(state, action)
     case SAVE_ORDER_FAILURE:
       return saveOrderFailure(state, action)
+    case CUSTOMERS_SUCCESS:
+      return customersSuccess(state, action)
+    case CUSTOMERS_FAILURE:
+      return customersFailure(state, action)
     default:
       return state
   }

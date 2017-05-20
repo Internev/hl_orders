@@ -13,7 +13,10 @@ class ConfirmOrder extends React.Component {
     super(props)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
   }
-  componentDidMount () {
+  componentDidUpdate () {
+    if (!this.props.isAuthenticated) {
+      browserHistory.push('/logout')
+    }
     // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
   }
   handleOrderSubmit () {
