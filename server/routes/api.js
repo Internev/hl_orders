@@ -88,26 +88,20 @@ router.post('/store-geo', (req, res) => {
 })
 
 router.post('/customers', (req, res) => {
-  let count = 0
-  req.body.forEach(c => {
+  for (let i = 0; i < req.body.length; i++) {
+    let c = req.body[i]
     c.password = genHash(c.password)
-    User.findOrCreate({where: {password: c.password}, defaults: {name: c.name, email: c.email}})
-      .spread((user, created) => {
-        if (!created) {
-          console.log('user already exists')
-          // return done({name: 'exists'}, null)
-        } else {
-          console.log('created user', ++count)
-          // return done(null, user)
-        }
+    User.findCreateFind({where: {customerid: c.customerid}, defaults: c})
+      .then(resp => {
+        console.log('\n********\nfindCreateFind response:', resp, '\n********\n')
       })
       .catch(err => {
-        if (err) console.log('customers db writing err:', err)
-        User.sync
-        // return done(err)
+        if (err) console.log('\n********\nfindCreateFind error:', err, '\n********\n')
       })
+  }
+  res.status(200).json({
+    message: 'Customer List Updated.'
   })
-  res.status(200).send()
 })
 
 module.exports = router

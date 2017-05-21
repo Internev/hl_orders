@@ -30,6 +30,7 @@ const Radmin = React.createClass({
     reader.readAsText(e.target.files[0])
   },
   uploadCustomers (e) {
+    console.log('uploading customers...')
     let reader = new FileReader()
     reader.onload = (file) => {
       this.props.dispatch(uploadCustomers(parseCustomers(file.target.result)))
