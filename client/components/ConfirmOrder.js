@@ -4,7 +4,8 @@ import { browserHistory } from 'react-router'
 import { Card } from 'material-ui/Card'
 // import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
-// import TextField from 'material-ui/TextField'
+import {Tabs, Tab} from 'material-ui/Tabs'
+import TextField from 'material-ui/TextField'
 import { saveOrder } from './redux/actionCreators'
 import ConfirmSock from './ConfirmSock'
 
@@ -28,14 +29,32 @@ class ConfirmOrder extends React.Component {
       <div>
         <Card className='container'>
           <h2 className='card-heading'>Confirm Your Order</h2>
-          <div>Msg: {this.props.msg}</div>
+          <div>{this.props.msg}</div>
           {this.props.orderForm
             .filter(sock => sock.totalAmt)
             .map(sock => (
-              <ConfirmSock sock={sock} key={sock.styleID}/>
+              <ConfirmSock sock={sock} key={sock.styleID} />
             ))}
           <div>
-            <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+            <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+            <div>
+              Shipping to:
+              <Tabs>
+                <Tab label='Default Address'>
+                  { this.props.user.name.split(',').map(line => <div>{line}</div>) }
+                </Tab>
+                <Tab label='Custom Address'>
+                  <TextField
+                    label='CustomAddress'
+                    hintText='Add custom shipping address'
+                    floatingLabelText='Add custom shipping address'
+                    multiLine={true}
+                    rows={3}
+                    ref='customAddress' />
+                  <RaisedButton type='submit' label='Save Custom Address' primary />
+                </Tab>
+              </Tabs>
+            </div>
             <div>
               <RaisedButton
                 label='Adjust Order'

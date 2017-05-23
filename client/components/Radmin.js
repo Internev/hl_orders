@@ -8,7 +8,7 @@ import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 
 const Radmin = React.createClass({
   componentDidUpdate () {
-    console.log('Radmin, props:', this.props)
+    // console.log('Radmin, props:', this.props)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
@@ -30,9 +30,10 @@ const Radmin = React.createClass({
     reader.readAsText(e.target.files[0])
   },
   uploadCustomers (e) {
-    console.log('uploading customers...')
+    // console.log('uploading customers...')
     let reader = new FileReader()
     reader.onload = (file) => {
+      console.log('customers file target:', file.target.result)
       this.props.dispatch(uploadCustomers(parseCustomers(file.target.result)))
       // this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
     }

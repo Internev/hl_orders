@@ -88,16 +88,35 @@ router.post('/store-geo', (req, res) => {
 })
 
 router.post('/customers', (req, res) => {
+  console.log('customers hit, req.body:', req.body)
   for (let i = 0; i < req.body.length; i++) {
     let c = req.body[i]
     c.password = genHash(c.password)
-    User.findCreateFind({where: {customerid: c.customerid}, defaults: c})
-      .then(resp => {
-        console.log('\n********\nfindCreateFind response:', resp, '\n********\n')
+    if (c.customerid.length === 0) continue
+    console.log('about to upsert:', c)
+    User.upsert(c)
+      .then(result => {
+        console.log('\n********\nupsert result:', result, '\n********\n')
       })
       .catch(err => {
-        if (err) console.log('\n********\nfindCreateFind error:', err, '\n********\n')
+        console.log('\n********\nupsert err:', err, '\n********\n')
       })
+    // User.findCreateFind({where: {customerid: c.customerid}, defaults: c})
+    //   .spread((user, created) => {
+    //     console.log('\n********\nfindCreateFind created:', created, '\n********\n')
+    //     if (!created) {
+    //       User.update({where: {customerid: c.customerid}, defaults: c})
+    //         .then(user => {
+    //           console.log('User updated, response:', user)
+    //         })
+    //         .catch(err =>{
+    //           if (err) console.log('User update failed, err:', err)
+    //         })
+    //     }
+    //   })
+    //   .catch(err => {
+    //     if (err) console.log('\n********\nfindCreateFind error:', err, '\n********\n')
+    //   })
   }
   res.status(200).json({
     message: 'Customer List Updated.'
