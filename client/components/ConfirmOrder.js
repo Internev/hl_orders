@@ -13,16 +13,23 @@ class ConfirmOrder extends React.Component {
   constructor (props) {
     super(props)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
+    this.updateAddress = this.updateAddress.bind(this)
+    this.state = {address: ''}
   }
   componentDidUpdate () {
+    console.log('confirm order this state is:', this.state)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
     // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
   }
+  updateAddress (e) {
+    e.preventDefault()
+    this.setState({address: e.target.value})
+  }
   handleOrderSubmit () {
-    let addr = this.refs.customAddress.input.value
-      ? this.refs.customAddress.input.value
+    let addr = this.state.address.length
+      ? this.state.address
       : this.props.user.name
     // TotalPrice stored as cents in db.
     this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id, (this.props.orderTotalPrice * 100), addr))
@@ -53,8 +60,8 @@ class ConfirmOrder extends React.Component {
                     floatingLabelText='Add custom shipping address'
                     multiLine={true}
                     rows={3}
-                    ref='customAddress' />
-                  <RaisedButton type='submit' label='Save Custom Address' primary />
+                    ref='customAddress'
+                    onChange={this.updateAddress} />
                 </Tab>
               </Tabs>
             </div>

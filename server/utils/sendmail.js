@@ -32,9 +32,11 @@ const sendmail = (order) => {
     .forEach(sock => (
       html += renderToString(<ConfirmSock sock={sock} key={sock.styleID} />)
     ))
-  html += `<div>Shipping to:</div>
-          <div>${order.address}</div>
-          <div>Thank you for your business</div>`
+  html += `<div>Shipping to:</div>`
+  order.address.split(',')
+    .map(line => `<div>${line}</div>`)
+    .forEach(line => { html += line })
+  html += `<div>Thank you for your business!</div>`
   mailOptions.html = html
 
   // send mail with defined transport object
