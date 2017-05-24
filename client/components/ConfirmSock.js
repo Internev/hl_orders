@@ -24,15 +24,15 @@ const ConfirmSock = ({sock}) => (
           })
           .map(colour => (
             <tr key={colour.colourID}>
-              <td>{colour.colourID}: {colour.colourName}</td>
-              <td>{colour.patternID > 0
+              <td style={{ textAlign: 'center' }}>{colour.colourID}: {colour.colourName}</td>
+              <td style={{ textAlign: 'center' }}>{colour.patternID > 0
                   ? colour.patternID + ': ' + colour.patternName
                   : ''}</td>
-              <td>{colour.smallAmt}</td>
-              <td>{colour.regularAmt}</td>
-              <td>{colour.kingAmt}</td>
-              <td>${sock.price.toFixed(2)}</td>
-              <td>${((colour.smallAmt + colour.regularAmt + colour.kingAmt) * sock.price).toFixed(2)}</td>
+              <td style={{ textAlign: 'center' }}>{colour.smallAmt}</td>
+              <td style={{ textAlign: 'center' }}>{colour.regularAmt}</td>
+              <td style={{ textAlign: 'center' }}>{colour.kingAmt}</td>
+              <td style={{ textAlign: 'center' }}>${sock.price.toFixed(2)}</td>
+              <td style={{ textAlign: 'center' }}>${((colour.smallAmt + colour.regularAmt + colour.kingAmt) * sock.price).toFixed(2)}</td>
             </tr>
         ))}
       </tbody>

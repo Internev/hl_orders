@@ -13,9 +13,9 @@ let transporter = nodemailer.createTransport(config.mail)
 let mailOptions = {
   from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>', // sender address
   to: 'nchallinger@gmail.com', // list of receivers
-  subject: 'Hello ✔', // Subject line
-  text: 'Hello world ?', // plain text body
-  html: '<b>Hello world ?</b>', // html body
+  subject: 'Humphrey Law Order Confirmation', // Subject line
+  text: 'Humphrey Law Order Confirmation', // plain text body
+  html: '<b>Humphrey Law Order Confirmation</b>', // html body
   attachments: [
     {
       filename: 'text1.txt',
@@ -25,13 +25,16 @@ let mailOptions = {
 }
 
 const sendmail = (order) => {
-  let html
+  let html = '<div>This email confirms your sock order with Humphrey Law, you ordered:</div>'
   // console.log(Array.isArray(order.order))
   order.order
     .filter(sock => sock.totalAmt)
     .forEach(sock => (
       html += renderToString(<ConfirmSock sock={sock} key={sock.styleID} />)
     ))
+  html += `<div>Shipping to:</div>
+          <div>${order.address}</div>
+          <div>Thank you for your business</div>`
   mailOptions.html = html
 
   // send mail with defined transport object

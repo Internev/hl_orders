@@ -93,7 +93,7 @@ export const parseStoreGeo = (csv) => {
 export const parseCustomers = (csv) => {
   let rows = csv.split(/\r\n/)
   rows.shift()
-  return rows.map(c => {
+  return rows.filter(c => c.customerid !== '').map(c => {
     return {
       name: c.substring(c.indexOf(',') + 1, c.lastIndexOf(',')),
       password: c.substring(0, 6),
