@@ -8,6 +8,7 @@ import { loginUser } from './redux/authCreators'
 
 const LoginPage = React.createClass({
   componentDidUpdate () {
+    console.log('loginpage props:', this.props)
     if (this.props.auth.success) {
       browserHistory.push('/')
     }
@@ -34,7 +35,7 @@ const LoginPage = React.createClass({
               floatingLabelText='Email'
               name='email'
               ref='email'
-              errorText={this.props.auth.errors.email}
+              errorText={this.props.auth.errors && this.props.auth.errors.email ? this.props.auth.errors.email : ''}
             />
           </div>
 
@@ -44,7 +45,7 @@ const LoginPage = React.createClass({
               type='password'
               name='password'
               ref='password'
-              errorText={this.props.auth.errors.password}
+              errorText={this.props.auth.errors && this.props.auth.errors.password ? this.props.auth.errors.password : ''}
             />
           </div>
 

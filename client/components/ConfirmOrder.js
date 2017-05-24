@@ -21,8 +21,11 @@ class ConfirmOrder extends React.Component {
     // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
   }
   handleOrderSubmit () {
+    let addr = this.refs.customAddress.input.value
+      ? this.refs.customAddress.input.value
+      : this.props.user.name
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id, (this.props.orderTotalPrice * 100)))
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id, (this.props.orderTotalPrice * 100), addr))
   }
   render () {
     return (

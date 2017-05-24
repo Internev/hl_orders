@@ -67,12 +67,12 @@ function receiveLogin (data) {
   }
 }
 
-function loginError (msg) {
+function loginError (data) {
   return {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
-    msg
+    data
   }
 }
 
@@ -86,8 +86,8 @@ export function loginUser (creds) {
         return dispatch(receiveLogin(res.data))
       })
       .catch(err => {
-        console.log('loginUser auth error:', err)
-        if (err) return dispatch(loginError(err.respose.data))
+        console.log('loginUser auth error:', err.response.data)
+        if (err) return dispatch(loginError(err.response.data))
       })
   }
 }

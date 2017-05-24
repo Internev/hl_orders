@@ -172,7 +172,7 @@ const loginError = (state, action) => {
   const update = {
     isFetching: action.isFetching,
     isAuthenticated: action.isAuthenticated,
-    auth: action.msg
+    auth: action.data
   }
   const newState = {...state, ...update}
   return newState
