@@ -1,20 +1,11 @@
-- make sock component properly. DONE
-- Check DB for orderform on dashboard load. (need route etc) DONE
-- Have totals on sock component, and overall one on orderform. Can all be part of the orderform reducer I think. DONE
-- Submit Order:
-  - Summary of order (also for email). Mostly Done
-  - Confirm Submit>> Need to do redux/db writing. Mostly Done
-  - Write to user DB as an order (linked to user?) Mostly Done
-- import customer csv
 - default customer to 'fresh: true', can be reset to this so signup page allows new password.
 - change signup page to be 'register password' or something.
 - get geolocation?
   started: redux basics done, backend retrieval underway.
-- squarespace: overlay text on image. (done-ish)
+
 - Tidy up the toolbar: radmin link for admins etc. Mostly Done
 - Admin check for /radmin path
 - Style it!
   - Msgs brighter plus fadeout.
-- Why do admin buttons only work once? Fixed!
 - Add csv and order to HL email functionality.
 - Add recent orders to radmin?

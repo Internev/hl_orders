@@ -32,7 +32,7 @@ class ConfirmOrder extends React.Component {
       ? this.state.address
       : this.props.user.name
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id, (this.props.orderTotalPrice * 100), addr))
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id, (this.props.orderTotalPrice * 100), addr, this.props.user.customerid))
   }
   render () {
     return (

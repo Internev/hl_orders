@@ -98,12 +98,12 @@ export function updateTotals () {
   }
 }
 
-export function saveOrder (order, userId, totalPrice, addr) {
+export function saveOrder (order, userId, totalPrice, addr, customerid) {
   return dispatch => {
     const config = {
       headers: {'authorization': localStorage.getItem('id_token')}
     }
-    axios.post('/api/order', {order, userId, totalPrice, addr}, config)
+    axios.post('/api/order', {order, userId, totalPrice, addr, customerid}, config)
       .then(res => {
         dispatch(saveOrderSuccess(res.data))
         console.log('response from saveorder:', res)

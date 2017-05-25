@@ -1,17 +1,11 @@
 const express = require('express')
 const { Order, Storedorder } = require('../models/db')
-const {sendmail} = require('../utils/sendmail')
+const { customerEmail, factoryEmail } = require('../utils/sendmail')
 const axios = require('axios')
 const config = require('../../config')
 const { User, genHash } = require('../models/db')
 
 const router = new express.Router()
-
-// router.get('/dashboard', (req, res) => {
-//   res.status(200).json({
-//     message: "You're authorized to see this secret message."
-//   })
-// })
 
 router.post('/order', (req, res) => {
   console.log('dashboard POST for order, requestbody:', req.body)
@@ -23,7 +17,8 @@ router.post('/order', (req, res) => {
   })
     .then(order => {
       console.log('order written to db:', order)
-      sendmail(order)
+      // customerEmail(order)
+      factoryEmail(order, req.body.customerid)
       res.json({
         message: 'Order received, thank you.',
         order: order
@@ -89,39 +84,24 @@ router.post('/store-geo', (req, res) => {
 })
 
 router.post('/customers', (req, res) => {
-  console.log('customers hit, req.body:', req.body)
   for (let i = 0; i < req.body.length; i++) {
     let c = req.body[i]
     c.password = genHash(c.password)
     if (c.customerid.length === 0) continue
-    console.log('about to upsert:', c)
     User.upsert(c)
       .then(result => {
         console.log('\n********\nupsert result:', result, '\n********\n')
+        res.status(200).json({
+          message: 'Customer List Updated.'
+        })
       })
       .catch(err => {
         console.log('\n********\nupsert err:', err, '\n********\n')
+        res.status(500).json({
+          message: `Customer List Upload failed with error: ${err}`
+        })
       })
-    // User.findCreateFind({where: {customerid: c.customerid}, defaults: c})
-    //   .spread((user, created) => {
-    //     console.log('\n********\nfindCreateFind created:', created, '\n********\n')
-    //     if (!created) {
-    //       User.update({where: {customerid: c.customerid}, defaults: c})
-    //         .then(user => {
-    //           console.log('User updated, response:', user)
-    //         })
-    //         .catch(err =>{
-    //           if (err) console.log('User update failed, err:', err)
-    //         })
-    //     }
-    //   })
-    //   .catch(err => {
-    //     if (err) console.log('\n********\nfindCreateFind error:', err, '\n********\n')
-    //   })
   }
-  res.status(200).json({
-    message: 'Customer List Updated.'
-  })
 })
 
 module.exports = router
