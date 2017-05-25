@@ -17,10 +17,9 @@ const Radmin = React.createClass({
     let reader = new FileReader()
     reader.onload = (file) => {
       uploadStoreGeo(parseStoreGeo(file.target.result))
-
-      // this.props.dispatch(importFeeds(OPMLParse(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
+    this.storeGeo.value = null
   },
   uploadOrderForm (e) {
     let reader = new FileReader()
@@ -28,16 +27,16 @@ const Radmin = React.createClass({
       this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
+    this.orderInput.value = null
   },
   uploadCustomers (e) {
-    // console.log('uploading customers...')
+    e.preventDefault()
     let reader = new FileReader()
     reader.onload = (file) => {
-      console.log('customers file target:', file.target.result)
       this.props.dispatch(uploadCustomers(parseCustomers(file.target.result)))
-      // this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
+    this.customerUpload.value = null
   },
   render () {
     return (

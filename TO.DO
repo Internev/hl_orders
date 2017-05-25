@@ -14,5 +14,7 @@
 - Tidy up the toolbar: radmin link for admins etc. Mostly Done
 - Admin check for /radmin path
 - Style it!
-- Why do admin buttons only work once?
+  - Msgs brighter plus fadeout.
+- Why do admin buttons only work once? Fixed!
 - Add csv and order to HL email functionality.
+- Add recent orders to radmin?
