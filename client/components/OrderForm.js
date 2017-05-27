@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link, browserHistory } from 'react-router'
-import { Card, CardText } from 'material-ui/Card'
-import {GridList, GridTile} from 'material-ui/GridList'
+import { browserHistory } from 'react-router'
+import { Card } from 'material-ui/Card'
+import { GridList } from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Sock from './Sock'
@@ -26,7 +26,7 @@ class OrderForm extends React.Component {
     }
   }
   handleFormSubmit (sock, colour, amount, size, index) {
-    console.log('sock size updated, sock:', sock, '\ncolour:', colour, '\namount:', amount, '\nsize:', size, '\nindex:', index)
+    // console.log('sock size updated, sock:', sock, '\ncolour:', colour, '\namount:', amount, '\nsize:', size, '\nindex:', index)
     colour[size] = parseInt(amount) || 0
     sock.colours[index] = colour
     sock.totalAmt = sock.colours.reduce((memo, colour) => {
@@ -47,36 +47,41 @@ class OrderForm extends React.Component {
   render () {
     return (
       <div>
-      <Card className='container'>
-        <h2 className='card-heading'>Humphrey Law Order Form</h2>
-        <TextField id='filterSocks' onChange={e => this.handleLiveSearch(e)} placeholder='Filter Socks' />
-        { this.props.orderForm.length > 0
-        ? <GridList cellHeight={'auto'}>
-          {this.props.orderForm
-            .filter(sock =>
-              !this.props.searchTerm
-              ? true
-              : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0)
-            .map(sock => (<Sock sock={sock} handleFormSubmit={this.handleFormSubmit} key={sock.styleID} />)
-            )}
-        </GridList>
-        : <div /> }
-      </Card>
-      <div className='bottom-bar-padding' />
-      {this.props.orderTotalAmt
-        ? <div className='bottom-bar'>
-          <div className='bottom-bar-left'>
-            <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+        <Card className='container'>
+          <h2 className='card-heading'>Humphrey Law Order Form</h2>
+          <TextField
+            id='filterSocks'
+            onChange={e => this.handleLiveSearch(e)}
+            placeholder='Filter Socks'
+            value={this.props.searchTerm}
+            />
+          { this.props.orderForm.length > 0
+          ? <GridList cellHeight={'auto'}>
+            {this.props.orderForm
+              .filter(sock =>
+                !this.props.searchTerm
+                ? true
+                : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0)
+              .map(sock => (<Sock sock={sock} handleFormSubmit={this.handleFormSubmit} key={sock.styleID} />)
+              )}
+          </GridList>
+          : <div /> }
+        </Card>
+        <div className='bottom-bar-padding' />
+        {this.props.orderTotalAmt
+          ? <div className='bottom-bar'>
+            <div className='bottom-bar-left'>
+              <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+            </div>
+            <div className='bottom-bar-right'>
+              <RaisedButton
+                label='Submit Order'
+                onClick={this.handleOrderSubmit}
+                />
+            </div>
           </div>
-          <div className='bottom-bar-right'>
-            <RaisedButton
-              label='Submit Order'
-              onClick={this.handleOrderSubmit}
-              />
-          </div>
-        </div>
-        : <div />
-      }
+          : <div />
+        }
       </div>
     )
   }

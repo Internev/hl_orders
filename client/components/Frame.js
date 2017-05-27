@@ -8,7 +8,7 @@ class Frame extends React.Component {
   }
 
   componentDidUpdate () {
-    console.log('frame updated, props:', this.props, 'localStorage:', localStorage.getItem('id_token'))
+    // console.log('frame updated, props:', this.props, 'localStorage:', localStorage.getItem('id_token'))
   }
   render () {
     return (

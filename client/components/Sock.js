@@ -33,7 +33,7 @@ const Sock = ({sock, handleFormSubmit}) => (
                     className='order-input'
                     type='number'
                     min='0'
-
+                    value={colour[size] === 0 ? '' : colour[size]}
                     onChange={(e) => handleFormSubmit(sock, colour, e.target.value, size, index)}
                     />
                 </td>

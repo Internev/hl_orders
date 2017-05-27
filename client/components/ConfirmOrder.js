@@ -51,7 +51,7 @@ class ConfirmOrder extends React.Component {
               Shipping to:
               <Tabs>
                 <Tab label='Default Address'>
-                  { this.props.user.name.split(',').map(line => <div>{line}</div>) }
+                  { this.props.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
                 </Tab>
                 <Tab label='Custom Address'>
                   <TextField
