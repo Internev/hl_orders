@@ -2,7 +2,7 @@
 - change signup page to be 'register password' or something.
 - get geolocation?
   started: redux basics done, backend retrieval underway.
-
+- Handle weird socks: children's sizes etc.
 - Tidy up the toolbar: radmin link for admins etc. Mostly Done
 - Admin check for /radmin path
 - Style it!
