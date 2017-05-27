@@ -17,7 +17,7 @@ router.post('/order', (req, res) => {
   })
     .then(order => {
       console.log('order written to db:', order)
-      // customerEmail(order)
+      customerEmail(order)
       factoryEmail(order, req.body.customerid)
       res.json({
         message: 'Order received, thank you.',

@@ -8,4 +8,5 @@
 - Style it!
   - Msgs brighter plus fadeout.
 - Add csv and order to HL email functionality.
+  - add proper usage of email address from user obj
 - Add recent orders to radmin?
