@@ -16,9 +16,9 @@ const Sock = ({sock, handleFormSubmit}) => (
             <th>Colour ID</th>
             <th>Colour Name</th>
             <th>Pattern</th>
-            <th>Small</th>
-            <th>Reg</th>
-            <th>King</th>
+            {sock.sizes.map(size => (
+              <th key={size}>{size}</th>
+            ))}
           </tr>
           {sock.colours.map((colour, index) => (
             <tr key={index}>
@@ -26,33 +26,19 @@ const Sock = ({sock, handleFormSubmit}) => (
               <td>{colour.colourName}</td>
               {colour.patternName !== 'NONE'
                 ? <td>{colour.patternID} - {colour.patternName}</td> : <td />}
-              {colour.small
-                ? <td><input
-                  className='order-input'
-                  type='number'
-                  min='0'
-                  value={colour.smallAmt === 0 ? '' : colour.smallAmt}
-                  onChange={(e) => handleFormSubmit(sock, colour, e.target.value, 'smallAmt', index)}
-                /></td>
-                : <td />}
-              {colour.regular
-                ? <td><input
-                  className='order-input'
-                  type='number'
-                  min='0'
-                  value={colour.regularAmt === 0 ? '' : colour.regularAmt}
-                  onChange={(e) => handleFormSubmit(sock, colour, e.target.value, 'regularAmt', index)}
-                /></td>
-                : <td />}
-              {colour.king
-                ? <td><input
-                  className='order-input'
-                  type='number'
-                  min='0'
-                  value={colour.kingAmt === 0 ? '' : colour.kingAmt}
-                  onChange={(e) => handleFormSubmit(sock, colour, e.target.value, 'kingAmt', index)}
-                /></td>
-                : <td />}
+              {sock.sizes.map(size => (
+                colour.hasOwnProperty(size)
+                ? <td key={size}>
+                  <input
+                    className='order-input'
+                    type='number'
+                    min='0'
+
+                    onChange={(e) => handleFormSubmit(sock, colour, e.target.value, size, index)}
+                    />
+                </td>
+                : <td key={size} />
+            ))}
             </tr>
         ))}
         </tbody>

@@ -26,10 +26,13 @@ class OrderForm extends React.Component {
     }
   }
   handleFormSubmit (sock, colour, amount, size, index) {
+    console.log('sock size updated, sock:', sock, '\ncolour:', colour, '\namount:', amount, '\nsize:', size, '\nindex:', index)
     colour[size] = parseInt(amount) || 0
     sock.colours[index] = colour
     sock.totalAmt = sock.colours.reduce((memo, colour) => {
-      memo += colour.smallAmt + colour.regularAmt + colour.kingAmt
+      sock.sizes.forEach(size => {
+        if (colour.hasOwnProperty(size)) memo += colour[size]
+      })
       return memo
     }, 0)
     this.props.dispatch(updateOrder(sock))
