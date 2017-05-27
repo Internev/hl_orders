@@ -1,4 +1,5 @@
 export const parseOrderForm = (csv) => {
+  console.log('parsing order form now...\n********')
   let socks = csv.split(/\n/).map(item => item.split(','))
   socks.shift()
   let orderObj = {}
@@ -22,35 +23,28 @@ export const parseOrderForm = (csv) => {
     orderObj[style].desc = item[1]
     orderObj[style].price = Number(item[6])
     orderObj[style].totalAmt = 0
-
     if (!orderObj[style].colours) orderObj[style].colours = []
+    if (!orderObj[style].sizes) orderObj[style].sizes = []
+    if (!orderObj[style].sizes.includes(item[0])) orderObj[style].sizes.push(item[0])
 
     let ind = orderObj[style].colours.reduce((memo, val, index) => {
       return val.colourID === item[2] ? index : memo
     }, -1)
+
+    // colourObj has size (full styleID), init to 0. Then can check its present, and just add size to it.
 
     if (ind === -1) {
       let colourObj = {
         colourID: item[2],
         colourName: item[3],
         patternID: item[4],
-        patternName: item[5],
-        small: false,
-        regular: false,
-        king: false,
-        smallAmt: 0,
-        regularAmt: 0,
-        kingAmt: 0
+        patternName: item[5]
       }
-      if (item[0].charAt(4) === '5') colourObj.small = true
-      if (item[0].charAt(4) === '7') colourObj.regular = true
-      if (item[0].charAt(4) === '0') colourObj.king = true
+      colourObj[item[0]] = 0
       orderObj[style].colours.push(colourObj)
     } else {
       let colour = orderObj[style].colours[ind]
-      if (item[0].charAt(4) === '5') colour.small = true
-      if (item[0].charAt(4) === '7') colour.regular = true
-      if (item[0].charAt(4) === '0') colour.king = true
+      colour[item[0]] = 0
     }
   })
 
@@ -63,6 +57,7 @@ export const parseOrderForm = (csv) => {
     return a.styleID.slice(0, 3) > b.styleID.slice(0, 3) ? 1 : -1
   })
   orderForm.shift() // ? Get rid of empty result
+  console.log('orderForm with new stuff!', orderForm)
   return orderForm
 }
 
