@@ -105,6 +105,7 @@ const htmlFromOrder = (order) => {
     .forEach(sock => {
       html += renderToString(<ConfirmSock sock={sock} key={sock.styleID} />)
     })
+  html += `<div>Total Price: $${(order.totalPrice / 100).toFixed(2)}`
   html += `<div>Shipping to:</div>`
   order.address.split(',')
     .map(line => `<div>${line}</div>`)
