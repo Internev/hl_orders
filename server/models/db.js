@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
 const bcrypt = require('bcrypt')
+const config = require('../../config')
 
-const dbUrl = process.env.RDS_CONNECTION_URL || 'postgres://n:hush@localhost/hl_orders'
+const dbUrl = config.db
 
 const db = new Sequelize(dbUrl)
 
