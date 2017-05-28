@@ -24,9 +24,7 @@ const ConfirmSock = ({sock}) => (
               return false
             })
           })
-          .map(colour => {
-            console.log('mapped colour here:', colour)
-            return (
+          .map(colour => (
             <tr key={colour.colourID}>
               <td style={{ textAlign: 'center' }}>{colour.colourID}: {colour.colourName}</td>
               <td style={{ textAlign: 'center' }}>{colour.patternID > 0
@@ -46,7 +44,7 @@ const ConfirmSock = ({sock}) => (
                   }, 0) * sock.price).toFixed(2)}
               </td>
             </tr>
-        )})}
+        ))}
       </tbody>
     </table>
   </div>

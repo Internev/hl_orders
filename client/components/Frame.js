@@ -20,15 +20,15 @@ class Frame extends React.Component {
           </div>
 
           { this.props.isAuthenticated ? (
-              <div className='top-bar-right'>
-                <span>Welcome {this.props.user.name}, email: {this.props.user.email}, id: {this.props.user.id}, {this.props.user.admin ? 'true' : 'false'}</span>
-                <Link to='/logout'>Log out</Link>
-              </div>
-            ) : (
-              <div className='top-bar-right'>
-                <Link to='/login'>Log in</Link>
-              </div>
-            )
+            <div className='top-bar-right'>
+              <span>Welcome, {this.props.user.name.slice(0, this.props.user.name.indexOf(','))}.</span>
+              <Link to='/logout'>Log out</Link>
+            </div>
+          ) : (
+            <div className='top-bar-right'>
+              <Link to='/login'>Log in</Link>
+            </div>
+          )
         }
 
         </div>

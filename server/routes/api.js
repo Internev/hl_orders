@@ -11,13 +11,13 @@ router.post('/order', (req, res) => {
   console.log('dashboard POST for order, requestbody:', req.body)
   Order.create({
     order: req.body.order,
-    userId: req.body.userId,
+    userId: req.body.id,
     totalPrice: req.body.totalPrice,
     address: req.body.addr
   })
     .then(order => {
       console.log('order written to db:', order)
-      customerEmail(order)
+      customerEmail(order, req.body.email)
       factoryEmail(order, req.body.customerid)
       res.json({
         message: 'Order received, thank you.',

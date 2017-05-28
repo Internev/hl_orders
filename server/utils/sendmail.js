@@ -12,19 +12,19 @@ let transporter = nodemailer.createTransport(config.mail)
 // setup email data with unicode symbols
 let mailOptions = {
   from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>', // sender address
-  to: 'nchallinger@gmail.com', // list of receivers
   subject: 'Humphrey Law Order Confirmation', // Subject line
   text: 'Humphrey Law Order Confirmation', // plain text body
   html: '<b>Humphrey Law Order Confirmation</b>' // html body
 }
 
-const customerEmail = (order) => {
+const customerEmail = (order, email) => {
   let html = '<div>This email confirms your sock order with Humphrey Law, you ordered:</div>'
   // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
   html += `<div>Thank you for your business!</div>`
 
   mailOptions.html = html
+  mailOptions.to = email
 
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
@@ -43,6 +43,7 @@ const factoryEmail = (order, customerid) => {
   html += `<div>A CSV of this order is attached to this email.</div>`
 
   mailOptions.html = html
+  mailOptions.to = config.factoryEmail
   mailOptions.attachments = [
     {
       filename: `${customerid} Order.csv`,

@@ -17,7 +17,7 @@ class ConfirmOrder extends React.Component {
     this.state = {address: ''}
   }
   componentDidUpdate () {
-    console.log('confirm order this state is:', this.state)
+    console.log('confirm order this props is:', this.props)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
@@ -32,7 +32,7 @@ class ConfirmOrder extends React.Component {
       ? this.state.address
       : this.props.user.name
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user.id, (this.props.orderTotalPrice * 100), addr, this.props.user.customerid))
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), addr))
   }
   render () {
     return (
