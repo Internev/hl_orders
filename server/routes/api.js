@@ -84,6 +84,7 @@ router.post('/store-geo', (req, res) => {
 })
 
 router.post('/customers', (req, res) => {
+  let error
   for (let i = 0; i < req.body.length; i++) {
     let c = req.body[i]
     c.password = genHash(c.password)
@@ -91,18 +92,22 @@ router.post('/customers', (req, res) => {
     User.upsert(c)
       .then(result => {
         console.log('\n********\nupsert result:', result, '\n********\n')
-        return res.status(200).json({
-          message: 'Customer List Updated.'
-        })
       })
       .catch(err => {
         console.log('\n********\nupsert err:', err, '\n********\n')
         if (err) {
-          return res.status(500).json({
-            message: `Customer List Upload failed with error: ${err}`
-          })
+          error = err
         }
       })
+  }
+  if (error) {
+    res.status(500).json({
+      message: error
+    })
+  } else {
+    res.status(200).json({
+      message: 'Customer List Updated.'
+    })
   }
 })
 
