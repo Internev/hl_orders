@@ -91,15 +91,17 @@ router.post('/customers', (req, res) => {
     User.upsert(c)
       .then(result => {
         console.log('\n********\nupsert result:', result, '\n********\n')
-        res.status(200).json({
+        return res.status(200).json({
           message: 'Customer List Updated.'
         })
       })
       .catch(err => {
         console.log('\n********\nupsert err:', err, '\n********\n')
-        res.status(500).json({
-          message: `Customer List Upload failed with error: ${err}`
-        })
+        if (err) {
+          return res.status(500).json({
+            message: `Customer List Upload failed with error: ${err}`
+          })
+        }
       })
   }
 })
