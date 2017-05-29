@@ -2,7 +2,7 @@ const express = require('express')
 const { Order, Storedorder } = require('../models/db')
 const { customerEmail, factoryEmail } = require('../utils/sendmail')
 const axios = require('axios')
-const config = require('../../config')
+// const config = require('../../config')
 const { User, genHash } = require('../models/db')
 
 const router = new express.Router()
