@@ -10,7 +10,7 @@ const Sock = ({sock, handleFormSubmit}) => (
       {sock.desc}
     </div>
     <form>
-      <table>
+      <table style={{ borderCollapse: 'collapse' }}>
         <tbody>
           <tr>
             <th>Colour ID</th>
@@ -41,6 +41,19 @@ const Sock = ({sock, handleFormSubmit}) => (
             ))}
             </tr>
         ))}
+          {sock.totalAmt > 0
+          ? <tr>
+            <td colSpan={2} style={{ borderTop: '1px solid grey' }}>Subtotal:</td>
+            <td style={{ borderTop: '1px solid grey' }} />
+            {sock.sizes.map(size => (
+              <td key={size} style={{ textAlign: 'center', borderTop: '1px solid grey' }}>{sock.colours.reduce((memo, colour) => {
+                if (colour.hasOwnProperty(size)) memo += colour[size]
+                return memo
+              }, 0)}</td>
+            ))}
+          </tr>
+          : ''
+          }
         </tbody>
       </table>
     </form>
