@@ -36,7 +36,7 @@ const customerEmail = (order, email) => {
   return '250'
 }
 
-const factoryEmail = (order, customerid) => {
+const factoryEmail = (order, customer, totalAmt) => {
   let html = '<div>A new customer order has been made, the order is:</div>'
   // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
@@ -46,8 +46,8 @@ const factoryEmail = (order, customerid) => {
   mailOptions.to = config.factoryEmail
   mailOptions.attachments = [
     {
-      filename: `${customerid} Order.csv`,
-      content: csvFromOrder(order, customerid)
+      filename: `${customer.customerid} Order.csv`,
+      content: csvFromOrder(order, customer, totalAmt)
     }
   ]
   // send mail with defined transport object
@@ -60,16 +60,16 @@ const factoryEmail = (order, customerid) => {
   return '250'
 }
 
-const csvFromOrder = (order, customerid) => {
-  let csv = ''
+const csvFromOrder = (order, customer, totalAmt) => {
+  // filter by sock, then also by size before outputting to csv.
+  let csv = `Date Ordered, Style Number, Pattern, Colour/Pattern, Quantity, Unit Price, Line Total, Order Total, Shipping Costs, Order Grand Total, Total Pair, Store Name, Store Address 1, Store Address 2, Store Address 3, Store Address 4, Customer Name, Delivery Address, Customer Code, Web Order Number, Do Not Deliver Before, Do Not Deliver After, Reference Number, Comments\n`
+  let shipping = 0
+  let day = order.updatedAt.getDate() < 10 ? '0' + order.updatedAt.getDate() : '' + order.updatedAt.getDate()
+  let month = (order.updatedAt.getMonth() + 1) < 10 ? '0' + (order.updatedAt.getMonth() + 1) : '' + (order.updatedAt.getMonth() + 1)
+  let orderDate = `${day}/${month}/${order.updatedAt.getFullYear()}`
   order.order
     .filter(sock => sock.totalAmt)
     .forEach(sock => {
-      csv += `StyleID, ColourID, PatternID, `
-      sock.sizes.forEach(size => {
-        csv += `${size}, `
-      })
-      csv += `Price, Total\n`
       sock.colours
       .filter(colour => {
         return sock.sizes.some(size => {
@@ -80,21 +80,15 @@ const csvFromOrder = (order, customerid) => {
         })
       })
       .forEach(colour => {
-        csv += `${sock.styleID}, ${colour.colourID}, ${colour.patternID}, `
         sock.sizes.forEach(size => {
-          if (colour.hasOwnProperty(size)) {
-            csv += `${colour[size]}, `
+          if (colour.hasOwnProperty(size) && colour[size] > 0) {
+            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalPrice / 100}, ${shipping}, ${(order.totalPrice / 100) + shipping}, ${totalAmt}, ${customer.name}, ${customer.name.slice(0, customer.name.indexOf(','))}, ${order.address.replace(/,/g, ' ')}, ${customer.customerid}, WebOrderNumber, deliverbefore, deliverafter, refNum, comments\n`
           }
         })
-        csv += `${sock.price.toFixed(2)}, ${(
-          sock.sizes.reduce((memo, size) => {
-            if (colour.hasOwnProperty(size)) memo += colour[size]
-            return memo
-          }, 0) * sock.price).toFixed(2)}\n`
       })
     })
   csv += `Total Price:, ${order.totalPrice / 100}\n\n`
-  csv += `CustomerID:, ${customerid}\nShipping Address:\n${order.address}\n`
+  csv += `CustomerID:, ${customer.customerid}\nShipping Address:\n${order.address}\n`
   return csv
 }
 

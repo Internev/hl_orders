@@ -8,17 +8,17 @@ const { User, genHash } = require('../models/db')
 const router = new express.Router()
 
 router.post('/order', (req, res) => {
-  console.log('dashboard POST for order, requestbody:', req.body)
+  // console.log('dashboard POST for order, requestbody \n*****\nCUSTOMER:', req.body.customer)
   Order.create({
     order: req.body.order,
-    userId: req.body.id,
+    userId: req.body.customer.id,
     totalPrice: req.body.totalPrice,
     address: req.body.addr
   })
     .then(order => {
       console.log('order written to db:', order)
-      customerEmail(order, req.body.email)
-      factoryEmail(order, req.body.customerid)
+      customerEmail(order, req.body.customer.email)
+      factoryEmail(order, req.body.customer, req.body.totalAmt)
       res.json({
         message: 'Order received, thank you.',
         order: order

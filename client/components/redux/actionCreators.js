@@ -98,7 +98,7 @@ export function updateTotals () {
   }
 }
 
-export function saveOrder (order, { id, customerid, email }, totalPrice, addr) {
+export function saveOrder (order, customer, totalPrice, totalAmt, addr) {
   return dispatch => {
     const config = {
       headers: {'authorization': localStorage.getItem('id_token')}
@@ -106,7 +106,7 @@ export function saveOrder (order, { id, customerid, email }, totalPrice, addr) {
     // const userId = user.id
     // const customerid = user.customerid
     // const email = user.email
-    axios.post('/api/order', {order, id, totalPrice, addr, customerid, email}, config)
+    axios.post('/api/order', {order, customer, totalPrice, totalAmt, addr}, config)
       .then(res => {
         dispatch(saveOrderSuccess(res.data))
         console.log('response from saveorder:', res)
