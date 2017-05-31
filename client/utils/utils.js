@@ -11,11 +11,13 @@ export const parseOrderForm = (csv) => {
     } else if (orderObj[style].desc !== item[1]) {
       if (/.*[Ll]adies/.test(item[1])) {
         style = item[0]
+        if (/L7/g.test(item[0])) style = item[0].slice(0, 3) + '05'
         if (!orderObj[style]) {
           orderObj[style] = {}
         }
       } else if (/.*[Ll]adies/.test(orderObj[style].desc)) {
-        orderObj[item[0]] = orderObj[style]
+        const ladyStyle = orderObj[style].sizes[0]
+        orderObj[ladyStyle] = orderObj[style]
         orderObj[style] = {}
       }
     }
@@ -46,6 +48,7 @@ export const parseOrderForm = (csv) => {
       let colour = orderObj[style].colours[ind]
       colour[item[0]] = 0
     }
+    console.log('Loop finished, orderObj = ', orderObj)
   })
 
   let orderForm = []
