@@ -12,8 +12,8 @@ const ConfirmSock = ({sock}) => (
           {sock.sizes.map(size => (
             <th key={size}>{size}</th>
           ))}
-          <th width='15%'>Unit Price</th>
-          <th width='15%'>Total</th>
+          <th width='15%'>Unit Price exGST</th>
+          <th width='15%'>Total exGST</th>
         </tr>
         {sock.colours
           .filter(colour => {

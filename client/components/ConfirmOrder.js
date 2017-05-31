@@ -46,7 +46,7 @@ class ConfirmOrder extends React.Component {
               <ConfirmSock sock={sock} key={sock.styleID} />
             ))}
           <div>
-            <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+            <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</h2>
             <div>
               Shipping to:
               <Tabs>

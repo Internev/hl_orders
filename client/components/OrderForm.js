@@ -71,7 +71,7 @@ class OrderForm extends React.Component {
         {this.props.orderTotalAmt
           ? <div className='bottom-bar'>
             <div className='bottom-bar-left'>
-              <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)}</h2>
+              <h2>{this.props.orderTotalAmt} Socks in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</h2>
             </div>
             <div className='bottom-bar-right'>
               <RaisedButton
