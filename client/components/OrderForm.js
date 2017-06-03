@@ -47,27 +47,29 @@ class OrderForm extends React.Component {
   render () {
     return (
       <div>
-        <Card className='container'>
-          <h2 className='card-heading'>Humphrey Law Order Form</h2>
-          <TextField
-            id='filterSocks'
-            onChange={e => this.handleLiveSearch(e)}
-            placeholder='Filter Socks'
-            value={this.props.searchTerm}
-            />
-          { this.props.orderForm.length > 0
-          ? <GridList cellHeight={'auto'}>
-            {this.props.orderForm
-              .filter(sock =>
-                !this.props.searchTerm
-                ? true
-                : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0)
-              .map(sock => (<Sock sock={sock} handleFormSubmit={this.handleFormSubmit} key={sock.styleID} />)
-              )}
-          </GridList>
-          : <div /> }
-        </Card>
-        <div className='bottom-bar-padding' />
+        <div className={this.props.orderTotalAmt ? 'content bottom-bar-padding' : 'content'}>
+          <Card className='container'>
+            <h2 className='card-heading'>Humphrey Law Order Form</h2>
+            <TextField
+              id='filterSocks'
+              onChange={e => this.handleLiveSearch(e)}
+              placeholder='Filter Socks'
+              value={this.props.searchTerm}
+              />
+            { this.props.orderForm.length > 0
+            ? <GridList cellHeight={'auto'}>
+              {this.props.orderForm
+                .filter(sock =>
+                  !this.props.searchTerm
+                  ? true
+                  : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0)
+                .map(sock => (<Sock sock={sock} handleFormSubmit={this.handleFormSubmit} key={sock.styleID} />)
+                )}
+            </GridList>
+            : <div /> }
+          </Card>
+        </div>
+
         {this.props.orderTotalAmt
           ? <div className='bottom-bar'>
             <div className='bottom-bar-left'>

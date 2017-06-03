@@ -55,7 +55,7 @@ tr:nth-child(even) {
   text-align: center;
   left: 0px;
   bottom: 0px;
-  height: 4em;
+  height: 64px;
   width: 100%;
   color: #00bcd4;
   background: #FFF;
@@ -63,7 +63,8 @@ tr:nth-child(even) {
 }
 
 .bottom-bar-padding {
-  height: 4.5em;
+  height: calc(100vh - 164px);
+  overflow: auto;
 }
 
 .bottom-bar-left {
@@ -82,6 +83,10 @@ tr:nth-child(even) {
   text-align: center;
   max-width: 1000px;
   padding: .5em;
+}
+
+.content {
+  width: 100%;
 }
 
 .card-heading {
