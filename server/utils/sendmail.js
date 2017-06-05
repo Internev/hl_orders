@@ -85,13 +85,13 @@ const csvFromOrder = (order, customer, totalAmt) => {
       .forEach(colour => {
         sock.sizes.forEach(size => {
           if (colour.hasOwnProperty(size) && colour[size] > 0) {
-            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalPrice / 100}, ${shipping}, ${(order.totalPrice / 100) + shipping}, ${totalAmt}, ${customer.name}, Customer Name, Customer Delivery Address, ${customer.customerid}, ${webOrderNumber}, deliverbefore, deliverafter, refNum, comments\n`
+            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${shipping}, ${(order.totalprice / 100) + shipping}, ${totalAmt}, ${customer.name}, Customer Name, Customer Delivery Address, ${customer.customerid}, ${webOrderNumber}, deliverbefore, deliverafter, refNum, comments\n`
           }
         })
       })
     })
-  csv += `Total Price:, ${order.totalPrice / 100}\n\n`
-  csv += `CustomerID:, ${customer.customerid}\nShipping Address:\n${order.address}\n`
+  csv += `Total Price:, ${order.totalprice / 100}\n\n`
+  csv += `CustomerID:, ${customer.customerid}\nShipping Address:\n${order.addinfo.address}\n`
   return csv
 }
 
@@ -104,9 +104,9 @@ const htmlFromOrder = (order) => {
       html += renderToString(<ConfirmSock sock={sock} key={sock.styleID} />)
     })
   html += `Humphrey Law Order Number: ${webOrderNumber}`
-  html += `<div>Total Price: $${(order.totalPrice / 100).toFixed(2)}`
+  html += `<div>Total Price: $${(order.totalprice / 100).toFixed(2)}`
   html += `<div>Shipping to:</div>`
-  order.address.split(',')
+  order.addinfo.address.split(',')
     .map(line => `<div>${line}</div>`)
     .forEach(line => { html += line })
   return html

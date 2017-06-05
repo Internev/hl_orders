@@ -28,11 +28,12 @@ class ConfirmOrder extends React.Component {
     this.setState({address: e.target.value})
   }
   handleOrderSubmit () {
-    let addr = this.state.address.length
+    let addinfo = {}
+    addinfo.address = this.state.address.length
       ? this.state.address
       : this.props.user.name
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, addr))
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, addinfo))
   }
   render () {
     return (

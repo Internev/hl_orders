@@ -16,8 +16,10 @@ const User = db.define('user', {
 
 const Order = db.define('order', {
   order: Sequelize.JSON,
-  totalPrice: Sequelize.INTEGER,
-  address: Sequelize.STRING
+  totalprice: Sequelize.INTEGER,
+  totalamt: Sequelize.INTEGER,
+  shipping: Sequelize.INTEGER,
+  addinfo: Sequelize.JSON
 })
 
 const Storedorder = db.define('storedorder', {

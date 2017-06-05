@@ -12,8 +12,9 @@ router.post('/order', (req, res) => {
   Order.create({
     order: req.body.order,
     userId: req.body.customer.id,
-    totalPrice: req.body.totalPrice,
-    address: req.body.addr
+    totalprice: req.body.totalPrice,
+    totalamt: req.body.totalAmt,
+    addinfo: req.body.addinfo
   })
     .then(order => {
       console.log('order written to db:', order)
