@@ -97,6 +97,24 @@ tr:nth-child(even) {
   padding: 16px;
 }
 
+.additional-info {
+  display: flex;
+  width: 100%;
+}
+
+.additional-info-box {
+  display: flex;
+  justify-content: space-around;
+  width: 85%;
+  margin: auto;
+}
+
+
+.additional-info-column {
+  /*width: 100px;*/
+  margin: auto;
+}
+
 .warning-message {
   font-style: italic;
   font-size: 0.8em;

@@ -17,7 +17,7 @@ router.post('/order', (req, res) => {
     addinfo: req.body.addinfo
   })
     .then(order => {
-      console.log('order written to db:', order)
+      // console.log('order written to db:', order)
       customerEmail(order, req.body.customer.email)
       factoryEmail(order, req.body.customer, req.body.totalAmt)
       res.json({
@@ -34,7 +34,7 @@ router.post('/order', (req, res) => {
 })
 
 router.post('/order-form', (req, res) => {
-  console.log('order form upload, reqbody:', req.body)
+  // console.log('order form upload, reqbody:', req.body)
   Storedorder.sync({force: true})
   .then(() => {
     return Storedorder.create({storedorder: req.body})

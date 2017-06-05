@@ -64,8 +64,7 @@ const factoryEmail = (order, customer, totalAmt) => {
 
 const csvFromOrder = (order, customer, totalAmt) => {
   // filter by sock, then also by size before outputting to csv.
-  let csv = `Date Ordered, Style Number, Pattern, Colour/Pattern, Quantity, Unit Price, Line Total, Order Total, Shipping Costs, Order Grand Total, Total Pair, Store Name, Store Address 1, Store Address 2, Store Address 3, Store Address 4, Customer Name, Delivery Address, Customer Code, Web Order Number, Do Not Deliver Before, Do Not Deliver After, Reference Number, Comments\n`
-  let shipping = 0
+  let csv = `Date Ordered, Style Number, Pattern, Colour/Pattern, Quantity, Unit Price, Line Total, Order Total, Shipping Costs, Order Grand Total, Total Pair, Store Name, Store Address 1, Store Address 2, Store Address 3, Store Address 4, Customer Name, Delivery Address, Customer Code, Web Order Number, Delivery Instructions, Department, Reference Number, Contact Person, Email Address, Comments\n`
   let day = order.updatedAt.getDate() < 10 ? '0' + order.updatedAt.getDate() : '' + order.updatedAt.getDate()
   let month = (order.updatedAt.getMonth() + 1) < 10 ? '0' + (order.updatedAt.getMonth() + 1) : '' + (order.updatedAt.getMonth() + 1)
   let orderDate = `${day}/${month}/${order.updatedAt.getFullYear()}`
@@ -85,13 +84,13 @@ const csvFromOrder = (order, customer, totalAmt) => {
       .forEach(colour => {
         sock.sizes.forEach(size => {
           if (colour.hasOwnProperty(size) && colour[size] > 0) {
-            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${shipping}, ${(order.totalprice / 100) + shipping}, ${totalAmt}, ${customer.name}, Customer Name, Customer Delivery Address, ${customer.customerid}, ${webOrderNumber}, deliverbefore, deliverafter, refNum, comments\n`
+            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${order.addinfo.customerName}, ${order.addinfo.deliveryAddress}, ${customer.customerid}, ${webOrderNumber}, ${order.addinfo.deliveryInstructions}, ${order.addinfo.department}, ${order.addinfo.customerRef}, ${order.addinfo.contactPerson}, ${order.addinfo.email}, ${order.addinfo.comments}\n`
           }
         })
       })
     })
-  csv += `Total Price:, ${order.totalprice / 100}\n\n`
-  csv += `CustomerID:, ${customer.customerid}\nShipping Address:\n${order.addinfo.address}\n`
+  // csv += `Total Price:, ${order.totalprice / 100}\n\n`
+  // csv += `CustomerID:, ${customer.customerid}\nShipping Address:\n${order.addinfo.deliveryAddress}\n`
   return csv
 }
 
@@ -106,7 +105,7 @@ const htmlFromOrder = (order) => {
   html += `Humphrey Law Order Number: ${webOrderNumber}`
   html += `<div>Total Price: $${(order.totalprice / 100).toFixed(2)}`
   html += `<div>Shipping to:</div>`
-  order.addinfo.address.split(',')
+  order.addinfo.deliveryAddress.split(',')
     .map(line => `<div>${line}</div>`)
     .forEach(line => { html += line })
   return html

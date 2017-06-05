@@ -18,7 +18,7 @@ const Order = db.define('order', {
   order: Sequelize.JSON,
   totalprice: Sequelize.INTEGER,
   totalamt: Sequelize.INTEGER,
-  shipping: Sequelize.INTEGER,
+  shipping: {type: Sequelize.INTEGER, defaultValue: 0},
   addinfo: Sequelize.JSON
 })
 

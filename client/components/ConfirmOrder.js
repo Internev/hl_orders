@@ -13,8 +13,8 @@ class ConfirmOrder extends React.Component {
   constructor (props) {
     super(props)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
-    this.updateAddress = this.updateAddress.bind(this)
-    this.state = {address: ''}
+    this.handleInfoUpdate = this.handleInfoUpdate.bind(this)
+    this.state = {}
   }
   componentDidUpdate () {
     console.log('confirm order this props is:', this.props)
@@ -23,17 +23,17 @@ class ConfirmOrder extends React.Component {
     }
     // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
   }
-  updateAddress (e) {
+  handleInfoUpdate (e) {
     e.preventDefault()
-    this.setState({address: e.target.value})
+    this.setState({[e.target.name]: e.target.value.replace(/[,\n]/g, ' ')})
   }
   handleOrderSubmit () {
-    let addinfo = {}
-    addinfo.address = this.state.address.length
-      ? this.state.address
-      : this.props.user.name
+    // let addinfo = {}
+    // addinfo.address = this.state.address.length
+    //   ? this.state.address
+    //   : this.props.user.name
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, addinfo))
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.state))
   }
   render () {
     return (
@@ -50,21 +50,55 @@ class ConfirmOrder extends React.Component {
             <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</h2>
             <div>
               Shipping to:
-              <Tabs>
-                <Tab label='Default Address'>
                   { this.props.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
-                </Tab>
-                <Tab label='Custom Address'>
+
+            </div>
+            <div className='additional-info'>
+              <div className='additional-info-box'>
+                <div className='additional-info-column'>
                   <TextField
-                    label='CustomAddress'
-                    hintText='Add custom shipping address'
-                    floatingLabelText='Add custom shipping address'
+                    hintText='Customer Reference Number'
+                    onChange={this.handleInfoUpdate}
+                    name='customerRef' /><br />
+                  <TextField
+                    hintText='Department'
+                    onChange={this.handleInfoUpdate}
+                    name='department' /><br />
+                  <TextField
+                    hintText='Contact Person'
+                    onChange={this.handleInfoUpdate}
+                    name='contactPerson' /><br />
+                  <TextField
+                    hintText='Email Address (if not shop address)' onChange={this.handleInfoUpdate}
+                    type='email'
+                    name='email' /><br />
+                </div>
+                <div className='additional-info-column'>
+                  <TextField
+                    hintText='Customer Name'
+                    onChange={this.handleInfoUpdate}
+                    name='customerName' /><br />
+                  <TextField
+                    hintText='Delivery Address'
+                    onChange={this.handleInfoUpdate}
+                    name='deliveryAddress'
                     multiLine={true}
-                    rows={3}
-                    ref='customAddress'
-                    onChange={this.updateAddress} />
-                </Tab>
-              </Tabs>
+                    rows={3} /><br />
+                  <TextField
+                    hintText='Delivery Instructions'
+                    onChange={this.handleInfoUpdate}
+                    name='deliveryInstructions' /><br />
+
+                </div>
+                <div className='additional-info-column'>
+                  <TextField
+                    floatingLabelText='Comments'
+                    onChange={this.handleInfoUpdate}
+                    name='comments'
+                    multiLine={true}
+                    rows={6} /><br />
+                </div>
+              </div>
             </div>
             <div>
               {this.props.orderTotalAmt < 25
