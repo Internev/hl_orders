@@ -17,6 +17,8 @@ let mailOptions = {
   html: '<b>Humphrey Law Order Confirmation</b>' // html body
 }
 
+const padToFive = number => number <= 99999 ? ('0000' + number).slice(-5) : number
+
 const customerEmail = (order, email) => {
   let html = '<div>This email confirms your sock order with Humphrey Law, you ordered:</div>'
   // console.log(Array.isArray(order.order))
@@ -67,6 +69,7 @@ const csvFromOrder = (order, customer, totalAmt) => {
   let day = order.updatedAt.getDate() < 10 ? '0' + order.updatedAt.getDate() : '' + order.updatedAt.getDate()
   let month = (order.updatedAt.getMonth() + 1) < 10 ? '0' + (order.updatedAt.getMonth() + 1) : '' + (order.updatedAt.getMonth() + 1)
   let orderDate = `${day}/${month}/${order.updatedAt.getFullYear()}`
+  let webOrderNumber = 'A' + padToFive(order.id)
   order.order
     .filter(sock => sock.totalAmt)
     .forEach(sock => {
@@ -82,7 +85,7 @@ const csvFromOrder = (order, customer, totalAmt) => {
       .forEach(colour => {
         sock.sizes.forEach(size => {
           if (colour.hasOwnProperty(size) && colour[size] > 0) {
-            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalPrice / 100}, ${shipping}, ${(order.totalPrice / 100) + shipping}, ${totalAmt}, ${customer.name}, ${customer.name.slice(0, customer.name.indexOf(','))}, ${order.address.replace(/,/g, ' ')}, ${customer.customerid}, WebOrderNumber, deliverbefore, deliverafter, refNum, comments\n`
+            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalPrice / 100}, ${shipping}, ${(order.totalPrice / 100) + shipping}, ${totalAmt}, ${customer.name}, Customer Name, Customer Delivery Address, ${customer.customerid}, ${webOrderNumber}, deliverbefore, deliverafter, refNum, comments\n`
           }
         })
       })
@@ -93,12 +96,14 @@ const csvFromOrder = (order, customer, totalAmt) => {
 }
 
 const htmlFromOrder = (order) => {
+  let webOrderNumber = 'A' + padToFive(order.id)
   let html = ''
   order.order
     .filter(sock => sock.totalAmt)
     .forEach(sock => {
       html += renderToString(<ConfirmSock sock={sock} key={sock.styleID} />)
     })
+  html += `Humphrey Law Order Number: ${webOrderNumber}`
   html += `<div>Total Price: $${(order.totalPrice / 100).toFixed(2)}`
   html += `<div>Shipping to:</div>`
   order.address.split(',')

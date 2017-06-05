@@ -66,6 +66,9 @@ class ConfirmOrder extends React.Component {
               </Tabs>
             </div>
             <div>
+              {this.props.orderTotalAmt < 25
+              ? (<div className='warning-message'>Minimum order quantity is 24 pairs, please adjust your order.</div>)
+              : ''}
               <RaisedButton
                 label='Adjust Order'
                 onClick={browserHistory.goBack}
@@ -74,6 +77,7 @@ class ConfirmOrder extends React.Component {
               <RaisedButton
                 label='Confirm and Submit Order'
                 onClick={this.handleOrderSubmit}
+                disabled={this.props.orderTotalAmt < 24}
                 />
             </div>
           </div>

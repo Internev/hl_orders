@@ -97,6 +97,13 @@ tr:nth-child(even) {
   padding: 16px;
 }
 
+.warning-message {
+  font-style: italic;
+  font-size: 0.8em;
+  color: rgb(210, 139, 65);
+  padding: 10px;
+}
+
 .error-message {
   padding: 0 16px;
   color: tomato;
