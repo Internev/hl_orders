@@ -108,7 +108,7 @@ class ConfirmOrder extends React.Component {
               </Tab>
             </Tabs>
             <div>
-              {this.props.orderTotalAmt < 25
+              {this.props.orderTotalAmt < 24
               ? (<div className='warning-message'>Minimum order quantity is 24 pairs, please adjust your order.</div>)
               : ''}
               <RaisedButton
