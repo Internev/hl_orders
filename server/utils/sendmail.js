@@ -39,16 +39,22 @@ const customerEmail = (order, email) => {
 }
 
 const factoryEmail = (order, customer, totalAmt) => {
-  let html = '<div>A new customer order has been made, the order is:</div>'
+  let webOrderNumber = 'A' + padToFive(order.id)
+  let html = `<div>A new customer order has been made, order number: ${webOrderNumber} the order is:</div>`
   // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
+  html += `<div><br /><b>Customer Details</b><br />
+          ID: ${customer.customerid}<br />
+          Customer: ${customer.name}<br />
+          Email: ${customer.email}<br /></div>`
   html += `<div>A CSV of this order is attached to this email.</div>`
 
+  mailOptions.subject = `Humphrey Law Order Confirmation, order no ${webOrderNumber}`
   mailOptions.html = html
   mailOptions.to = config.factoryEmail
   mailOptions.attachments = [
     {
-      filename: `${customer.customerid} Order.csv`,
+      filename: `${customer.customerid} Order ${webOrderNumber}.csv`,
       content: csvFromOrder(order, customer, totalAmt)
     }
   ]
@@ -84,7 +90,7 @@ const csvFromOrder = (order, customer, totalAmt) => {
       .forEach(colour => {
         sock.sizes.forEach(size => {
           if (colour.hasOwnProperty(size) && colour[size] > 0) {
-            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${order.addinfo.customerName}, ${order.addinfo.deliveryAddress}, ${customer.customerid}, ${webOrderNumber}, ${order.addinfo.deliveryInstructions}, ${order.addinfo.department}, ${order.addinfo.customerRef}, ${order.addinfo.contactPerson}, ${order.addinfo.email}, ${order.addinfo.comments}\n`
+            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${order.addinfo.customerName}, ${order.addinfo.deliveryAddress.replace(/,/g, '')}, ${customer.customerid}, ${webOrderNumber}, ${order.addinfo.deliveryInstructions}, ${order.addinfo.department}, ${order.addinfo.customerRef}, ${order.addinfo.contactPerson}, ${order.addinfo.email}, ${order.addinfo.comments}\n`
           }
         })
       })
@@ -105,6 +111,7 @@ const htmlFromOrder = (order) => {
   html += `Humphrey Law Order Number: ${webOrderNumber}`
   html += `<div>Total Price: $${(order.totalprice / 100).toFixed(2)}`
   html += `<div>Shipping to:</div>`
+  console.log('order delivery', order.addinfo.deliveryAddress)
   order.addinfo.deliveryAddress.split(',')
     .map(line => `<div>${line}</div>`)
     .forEach(line => { html += line })

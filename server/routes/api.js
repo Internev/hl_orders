@@ -9,12 +9,16 @@ const router = new express.Router()
 
 router.post('/order', (req, res) => {
   // console.log('dashboard POST for order, requestbody \n*****\nCUSTOMER:', req.body.customer)
+  // If no additional info entered, take default address.
+  req.body.addinfo.deliveryAddress = req.body.addinfo.deliveryAddress || req.body.customer.name
+
   Order.create({
     order: req.body.order,
     userId: req.body.customer.id,
     totalprice: req.body.totalPrice,
     totalamt: req.body.totalAmt,
-    addinfo: req.body.addinfo
+    addinfo: req.body.addinfo,
+    shipping: req.body.shipping
   })
     .then(order => {
       // console.log('order written to db:', order)

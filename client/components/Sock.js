@@ -52,7 +52,7 @@ const Sock = ({sock, handleFormSubmit}) => (
               }, 0)}</td>
             ))}
           </tr>
-          : ''
+          : null
           }
         </tbody>
       </table>

@@ -14,10 +14,10 @@ class ConfirmOrder extends React.Component {
     super(props)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
     this.handleInfoUpdate = this.handleInfoUpdate.bind(this)
-    this.state = {}
+    this.state = {shipping: this.props.orderTotalAmt < 48 ? 10 : 0}
   }
   componentDidUpdate () {
-    console.log('confirm order this state is:', this.state)
+    // console.log('confirm order this state is:', this.state)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
@@ -29,7 +29,7 @@ class ConfirmOrder extends React.Component {
   }
   handleOrderSubmit () {
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.state))
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.state, this.state.shipping))
   }
   render () {
     return (
@@ -42,10 +42,14 @@ class ConfirmOrder extends React.Component {
             .map(sock => (
               <ConfirmSock sock={sock} key={sock.styleID} />
             ))}
+          <div className={this.state.shipping ? 'warning-message' : 'hidden'}>
+            Shipping: $10<br />
+            Shipping is free for orders over 48 pairs.
+          </div>
           <div>
-            <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</h2>
+            <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${(this.props.orderTotalPrice + this.state.shipping).toFixed(2)} exGST {this.state.shipping ? ' (including $10 shipping)' : ''}</h2>
             <Tabs>
-              <Tab>
+              <Tab label='Default Information'>
                 <div className='default-shipping'>
                   Shipping to:
                       { this.props.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) }

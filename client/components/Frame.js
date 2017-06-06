@@ -3,13 +3,6 @@ import { connect } from 'react-redux'
 import { IndexLink, Link, browserHistory } from 'react-router'
 
 class Frame extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
-  componentDidUpdate () {
-    // console.log('frame updated, props:', this.props, 'localStorage:', localStorage.getItem('id_token'))
-  }
   render () {
     return (
       <div>
@@ -40,10 +33,6 @@ class Frame extends React.Component {
       </div>
     )
   }
-}
-
-Frame.contextTypes = {
-  router: React.PropTypes.object
 }
 
 const mapStateToProps = (state, ownProps) => {
