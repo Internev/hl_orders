@@ -6,11 +6,11 @@ import { browserHistory, Router } from 'react-router'
 import routes from './routes'
 import { checkToken } from './redux/authCreators'
 
-const App = React.createClass({
+class App extends React.Component {
   componentWillMount () {
     const token = localStorage.getItem('id_token')
     if (token) store.dispatch(checkToken(token))
-  },
+  }
   render () {
     return (
       <Provider store={store}>
@@ -20,6 +20,6 @@ const App = React.createClass({
       </Provider>
     )
   }
-})
+}
 
 export default App

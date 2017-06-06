@@ -17,7 +17,7 @@ class ConfirmOrder extends React.Component {
     this.state = {}
   }
   componentDidUpdate () {
-    console.log('confirm order this props is:', this.props)
+    console.log('confirm order this state is:', this.state)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
@@ -28,10 +28,6 @@ class ConfirmOrder extends React.Component {
     this.setState({[e.target.name]: e.target.value.replace(/[,\n]/g, ' ')})
   }
   handleOrderSubmit () {
-    // let addinfo = {}
-    // addinfo.address = this.state.address.length
-    //   ? this.state.address
-    //   : this.props.user.name
     // TotalPrice stored as cents in db.
     this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.state))
   }
@@ -48,58 +44,65 @@ class ConfirmOrder extends React.Component {
             ))}
           <div>
             <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</h2>
-            <div>
-              Shipping to:
-                  { this.props.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
+            <Tabs>
+              <Tab>
+                <div className='default-shipping'>
+                  Shipping to:
+                      { this.props.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
+                </div>
+              </Tab>
+              <Tab label='Add additional information (optional)'>
+                <div className='additional-info'>
+                  <div className='additional-info-box'>
+                    <div className='additional-info-column'>
+                      <TextField
+                        hintText='Customer Reference Number (12)'
+                        maxLength='12'
+                        onChange={this.handleInfoUpdate}
+                        name='customerRef' /><br />
+                      <TextField
+                        hintText='Department (8)'
+                        maxLength='8'
+                        onChange={this.handleInfoUpdate}
+                        name='department' /><br />
+                      <TextField
+                        hintText='Contact Person'
+                        onChange={this.handleInfoUpdate}
+                        name='contactPerson' /><br />
+                      <TextField
+                        hintText='Email Address (if not shop address)' onChange={this.handleInfoUpdate}
+                        type='email'
+                        name='email' /><br />
+                    </div>
+                    <div className='additional-info-column'>
+                      <TextField
+                        hintText='Customer Name'
+                        onChange={this.handleInfoUpdate}
+                        name='customerName' /><br />
+                      <TextField
+                        hintText='Delivery Address'
+                        onChange={this.handleInfoUpdate}
+                        name='deliveryAddress'
+                        multiLine={true}
+                        rows={3} /><br />
+                      <TextField
+                        hintText='Delivery Instructions'
+                        onChange={this.handleInfoUpdate}
+                        name='deliveryInstructions' /><br />
 
-            </div>
-            <div className='additional-info'>
-              <div className='additional-info-box'>
-                <div className='additional-info-column'>
-                  <TextField
-                    hintText='Customer Reference Number'
-                    onChange={this.handleInfoUpdate}
-                    name='customerRef' /><br />
-                  <TextField
-                    hintText='Department'
-                    onChange={this.handleInfoUpdate}
-                    name='department' /><br />
-                  <TextField
-                    hintText='Contact Person'
-                    onChange={this.handleInfoUpdate}
-                    name='contactPerson' /><br />
-                  <TextField
-                    hintText='Email Address (if not shop address)' onChange={this.handleInfoUpdate}
-                    type='email'
-                    name='email' /><br />
+                    </div>
+                    <div className='additional-info-column'>
+                      <TextField
+                        floatingLabelText='Comments'
+                        onChange={this.handleInfoUpdate}
+                        name='comments'
+                        multiLine={true}
+                        rows={6} /><br />
+                    </div>
+                  </div>
                 </div>
-                <div className='additional-info-column'>
-                  <TextField
-                    hintText='Customer Name'
-                    onChange={this.handleInfoUpdate}
-                    name='customerName' /><br />
-                  <TextField
-                    hintText='Delivery Address'
-                    onChange={this.handleInfoUpdate}
-                    name='deliveryAddress'
-                    multiLine={true}
-                    rows={3} /><br />
-                  <TextField
-                    hintText='Delivery Instructions'
-                    onChange={this.handleInfoUpdate}
-                    name='deliveryInstructions' /><br />
-
-                </div>
-                <div className='additional-info-column'>
-                  <TextField
-                    floatingLabelText='Comments'
-                    onChange={this.handleInfoUpdate}
-                    name='comments'
-                    multiLine={true}
-                    rows={6} /><br />
-                </div>
-              </div>
-            </div>
+              </Tab>
+            </Tabs>
             <div>
               {this.props.orderTotalAmt < 25
               ? (<div className='warning-message'>Minimum order quantity is 24 pairs, please adjust your order.</div>)

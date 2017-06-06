@@ -6,13 +6,17 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import { loginUser } from './redux/authCreators'
 
-const LoginPage = React.createClass({
+class LoginPage extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this)
+  }
   componentDidUpdate () {
     console.log('loginpage props:', this.props)
     if (this.props.auth.success) {
       browserHistory.push('/')
     }
-  },
+  }
   handleFormSubmit (e) {
     e.preventDefault()
 
@@ -21,7 +25,7 @@ const LoginPage = React.createClass({
       password: this.refs.password.input.value
     }
     this.props.dispatch(loginUser(creds))
-  },
+  }
   render () {
     return (
       <Card className='container'>
@@ -57,7 +61,7 @@ const LoginPage = React.createClass({
       </Card>
     )
   }
-})
+}
 
 const mapStateToProps = (state) => {
   return {

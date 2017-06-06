@@ -1,5 +1,5 @@
 export const parseOrderForm = (csv) => {
-  console.log('parsing order form now...\n********')
+  // console.log('parsing order form now...\n********')
   let socks = csv.split(/\n/).map(item => item.split(','))
   socks.shift()
   let orderObj = {}
@@ -48,7 +48,7 @@ export const parseOrderForm = (csv) => {
       let colour = orderObj[style].colours[ind]
       colour[item[0]] = 0
     }
-    console.log('Loop finished, orderObj = ', orderObj)
+    // console.log('Loop finished, orderObj = ', orderObj)
   })
 
   let orderForm = []
@@ -60,7 +60,7 @@ export const parseOrderForm = (csv) => {
     return a.styleID.slice(0, 3) > b.styleID.slice(0, 3) ? 1 : -1
   })
   orderForm.shift() // ? Get rid of empty result
-  console.log('orderForm with new stuff!', orderForm)
+  // console.log('orderForm with new stuff!', orderForm)
   return orderForm
 }
 

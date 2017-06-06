@@ -97,9 +97,15 @@ tr:nth-child(even) {
   padding: 16px;
 }
 
+.default-shipping {
+  margin: auto;
+  padding: 1em 3em 1em 3em;
+}
+
 .additional-info {
   display: flex;
   width: 100%;
+  padding-top: 1em;
 }
 
 .additional-info-box {
@@ -109,6 +115,9 @@ tr:nth-child(even) {
   margin: auto;
 }
 
+.hidden {
+  display: none;
+}
 
 .additional-info-column {
   /*width: 100px;*/

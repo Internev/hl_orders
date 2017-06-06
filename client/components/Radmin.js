@@ -2,17 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
+// import TextField from 'material-ui/TextField'
 import { uploadOrderForm, uploadStoreGeo, uploadCustomers } from './redux/actionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 
-const Radmin = React.createClass({
+class Radmin extends React.Component {
+  constructor (props) {
+    super(props)
+    this.uploadStoreGeo = this.uploadStoreGeo.bind(this)
+    this.uploadOrderForm = this.uploadOrderForm.bind(this)
+    this.uploadCustomers = this.uploadCustomers.bind(this)
+  }
   componentDidUpdate () {
     // console.log('Radmin, props:', this.props)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
-  },
+  }
   uploadStoreGeo (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
@@ -20,7 +26,7 @@ const Radmin = React.createClass({
     }
     reader.readAsText(e.target.files[0])
     this.storeGeo.value = null
-  },
+  }
   uploadOrderForm (e) {
     let reader = new FileReader()
     reader.onload = (file) => {
@@ -28,7 +34,7 @@ const Radmin = React.createClass({
     }
     reader.readAsText(e.target.files[0])
     this.orderInput.value = null
-  },
+  }
   uploadCustomers (e) {
     e.preventDefault()
     let reader = new FileReader()
@@ -37,7 +43,7 @@ const Radmin = React.createClass({
     }
     reader.readAsText(e.target.files[0])
     this.customerUpload.value = null
-  },
+  }
   render () {
     return (
       <Card className='container'>
@@ -102,7 +108,7 @@ const Radmin = React.createClass({
       </Card>
     )
   }
-})
+}
 
 const mapStateToProps = (state) => {
   return {
