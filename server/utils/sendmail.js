@@ -76,6 +76,9 @@ const csvFromOrder = (order, customer, totalAmt) => {
   let month = (order.updatedAt.getMonth() + 1) < 10 ? '0' + (order.updatedAt.getMonth() + 1) : '' + (order.updatedAt.getMonth() + 1)
   let orderDate = `${day}/${month}/${order.updatedAt.getFullYear()}`
   let webOrderNumber = 'A' + padToFive(order.id)
+  const clean = (text) => {
+    return text ? text.replace(/[,\n]/g, ' ') : ''
+  }
   order.order
     .filter(sock => sock.totalAmt)
     .forEach(sock => {
@@ -91,7 +94,7 @@ const csvFromOrder = (order, customer, totalAmt) => {
       .forEach(colour => {
         sock.sizes.forEach(size => {
           if (colour.hasOwnProperty(size) && colour[size] > 0) {
-            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${order.addinfo.customerName}, ${order.addinfo.deliveryAddress.replace(/,/g, '')}, ${customer.customerid}, ${webOrderNumber}, ${order.addinfo.deliveryInstructions}, ${order.addinfo.department}, ${order.addinfo.customerRef}, ${order.addinfo.contactPerson}, ${order.addinfo.email}, ${order.addinfo.comments}\n`
+            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${order.addinfo.customerName}, ${clean(order.addinfo.deliveryAddress)}, ${customer.customerid}, ${webOrderNumber}, ${clean(order.addinfo.deliveryInstructions)}, ${clean(order.addinfo.department)}, ${clean(order.addinfo.customerRef)}, ${clean(order.addinfo.contactPerson)}, ${clean(order.addinfo.email)}, ${clean(order.addinfo.comments)}\n`
           }
         })
       })
@@ -112,8 +115,8 @@ const htmlFromOrder = (order) => {
   html += `<br/>Humphrey Law Order Number: ${webOrderNumber}`
   html += `<div><br/><b>Total Price: $${(order.totalprice / 100).toFixed(2)}</b></div>`
   html += `<div><br /><b>Shipping to:</b></div>`
-  console.log('order delivery', order.addinfo.deliveryAddress)
-  order.addinfo.deliveryAddress.split(',')
+  // console.log('order delivery', order.addinfo.deliveryAddress)
+  order.addinfo.deliveryAddress.split(/[,\n]/g)
     .map(line => `<div>${line}</div>`)
     .forEach(line => { html += line })
   return html

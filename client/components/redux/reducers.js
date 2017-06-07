@@ -18,7 +18,8 @@ import { SIGNUP_REQUEST,
   SAVE_ORDER_SUCCESS,
   SAVE_ORDER_FAILURE,
   CUSTOMERS_SUCCESS,
-  CUSTOMERS_FAILURE
+  CUSTOMERS_FAILURE,
+  UPDATE_ADD_INFO
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -36,11 +37,21 @@ const DEFAULT_STATE = {
     message: '',
     errors: {}
   },
+  addinfo: {},
   orderForm: [],
   orderTotalAmt: 0,
   orderTotalPrice: 0,
   msg: '',
   searchTerm: ''
+}
+
+const updateAddInfo = (state, action) => {
+  let newAddinfo = state.addinfo
+  let key = action.key
+  let value = action.value
+  newAddinfo = {...newAddinfo, ...{[key]: value}}
+  const newState = {...state, ...{addinfo: newAddinfo}}
+  return newState
 }
 
 const uploadOrderForm = (state, action) => {
@@ -248,6 +259,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return customersSuccess(state, action)
     case CUSTOMERS_FAILURE:
       return customersFailure(state, action)
+    case UPDATE_ADD_INFO:
+      return updateAddInfo(state, action)
     default:
       return state
   }

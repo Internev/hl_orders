@@ -10,7 +10,10 @@ const router = new express.Router()
 router.post('/order', (req, res) => {
   // console.log('dashboard POST for order, requestbody \n*****\nCUSTOMER:', req.body.customer)
   // If no additional info entered, take default address.
+  // console.log('deliveryADdress in order route', req.body.addinfo.deliveryAddress)
   req.body.addinfo.deliveryAddress = req.body.addinfo.deliveryAddress || req.body.customer.name
+  // console.log('\n\ndeliveryADdress in order route after check', req.body.addinfo.deliveryAddress)
+
 
   Order.create({
     order: req.body.order,

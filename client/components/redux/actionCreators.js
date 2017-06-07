@@ -10,10 +10,19 @@ import {
   SAVE_ORDER_SUCCESS,
   SAVE_ORDER_FAILURE,
   CUSTOMERS_SUCCESS,
-  CUSTOMERS_FAILURE
+  CUSTOMERS_FAILURE,
+  UPDATE_ADD_INFO
 
 } from './actions'
 import axios from 'axios'
+
+export function updateAddInfo (key, value) {
+  return {
+    type: UPDATE_ADD_INFO,
+    key,
+    value
+  }
+}
 
 function uploadOrderFormSuccess (data, msg) {
   return {

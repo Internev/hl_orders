@@ -6,7 +6,7 @@ import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import TextField from 'material-ui/TextField'
-import { saveOrder } from './redux/actionCreators'
+import { saveOrder, updateAddInfo } from './redux/actionCreators'
 import ConfirmSock from './ConfirmSock'
 
 class ConfirmOrder extends React.Component {
@@ -17,7 +17,7 @@ class ConfirmOrder extends React.Component {
     this.state = {shipping: this.props.orderTotalAmt < 48 ? 10 : 0}
   }
   componentDidUpdate () {
-    // console.log('confirm order this state is:', this.state)
+    console.log('confirm order this props is:', this.props)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
@@ -25,11 +25,12 @@ class ConfirmOrder extends React.Component {
   }
   handleInfoUpdate (e) {
     e.preventDefault()
-    this.setState({[e.target.name]: e.target.value.replace(/[,\n]/g, ' ')})
+    this.props.dispatch(updateAddInfo(e.target.name, e.target.value))
+    // this.setState({[e.target.name]: e.target.value.replace(/[,\n]/g, ' ')})
   }
   handleOrderSubmit () {
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.state, this.state.shipping))
+    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping))
   }
   render () {
     return (
@@ -62,35 +63,43 @@ class ConfirmOrder extends React.Component {
                       <TextField
                         hintText='Customer Reference Number (12)'
                         maxLength='12'
+                        value={this.props.addinfo.customerRef}
                         onChange={this.handleInfoUpdate}
                         name='customerRef' /><br />
                       <TextField
                         hintText='Department (8)'
                         maxLength='8'
+                        value={this.props.addinfo.department}
                         onChange={this.handleInfoUpdate}
                         name='department' /><br />
                       <TextField
                         hintText='Contact Person'
+                        value={this.props.addinfo.contactPerson}
                         onChange={this.handleInfoUpdate}
                         name='contactPerson' /><br />
                       <TextField
-                        hintText='Email Address (if not shop address)' onChange={this.handleInfoUpdate}
+                        hintText='Email Address (if not shop address)'
+                        value={this.props.addinfo.email}
+                        onChange={this.handleInfoUpdate}
                         type='email'
                         name='email' /><br />
                     </div>
                     <div className='additional-info-column'>
                       <TextField
                         hintText='Customer Name'
+                        value={this.props.addinfo.customerName}
                         onChange={this.handleInfoUpdate}
                         name='customerName' /><br />
                       <TextField
                         hintText='Delivery Address'
+                        value={this.props.addinfo.deliveryAddress}
                         onChange={this.handleInfoUpdate}
                         name='deliveryAddress'
                         multiLine={true}
                         rows={3} /><br />
                       <TextField
                         hintText='Delivery Instructions'
+                        value={this.props.addinfo.deliveryInstructions}
                         onChange={this.handleInfoUpdate}
                         name='deliveryInstructions' /><br />
 
@@ -98,6 +107,7 @@ class ConfirmOrder extends React.Component {
                     <div className='additional-info-column'>
                       <TextField
                         floatingLabelText='Comments'
+                        value={this.props.addinfo.comments}
                         onChange={this.handleInfoUpdate}
                         name='comments'
                         multiLine={true}
@@ -138,7 +148,8 @@ const mapStateToProps = (state) => {
     orderForm: state.orderForm,
     orderTotalAmt: state.orderTotalAmt,
     orderTotalPrice: state.orderTotalPrice,
-    msg: state.msg
+    msg: state.msg,
+    addinfo: state.addinfo
   }
 }
 
