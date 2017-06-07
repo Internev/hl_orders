@@ -40,14 +40,15 @@ const customerEmail = (order, email) => {
 
 const factoryEmail = (order, customer, totalAmt) => {
   let webOrderNumber = 'A' + padToFive(order.id)
-  let html = `<div>A new customer order has been made, order number: ${webOrderNumber} the order is:</div>`
+  let html = `<div>A new customer order has been made, order number: ${webOrderNumber}.<br /><br />The order is:</div>`
   // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
   html += `<div><br /><b>Customer Details</b><br />
           ID: ${customer.customerid}<br />
           Customer: ${customer.name}<br />
           Email: ${customer.email}<br /></div>`
-  html += `<div>A CSV of this order is attached to this email.</div>`
+  html += `<div><br />A CSV of this order is attached to this email.</div>`
+  if (order.addinfo.comments) html += `<div><br /><b>Customer Comments:</b><br />${order.addinfo.comments}</div>`
 
   mailOptions.subject = `Humphrey Law Order Confirmation, order no ${webOrderNumber}`
   mailOptions.html = html
@@ -108,9 +109,9 @@ const htmlFromOrder = (order) => {
     .forEach(sock => {
       html += renderToString(<ConfirmSock sock={sock} key={sock.styleID} />)
     })
-  html += `Humphrey Law Order Number: ${webOrderNumber}`
-  html += `<div>Total Price: $${(order.totalprice / 100).toFixed(2)}`
-  html += `<div>Shipping to:</div>`
+  html += `<br/>Humphrey Law Order Number: ${webOrderNumber}`
+  html += `<div><br/><b>Total Price: $${(order.totalprice / 100).toFixed(2)}</b></div>`
+  html += `<div><br /><b>Shipping to:</b></div>`
   console.log('order delivery', order.addinfo.deliveryAddress)
   order.addinfo.deliveryAddress.split(',')
     .map(line => `<div>${line}</div>`)
