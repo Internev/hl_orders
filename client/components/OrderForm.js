@@ -6,24 +6,25 @@ import { GridList } from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Sock from './Sock'
-import { getOrderForm, setSearchTerm, updateOrder, updateTotals } from './redux/actionCreators'
+import { getOrderForm, setSearchTerm, updateOrder, updateTotals, clearOrder } from './redux/actionCreators'
 
 class OrderForm extends React.Component {
   constructor (props) {
     super(props)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
+    this.handleClear = this.handleClear.bind(this)
   }
   componentDidMount () {
     if (!this.props.orderForm.length) {
       this.props.dispatch(getOrderForm())
     }
-    // console.log('OrderForm, props:', this.props)
   }
   componentDidUpdate () {
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
+    // console.log('OrderForm, props:', this.props)
   }
   handleFormSubmit (sock, colour, amount, size, index) {
     // console.log('sock size updated, sock:', sock, '\ncolour:', colour, '\namount:', amount, '\nsize:', size, '\nindex:', index)
@@ -43,6 +44,9 @@ class OrderForm extends React.Component {
   }
   handleOrderSubmit () {
     browserHistory.push('/confirm')
+  }
+  handleClear () {
+    this.props.dispatch(clearOrder())
   }
   render () {
     return (
@@ -78,7 +82,7 @@ class OrderForm extends React.Component {
             <div className='bottom-bar-right'>
               <RaisedButton
                 label='Clear'
-                onClick={this.handleOrderSubmit}
+                onClick={this.handleClear}
                 />&nbsp;
               <RaisedButton
                 label='Submit Order'

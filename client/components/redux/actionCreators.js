@@ -11,7 +11,8 @@ import {
   SAVE_ORDER_FAILURE,
   CUSTOMERS_SUCCESS,
   CUSTOMERS_FAILURE,
-  UPDATE_ADD_INFO
+  UPDATE_ADD_INFO,
+  CLEAR_ORDER
 
 } from './actions'
 import axios from 'axios'
@@ -36,6 +37,12 @@ function uploadOrderFormFailure (msg) {
   return {
     type: UPLOAD_ORDER_FORM_FAILURE,
     msg
+  }
+}
+
+export function clearOrder () {
+  return {
+    type: CLEAR_ORDER
   }
 }
 

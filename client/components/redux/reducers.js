@@ -19,7 +19,8 @@ import { SIGNUP_REQUEST,
   SAVE_ORDER_FAILURE,
   CUSTOMERS_SUCCESS,
   CUSTOMERS_FAILURE,
-  UPDATE_ADD_INFO
+  UPDATE_ADD_INFO,
+  CLEAR_ORDER
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -105,6 +106,20 @@ const updateTotals = (state, action) => {
   const newState = {
     ...state,
     ...{orderTotalAmt: newAmt, orderTotalPrice: newPrice}}
+  return newState
+}
+
+const clearOrder = (state, action) => {
+  let orderFormUpdate = state.orderForm.map(sock => {
+    sock.totalAmt = 0
+    sock.colours.forEach(colour => {
+      sock.sizes.forEach(size => {
+        colour[size] = 0
+      })
+    })
+    return sock
+  })
+  const newState = {...state, ...{orderForm: orderFormUpdate, orderTotalAmt: 0, orderTotalPrice: 0}}
   return newState
 }
 
@@ -261,6 +276,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return customersFailure(state, action)
     case UPDATE_ADD_INFO:
       return updateAddInfo(state, action)
+    case CLEAR_ORDER:
+      return clearOrder(state, action)
     default:
       return state
   }
