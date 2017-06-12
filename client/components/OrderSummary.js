@@ -7,9 +7,21 @@ import ConfirmSock from './ConfirmSock'
 class OrderSummary extends React.Component {
   constructor (props) {
     super(props)
+    this.state={date: ''}
   }
   componentDidMount () {
-    // console.log('summary mount orderdisplay, props:', this.props.orderDisplay)
+    // let day = this.props.orderDisplay.order.updatedAt.getDate() < 10 ? '0' + this.props.orderDisplay.order.updatedAt.getDate() : '' + this.props.orderDisplay.order.updatedAt.getDate()
+    // let month = (this.props.orderDisplay.order.updatedAt.getMonth() + 1) < 10 ? '0' + (this.props.orderDisplay.order.updatedAt.getMonth() + 1) : '' + (this.props.orderDisplay.order.updatedAt.getMonth() + 1)
+    // let orderDate = `${day}/${month}/${this.props.orderDisplay.order.updatedAt.getFullYear()}`
+    // this.setState({date: orderDate})
+    let orderDate = this.props.orderDisplay.updatedAt
+                    .slice(0, 10)
+                    .split('-')
+                    .reverse()
+                    .join('/')
+    this.setState({date: orderDate})
+    console.log('summary mount orderdisplay, props:', this.props.orderDisplay)
+    console.log('date:', this.props.orderDisplay.updatedAt)
     // console.log('total amt:', this.props.orderDisplay.totalamt)
     // console.log('total price:', this.props.orderDisplay.totalprice)
     // console.log('shipping', this.props.orderDisplay.shipping)
@@ -25,7 +37,7 @@ class OrderSummary extends React.Component {
       <div>
         <Card className='container'>
           <h2 className='card-heading'>Order Summary</h2>
-          <div>Order received, thank you. You will receive a confirmation email of the order at it will be shipped soon!</div>
+          <div>On {this.state.date}, the following order was submitted:</div>
           <div>
             {this.props.orderDisplay.order
               .filter(sock => sock.totalAmt)
