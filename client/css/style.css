@@ -119,6 +119,22 @@ tr:nth-child(even) {
   display: none;
 }
 
+.overlay-spinner {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  opacity: 0.7;
+  background: white;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+}
+
+.center {
+  margin: auto;
+}
+
 .additional-info-column {
   /*width: 100px;*/
   margin: auto;

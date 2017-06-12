@@ -5,6 +5,7 @@ import LoginPage from './LoginPage'
 import OrderForm from './OrderForm'
 import Radmin from './Radmin'
 import ConfirmOrder from './ConfirmOrder'
+import OrderSummary from './OrderSummary'
 import OrderHistory from './OrderHistory'
 import store from './redux/store'
 import { logoutUser } from './redux/authCreators'
@@ -48,6 +49,16 @@ const routes = {
       getComponent: (location, callback) => {
         if (store.getState().isAuthenticated) {
           callback(null, ConfirmOrder)
+        } else {
+          callback(null, LoginPage)
+        }
+      }
+    },
+    {
+      path: '/ordersummary',
+      getComponent: (location, callback) => {
+        if (store.getState().isAuthenticated) {
+          callback(null, OrderSummary)
         } else {
           callback(null, LoginPage)
         }

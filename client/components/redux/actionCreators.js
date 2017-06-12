@@ -7,6 +7,7 @@ import {
   SET_SEARCH_TERM,
   UPDATE_ORDER,
   UPDATE_TOTALS,
+  SAVE_ORDER_PROCESSING,
   SAVE_ORDER_SUCCESS,
   SAVE_ORDER_FAILURE,
   CUSTOMERS_SUCCESS,
@@ -116,6 +117,7 @@ export function updateTotals () {
 
 export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipping) {
   return dispatch => {
+    dispatch(saveOrderProcessing())
     const config = {
       headers: {'authorization': localStorage.getItem('id_token')}
     }
@@ -124,7 +126,7 @@ export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipp
     // const email = user.email
     axios.post('/api/order', {order, customer, totalPrice, totalAmt, addinfo, shipping}, config)
       .then(res => {
-        dispatch(saveOrderSuccess(res.data))
+        dispatch(saveOrderSuccess(res.data, order))
         console.log('response from saveorder:', res)
       })
       .catch(err => {
@@ -134,9 +136,18 @@ export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipp
   }
 }
 
-function saveOrderSuccess (data) {
+function saveOrderProcessing () {
+  return {
+    type: SAVE_ORDER_PROCESSING,
+    orderProcessing: true
+  }
+}
+
+function saveOrderSuccess (data, order) {
   return {
     type: SAVE_ORDER_SUCCESS,
+    orderProcessing: false,
+    orderDisplay: order,
     data
   }
 }
@@ -144,6 +155,7 @@ function saveOrderSuccess (data) {
 function saveOrderFailure (err) {
   return {
     type: SAVE_ORDER_FAILURE,
+    orderProcessing: false,
     err
   }
 }

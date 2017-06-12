@@ -6,6 +6,7 @@ import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import TextField from 'material-ui/TextField'
+import CircularProgress from 'material-ui/CircularProgress'
 import { saveOrder, updateAddInfo } from './redux/actionCreators'
 import ConfirmSock from './ConfirmSock'
 
@@ -21,6 +22,9 @@ class ConfirmOrder extends React.Component {
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
+    if (this.props.orderComplete) {
+      browserHistory.push('/ordersummary')
+    }
     // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))
   }
   handleInfoUpdate (e) {
@@ -35,6 +39,9 @@ class ConfirmOrder extends React.Component {
   render () {
     return (
       <div>
+        <div className={this.props.orderProcessing ? 'overlay-spinner' : 'hidden'}>
+          <CircularProgress className='center' />
+        </div>
         <Card className='container'>
           <h2 className='card-heading'>Confirm Your Order</h2>
           <div>{this.props.msg}</div>
@@ -148,6 +155,8 @@ const mapStateToProps = (state) => {
     orderForm: state.orderForm,
     orderTotalAmt: state.orderTotalAmt,
     orderTotalPrice: state.orderTotalPrice,
+    orderProcessing: state.orderProcessing,
+    orderComplete: state.orderComplete,
     msg: state.msg,
     addinfo: state.addinfo
   }

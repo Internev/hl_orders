@@ -15,6 +15,7 @@ import { SIGNUP_REQUEST,
   SET_SEARCH_TERM,
   UPDATE_ORDER,
   UPDATE_TOTALS,
+  SAVE_ORDER_PROCESSING,
   SAVE_ORDER_SUCCESS,
   SAVE_ORDER_FAILURE,
   CUSTOMERS_SUCCESS,
@@ -42,6 +43,9 @@ const DEFAULT_STATE = {
   orderForm: [],
   orderTotalAmt: 0,
   orderTotalPrice: 0,
+  orderProcessing: false,
+  orderComplete: false,
+  orderDisplay: [],
   msg: '',
   searchTerm: ''
 }
@@ -123,10 +127,26 @@ const clearOrder = (state, action) => {
   return newState
 }
 
+const saveOrderProcessing = (state, action) => {
+  const newState = {
+    ...state,
+    ...{
+      orderProcessing: true,
+      orderComplete: false
+    }
+  }
+  return newState
+}
+
 const saveOrderSuccess = (state, action) => {
   const newState = {
     ...state,
-    ...{msg: action.data.message}
+    ...{
+      msg: action.data.message,
+      orderDisplay: action.orderDisplay,
+      orderProcessing: false,
+      orderComplete: true
+    }
   }
   return newState
 }
@@ -134,7 +154,11 @@ const saveOrderSuccess = (state, action) => {
 const saveOrderFailure = (state, action) => {
   const newState = {
     ...state,
-    ...{msg: action.err.message}
+    ...{
+      msg: action.err.message,
+      orderProcessing: false,
+      orderComplete: false
+    }
   }
   return newState
 }
@@ -266,6 +290,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return updateOrder(state, action)
     case UPDATE_TOTALS:
       return updateTotals(state, action)
+    case SAVE_ORDER_PROCESSING:
+      return saveOrderProcessing(state, action)
     case SAVE_ORDER_SUCCESS:
       return saveOrderSuccess(state, action)
     case SAVE_ORDER_FAILURE:
