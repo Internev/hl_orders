@@ -1,9 +1,8 @@
 const express = require('express')
-const { Order, Storedorder } = require('../models/db')
+const { Order, Storedorder, User, genHash } = require('../models/db')
 const { customerEmail, factoryEmail } = require('../utils/sendmail')
 const axios = require('axios')
 // const config = require('../../config')
-const { User, genHash } = require('../models/db')
 
 const router = new express.Router()
 
@@ -38,6 +37,11 @@ router.post('/order', (req, res) => {
         message: `Failed to save order: ${err}`
       })
     })
+})
+
+router.get('/order', (req, res) => {
+  console.log('\n\n\n\nget made to order endpoint. Req:', req)
+  res.json({hi: 'man'})
 })
 
 router.post('/order-form', (req, res) => {

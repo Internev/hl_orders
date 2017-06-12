@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { IndexLink, Link, browserHistory } from 'react-router'
+import { IndexLink, Link } from 'react-router'
 
 class Frame extends React.Component {
   render () {
@@ -9,6 +9,7 @@ class Frame extends React.Component {
         <div className='top-bar'>
           <div className='top-bar-left'>
             <IndexLink to='/'>Order Form</IndexLink>
+            <Link to='/orderhistory'>Order History</Link>
             { this.props.user.admin ? (<Link to='/radmin'>Admin Tools</Link>) : ''}
           </div>
 

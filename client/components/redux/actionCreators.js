@@ -95,6 +95,21 @@ export function getOrderForm () {
   }
 }
 
+export function getOrderHistory () {
+  return dispatch => {
+    const config = {
+      headers: {'authorization': localStorage.getItem('id_token')}
+    }
+    axios.get('/api/order', config)
+      .then(res => {
+        console.log('response from orderhistory:', res)
+      })
+      .catch(err => {
+        console.log('history error:', err)
+      })
+  }
+}
+
 export function setSearchTerm (searchTerm) {
   return {
     type: SET_SEARCH_TERM,
@@ -125,14 +140,15 @@ export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipp
     // const customerid = user.customerid
     // const email = user.email
     axios.post('/api/order', {order, customer, totalPrice, totalAmt, addinfo, shipping}, config)
-      .then(res => {
-        dispatch(saveOrderSuccess(res.data, order))
-        console.log('response from saveorder:', res)
-      })
-      .catch(err => {
-        if (err) console.log('error from saveorder:', err)
-        if (err) dispatch(saveOrderFailure(err))
-      })
+    .then(res => {
+      console.log('response from saveorder:', res.data)
+      dispatch(saveOrderSuccess(res.data))
+      dispatch(clearOrder())
+    })
+    .catch(err => {
+      if (err) console.log('error from saveorder:', err)
+      if (err) dispatch(saveOrderFailure(err))
+    })
   }
 }
 
@@ -143,11 +159,10 @@ function saveOrderProcessing () {
   }
 }
 
-function saveOrderSuccess (data, order) {
+function saveOrderSuccess (data) {
   return {
     type: SAVE_ORDER_SUCCESS,
     orderProcessing: false,
-    orderDisplay: order,
     data
   }
 }

@@ -123,7 +123,14 @@ const clearOrder = (state, action) => {
     })
     return sock
   })
-  const newState = {...state, ...{orderForm: orderFormUpdate, orderTotalAmt: 0, orderTotalPrice: 0}}
+  const newState = {
+    ...state,
+    ...{
+      orderForm: [...orderFormUpdate],
+      orderTotalAmt: 0,
+      orderTotalPrice: 0,
+      searchTerm: ''
+    }}
   return newState
 }
 
@@ -139,11 +146,12 @@ const saveOrderProcessing = (state, action) => {
 }
 
 const saveOrderSuccess = (state, action) => {
+
   const newState = {
     ...state,
     ...{
       msg: action.data.message,
-      orderDisplay: action.orderDisplay,
+      orderDisplay: action.data.order,
       orderProcessing: false,
       orderComplete: true
     }
