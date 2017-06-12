@@ -7,21 +7,17 @@ import ConfirmSock from './ConfirmSock'
 class OrderSummary extends React.Component {
   constructor (props) {
     super(props)
-    this.state={date: ''}
+    this.state = {date: ''}
   }
   componentDidMount () {
-    // let day = this.props.orderDisplay.order.updatedAt.getDate() < 10 ? '0' + this.props.orderDisplay.order.updatedAt.getDate() : '' + this.props.orderDisplay.order.updatedAt.getDate()
-    // let month = (this.props.orderDisplay.order.updatedAt.getMonth() + 1) < 10 ? '0' + (this.props.orderDisplay.order.updatedAt.getMonth() + 1) : '' + (this.props.orderDisplay.order.updatedAt.getMonth() + 1)
-    // let orderDate = `${day}/${month}/${this.props.orderDisplay.order.updatedAt.getFullYear()}`
-    // this.setState({date: orderDate})
     let orderDate = this.props.orderDisplay.updatedAt
                     .slice(0, 10)
                     .split('-')
                     .reverse()
                     .join('/')
     this.setState({date: orderDate})
-    console.log('summary mount orderdisplay, props:', this.props.orderDisplay)
-    console.log('date:', this.props.orderDisplay.updatedAt)
+    // console.log('summary mount orderdisplay, props:', this.props.orderDisplay)
+    // console.log('date:', this.props.orderDisplay.updatedAt)
     // console.log('total amt:', this.props.orderDisplay.totalamt)
     // console.log('total price:', this.props.orderDisplay.totalprice)
     // console.log('shipping', this.props.orderDisplay.shipping)
@@ -41,10 +37,8 @@ class OrderSummary extends React.Component {
           <div>
             {this.props.orderDisplay.order
               .filter(sock => sock.totalAmt)
-              .map(sock => {
-                console.log('sock for confirm summary:', sock, <ConfirmSock sock={sock} key={sock.styleID} />)
-                return (<ConfirmSock sock={sock} key={sock.styleID} />)
-              })}
+              .map(sock => (<ConfirmSock sock={sock} key={sock.styleID} />)
+              )}
           </div>
           <h2>{this.props.orderDisplay.totalamt} Pairs in Order. Total Price: ${(this.props.orderDisplay.totalprice / 100).toFixed(2)} exGST {this.props.orderDisplay.shipping ? ' (including $10 shipping)' : ''}</h2>
         </Card>

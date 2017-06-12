@@ -13,7 +13,9 @@ import {
   CUSTOMERS_SUCCESS,
   CUSTOMERS_FAILURE,
   UPDATE_ADD_INFO,
-  CLEAR_ORDER
+  CLEAR_ORDER,
+  GET_ORDER_HISTORY_SUCCESS,
+  GET_ORDER_HISTORY_FAILURE
 
 } from './actions'
 import axios from 'axios'
@@ -95,18 +97,38 @@ export function getOrderForm () {
   }
 }
 
-export function getOrderHistory () {
+export function getOrderHistory (user) {
+  // console.log('getorderhistoryuser:', user)
   return dispatch => {
     const config = {
-      headers: {'authorization': localStorage.getItem('id_token')}
+      headers: {
+        'authorization': localStorage.getItem('id_token'),
+        'id': user.id
+      }
     }
     axios.get('/api/order', config)
       .then(res => {
         console.log('response from orderhistory:', res)
+        dispatch(getOrderHistorySuccess(res.data))
       })
       .catch(err => {
         console.log('history error:', err)
+        dispatch(getOrderHistoryFailure(err))
       })
+  }
+}
+
+function getOrderHistorySuccess (orders) {
+  return {
+    type: GET_ORDER_HISTORY_SUCCESS,
+    orders
+  }
+}
+
+function getOrderHistoryFailure (err) {
+  return {
+    type: GET_ORDER_HISTORY_FAILURE,
+    err
   }
 }
 

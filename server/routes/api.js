@@ -40,8 +40,22 @@ router.post('/order', (req, res) => {
 })
 
 router.get('/order', (req, res) => {
-  console.log('\n\n\n\nget made to order endpoint. Req:', req)
-  res.json({hi: 'man'})
+  // console.log('\n\n\n\nget made to order endpoint. Req:', req.headers)
+  Order.findAll({
+    limit: 10,
+    where: {userId: req.headers.id},
+    order: [[ 'createdAt', 'DESC' ]]
+  })
+    .then(orders => {
+      // console.log('\n\n\n\nres from findall limit 10', orders, '\n\n\n\n')
+      res.json(orders)
+    })
+    .catch(err => {
+      console.log('order findall err', err)
+      res.status(500).json({
+        message: `Failed to get orders: ${err}`
+      })
+    })
 })
 
 router.post('/order-form', (req, res) => {

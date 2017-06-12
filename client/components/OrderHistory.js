@@ -15,7 +15,7 @@ class OrderHistory extends React.Component {
     super(props)
   }
   componentDidMount () {
-    this.props.dispatch(getOrderHistory())
+    this.props.dispatch(getOrderHistory(this.props.user))
   }
   componentDidUpdate () {
     console.log('order History this props is:', this.props)
@@ -32,7 +32,11 @@ class OrderHistory extends React.Component {
       <div>
         <Card className='container'>
           <h2 className='card-heading'>Order History</h2>
-
+          {this.props.orderHistory.map(order => (
+            <div>
+              Date: {order.updatedAt.slice(0, 10)}, Pairs: {order.totalamt}, Total Price: {(order.totalprice / 100).toFixed(2)}
+            </div>
+          ))}
         </Card>
       </div>
     )
@@ -45,7 +49,8 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     id_token: state.id_token,
     isAuthenticated: state.isAuthenticated,
-    orderDisplay: state.orderDisplay
+    orderDisplay: state.orderDisplay,
+    orderHistory: state.orderHistory
   }
 }
 

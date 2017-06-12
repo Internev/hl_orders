@@ -21,7 +21,9 @@ import { SIGNUP_REQUEST,
   CUSTOMERS_SUCCESS,
   CUSTOMERS_FAILURE,
   UPDATE_ADD_INFO,
-  CLEAR_ORDER
+  CLEAR_ORDER,
+  GET_ORDER_HISTORY_SUCCESS,
+  GET_ORDER_HISTORY_FAILURE
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -46,6 +48,7 @@ const DEFAULT_STATE = {
   orderProcessing: false,
   orderComplete: false,
   orderDisplay: [],
+  orderHistory: [],
   msg: '',
   searchTerm: ''
 }
@@ -187,6 +190,22 @@ const customersFailure = (state, action) => {
   return newState
 }
 
+const getOrderHistorySuccess = (state, action) => {
+  const newState = {
+    ...state,
+    ...{orderHistory: action.orders}
+  }
+  return newState
+}
+
+const getOrderHistoryFailure = (state, action) => {
+  const newState = {
+    ...state,
+    ...{msg: action.err.message}
+  }
+  return newState
+}
+
 // ************************
 // Authentication Start
 // ************************
@@ -312,6 +331,10 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return updateAddInfo(state, action)
     case CLEAR_ORDER:
       return clearOrder(state, action)
+    case GET_ORDER_HISTORY_SUCCESS:
+      return getOrderHistorySuccess(state, action)
+    case GET_ORDER_HISTORY_FAILURE:
+      return getOrderHistoryFailure(state, action)
     default:
       return state
   }
