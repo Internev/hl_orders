@@ -41,9 +41,12 @@ router.post('/order', (req, res) => {
 
 router.get('/order', (req, res) => {
   // console.log('\n\n\n\nget made to order endpoint. Req:', req.headers)
+  // console.log('\n\n')
+  let query = req.headers.id ? {userId: req.headers.id} : {}
+  // console.log('****************\n\nQuery:', query, req.headers, '\n\n**************')
   Order.findAll({
     limit: 10,
-    where: {userId: req.headers.id},
+    where: query,
     order: [[ 'createdAt', 'DESC' ]]
   })
     .then(orders => {

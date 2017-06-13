@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Card, CardText, CardActions } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 // import TextField from 'material-ui/TextField'
-import { uploadOrderForm, uploadStoreGeo, uploadCustomers } from './redux/actionCreators'
+import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory } from './redux/actionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 
 class Radmin extends React.Component {
@@ -13,8 +13,13 @@ class Radmin extends React.Component {
     this.uploadOrderForm = this.uploadOrderForm.bind(this)
     this.uploadCustomers = this.uploadCustomers.bind(this)
   }
+  componentDidMount () {
+    this.props.dispatch(getOrderHistory())
+    console.log('Radmin, props:', this.props)
+
+  }
   componentDidUpdate () {
-    // console.log('Radmin, props:', this.props)
+    console.log('Radmin, props:', this.props)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
@@ -52,6 +57,11 @@ class Radmin extends React.Component {
         <CardText>
           <div>
             <h3>Recent Orders</h3>
+            {this.props.orderHistory.map(order => (
+              <div className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
+                Date: {order.updatedAt.slice(0, 10)}, Pairs: {order.totalamt}, Total Price: {(order.totalprice / 100).toFixed(2)}
+              </div>
+            ))}
           </div>
           <CardActions>
             <input
@@ -117,7 +127,8 @@ const mapStateToProps = (state) => {
     id_token: state.id_token,
     isAuthenticated: state.isAuthenticated,
     orderForm: state.orderForm,
-    msg: state.msg
+    msg: state.msg,
+    orderHistory: state.orderHistory
   }
 }
 

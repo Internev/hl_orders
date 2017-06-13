@@ -99,16 +99,17 @@ export function getOrderForm () {
 
 export function getOrderHistory (user) {
   // console.log('getorderhistoryuser:', user)
-  return dispatch => {
-    const config = {
-      headers: {
-        'authorization': localStorage.getItem('id_token'),
-        'id': user.id
-      }
+  const config = {
+    headers: {
+      'authorization': localStorage.getItem('id_token')
     }
+  }
+  if (user) config.headers.id = user.id
+  // console.log('getorderhistory, user:', user, 'config:', config)
+  return dispatch => {
     axios.get('/api/order', config)
       .then(res => {
-        console.log('response from orderhistory:', res)
+        // console.log('response from orderhistory:', res)
         dispatch(getOrderHistorySuccess(res.data))
       })
       .catch(err => {
