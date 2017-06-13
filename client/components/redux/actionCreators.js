@@ -15,8 +15,8 @@ import {
   UPDATE_ADD_INFO,
   CLEAR_ORDER,
   GET_ORDER_HISTORY_SUCCESS,
-  GET_ORDER_HISTORY_FAILURE
-
+  GET_ORDER_HISTORY_FAILURE,
+  SET_ORDER_DISPLAY
 } from './actions'
 import axios from 'axios'
 
@@ -129,6 +129,13 @@ function getOrderHistoryFailure (err) {
   return {
     type: GET_ORDER_HISTORY_FAILURE,
     err
+  }
+}
+
+export function setOrderDisplay (order) {
+  return {
+    type: SET_ORDER_DISPLAY,
+    order
   }
 }
 

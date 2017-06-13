@@ -160,3 +160,8 @@ tr:nth-child(even) {
 .order-input {
   width: 3em;
 }
+
+.pointer:hover {
+  cursor: pointer;
+  background: rgba(0, 188, 212, 0.1);
+}

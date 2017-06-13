@@ -23,7 +23,8 @@ import { SIGNUP_REQUEST,
   UPDATE_ADD_INFO,
   CLEAR_ORDER,
   GET_ORDER_HISTORY_SUCCESS,
-  GET_ORDER_HISTORY_FAILURE
+  GET_ORDER_HISTORY_FAILURE,
+  SET_ORDER_DISPLAY
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -206,6 +207,14 @@ const getOrderHistoryFailure = (state, action) => {
   return newState
 }
 
+const setOrderDisplay = (state, action) => {
+  const newState = {
+    ...state,
+    ...{orderDisplay: action.order}
+  }
+  return newState
+}
+
 // ************************
 // Authentication Start
 // ************************
@@ -335,6 +344,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return getOrderHistorySuccess(state, action)
     case GET_ORDER_HISTORY_FAILURE:
       return getOrderHistoryFailure(state, action)
+    case SET_ORDER_DISPLAY:
+      return setOrderDisplay(state, action)
     default:
       return state
   }

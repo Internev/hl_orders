@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import TextField from 'material-ui/TextField'
 import CircularProgress from 'material-ui/CircularProgress'
-import { getOrderHistory } from './redux/actionCreators'
+import { getOrderHistory, setOrderDisplay } from './redux/actionCreators'
 import ConfirmSock from './ConfirmSock'
 
 class OrderHistory extends React.Component {
@@ -22,10 +22,10 @@ class OrderHistory extends React.Component {
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
-    if (this.props.orderComplete) {
-      browserHistory.push('/ordersummary')
-    }
-    // console.log('order form filtered:', this.props.orderDisplay.filter(sock => sock.totalAmt))
+  }
+  handleOrderClick (order) {
+    this.props.dispatch(setOrderDisplay(order))
+    browserHistory.push('/ordersummary')
   }
   render () {
     return (
@@ -33,7 +33,7 @@ class OrderHistory extends React.Component {
         <Card className='container'>
           <h2 className='card-heading'>Order History</h2>
           {this.props.orderHistory.map(order => (
-            <div>
+            <div className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
               Date: {order.updatedAt.slice(0, 10)}, Pairs: {order.totalamt}, Total Price: {(order.totalprice / 100).toFixed(2)}
             </div>
           ))}
