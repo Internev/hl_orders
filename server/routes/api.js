@@ -7,12 +7,8 @@ const axios = require('axios')
 const router = new express.Router()
 
 router.post('/order', (req, res) => {
-  // console.log('dashboard POST for order, requestbody \n*****\nCUSTOMER:', req.body.customer)
   // If no additional info entered, take default address.
-  // console.log('deliveryADdress in order route', req.body.addinfo.deliveryAddress)
   req.body.addinfo.deliveryAddress = req.body.addinfo.deliveryAddress || req.body.customer.name
-  // console.log('\n\ndeliveryADdress in order route after check', req.body.addinfo.deliveryAddress)
-
 
   Order.create({
     order: req.body.order,
@@ -23,7 +19,6 @@ router.post('/order', (req, res) => {
     shipping: req.body.shipping
   })
     .then(order => {
-      // console.log('order written to db:', order)
       customerEmail(order, req.body.customer.email)
       factoryEmail(order, req.body.customer, req.body.totalAmt)
       res.json({
@@ -40,14 +35,13 @@ router.post('/order', (req, res) => {
 })
 
 router.get('/order', (req, res) => {
-  // console.log('\n\n\n\nget made to order endpoint. Req:', req.headers)
-  // console.log('\n\n')
+  // Manage query for individual user or admin.
   let query = req.headers.id ? {userId: req.headers.id} : {}
-  // console.log('****************\n\nQuery:', query, req.headers, '\n\n**************')
   Order.findAll({
     limit: 10,
     where: query,
-    order: [[ 'createdAt', 'DESC' ]]
+    order: [[ 'createdAt', 'DESC' ]],
+    include: [ {model: User, required: true} ]
   })
     .then(orders => {
       // console.log('\n\n\n\nres from findall limit 10', orders, '\n\n\n\n')

@@ -163,5 +163,9 @@ tr:nth-child(even) {
 
 .pointer:hover {
   cursor: pointer;
-  background: rgba(0, 188, 212, 0.1);
+  background: rgba(0, 226, 255, 0.5);
+}
+
+.order-history {
+  width: 100%;
 }
