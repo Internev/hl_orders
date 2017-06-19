@@ -1,0 +1,189 @@
+$primaryColor: rgb(215, 173, 64);
+$accentColor: rgb(255, 184, 0);
+$baseColor: rgb(33, 33, 33);
+
+body {
+  margin: 0;
+  font-size: 16px;
+  background: rgba(242,242,242,1);
+  color: $baseColor;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: $primaryColor;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.4s;
+
+  &:hover {
+    color: $accentColor;
+  }
+}
+
+.sock-tile {
+  border: 1px dashed $baseColor;
+}
+
+.text-center {
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background: rgba($baseColor, 0.05);
+}
+
+.top-bar {
+  padding: 10px 15px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin: auto;
+
+  .top-bar-left {
+    margin: auto;
+  }
+
+  .top-bar-center {
+    margin: auto;
+  }
+
+  .top-bar-right {
+    margin: auto;
+  }
+
+  a {
+    margin: 0 8px;
+  }
+}
+
+.top-bar::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.nav a {
+  margin: 0 8px;
+}
+
+.bottom-bar {
+  position: fixed;
+  text-align: center;
+  left: 0px;
+  bottom: 0px;
+  height: 64px;
+  width: 100%;
+  color: $primaryColor;
+  background: #FFF;
+  border-top: 1px dashed $baseColor;
+
+  .bottom-bar-left {
+    float: left;
+    padding-left: 3em;
+  }
+
+  .bottom-bar-right {
+    float: right;
+    padding-right: 3em;
+    padding-top: 0.5em;
+  }
+}
+
+.bottom-bar-padding {
+  height: calc(100vh - 164px);
+  overflow: auto;
+}
+
+.container {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1000px;
+  padding: .5em;
+}
+
+.content {
+  width: 100%;
+}
+
+.card-heading {
+  padding: 16px;
+}
+
+.field-line, .button-line {
+  padding: 16px;
+}
+
+.default-shipping {
+  margin: auto;
+  padding: 1em 3em 1em 3em;
+}
+
+.additional-info {
+  display: flex;
+  width: 100%;
+  padding-top: 1em;
+}
+
+.additional-info-box {
+  display: flex;
+  justify-content: space-around;
+  width: 85%;
+  margin: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.overlay-spinner {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  opacity: 0.7;
+  background: white;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+}
+
+.center {
+  margin: auto;
+}
+
+.additional-info-column {
+  /*width: 100px;*/
+  margin: auto;
+}
+
+.warning-message {
+  font-style: italic;
+  font-size: 0.8em;
+  color: rgb(210, 139, 65);
+  padding: 10px;
+}
+
+.error-message {
+  padding: 0 16px;
+  color: tomato;
+}
+
+.success-message {
+  padding: 0 16px;
+  color: green;
+}
+
+.order-input {
+  width: 3em;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  background: $primaryColor;
+}
+
+.order-history {
+  width: 100%;
+}

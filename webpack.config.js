@@ -1,25 +1,32 @@
 const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  // the entry file for the bundle
   entry: path.join(__dirname, '/client/main.js'),
-
-  // the bundle file we will get in the result
   output: {
     path: path.join(__dirname, '/client/dist'),
     filename: 'bundle.js'
   },
 
   module: {
-
-    // apply loaders to files that meet given conditions
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
         presets: ['react', 'es2015']
       }
-    }]
-  }
+    },
+    {
+      test: /\.scss$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'sass-loader']
+      })
+    }
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin('styles.css')
+  ]
 }
