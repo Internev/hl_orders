@@ -1,13 +1,17 @@
-$primaryColor: rgb(215, 173, 64);
+$primaryColor: rgb(230, 157, 50);
 $accentColor: rgb(255, 184, 0);
 $baseColor: rgb(33, 33, 33);
+$backgroundColor: rgba(242,242,242,1);
+$headFont: 'Crimson Text', serif;
+$baseFont: 'Open Sans', sans-serif;
+// rgb(230, 157, 50)
 
 body {
   margin: 0;
   font-size: 16px;
-  background: rgba(242,242,242,1);
+  background: $backgroundColor;
   color: $baseColor;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: $baseFont;
 }
 
 a {
@@ -19,10 +23,57 @@ a {
   &:hover {
     color: $accentColor;
   }
+
+}
+
+.card-heading {
+  font-family: $headFont;
+  font-weight: normal;
+  font-size: 2.2em;
+}
+
+h3 {
+  font-family: $headFont;
+  font-weight: normal;
+  font-size: 1.5em;
+  // border: 1px dashed $baseColor;
 }
 
 .sock-tile {
-  border: 1px dashed $baseColor;
+  // border: 1px dotted $baseColor;
+  // border-radius: 3px;
+  // -moz-border-radius: 3px;
+
+  background: white;
+  height: 100%;
+  box-sizing: border-box;
+  // margin-bottom: 150px;
+  -webkit-box-shadow: 0 10px 6px -6px #AAA;
+   -moz-box-shadow: 0 10px 6px -6px #AAA;
+        box-shadow: 0 10px 6px -6px #AAA;
+
+  .sock-tile-head {
+    // background: $baseColor;
+    background: rgba(44,44,44,1);
+    background: -moz-linear-gradient(top, rgba(44,44,44,1) 0%, rgba(60,60,60,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(44,44,44,1)), color-stop(100%, rgba(60,60,60,1)));
+    background: -webkit-linear-gradient(top, rgba(44,44,44,1) 0%, rgba(60,60,60,1) 100%);
+    background: -o-linear-gradient(top, rgba(44,44,44,1) 0%, rgba(60,60,60,1) 100%);
+    background: -ms-linear-gradient(top, rgba(44,44,44,1) 0%, rgba(60,60,60,1) 100%);
+    background: linear-gradient(to bottom, rgba(44,44,44,1) 0%, rgba(60,60,60,1) 100%);
+    color: $accentColor;
+    padding-bottom: 5px;
+  }
+
+  .sock-tile-title {
+    font-family: $headFont;
+    font-weight: normal;
+    font-size: 1.7em;
+  }
+
+  form {
+      padding: 5px 5px 5px 15px;
+  }
 }
 
 .text-center {
@@ -76,8 +127,8 @@ tr:nth-child(even) {
   height: 64px;
   width: 100%;
   color: $primaryColor;
-  background: #FFF;
-  border-top: 1px dashed $baseColor;
+  background: $backgroundColor;
+  border-top: 1px dotted $baseColor;
 
   .bottom-bar-left {
     float: left;
@@ -97,6 +148,7 @@ tr:nth-child(even) {
 }
 
 .container {
+  background: $backgroundColor;
   margin: 0 auto;
   text-align: center;
   max-width: 1000px;

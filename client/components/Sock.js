@@ -2,14 +2,16 @@ import React from 'react'
 import {GridTile} from 'material-ui/GridList'
 
 const Sock = ({sock, handleFormSubmit}) => (
-  <GridTile className='sock-tile'>
-    <h3>
-      {sock.styleID}
-    </h3>
-    <div>
-      {sock.desc}
+  <div className='sock-tile'>
+    <div className='sock-tile-head'>
+      <div className='sock-tile-title'>
+        {sock.styleID}
+      </div>
+      <div>
+        <i>{sock.desc}</i>
+      </div>
     </div>
-    <form>
+    <form className='sock-tile-form'>
       <table style={{ borderCollapse: 'collapse' }}>
         <tbody>
           <tr>
@@ -59,7 +61,7 @@ const Sock = ({sock, handleFormSubmit}) => (
     </form>
     <div>{sock.totalAmt ? sock.totalAmt : '0'} Total pairs @ ${sock.price.toFixed(2)} exGST: ${sock.totalAmt
         ? (sock.price * sock.totalAmt).toFixed(2) : '0.00'}</div>
-  </GridTile>
+  </div>
 )
 
 export default Sock

@@ -52,8 +52,8 @@ class OrderForm extends React.Component {
     return (
       <div>
         <div className={this.props.orderTotalAmt ? 'content bottom-bar-padding' : 'content'}>
-          <Card className='container'>
-            <h2 className='card-heading'>Humphrey Law Order Form</h2>
+          <div className='container'>
+            <div className='card-heading'>Humphrey Law Order Form</div>
             <TextField
               id='filterSocks'
               onChange={e => this.handleLiveSearch(e)}
@@ -61,23 +61,29 @@ class OrderForm extends React.Component {
               value={this.props.searchTerm}
               />
             { this.props.orderForm.length > 0
-            ? <GridList cellHeight={'auto'}>
+            ? <GridList cellHeight={'auto'} padding={13}>
               {this.props.orderForm
                 .filter(sock =>
                   !this.props.searchTerm
                   ? true
                   : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0)
-                .map(sock => (<Sock sock={sock} handleFormSubmit={this.handleFormSubmit} key={sock.styleID} />)
+                .map(sock => (
+                  <Sock
+                    sock={sock}
+                    handleFormSubmit={this.handleFormSubmit}
+                    key={sock.styleID}
+                    className='FUCK'
+                  />)
                 )}
             </GridList>
             : <div /> }
-          </Card>
+          </div>
         </div>
 
         {this.props.orderTotalAmt
           ? <div className='bottom-bar'>
             <div className='bottom-bar-left'>
-              <h2>{this.props.orderTotalAmt} Pair{this.props.orderTotalAmt > 1 ? 's' : ''} in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</h2>
+              <div className='card-heading'>{this.props.orderTotalAmt} Pair{this.props.orderTotalAmt > 1 ? 's' : ''} in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</div>
             </div>
             <div className='bottom-bar-right'>
               <RaisedButton
