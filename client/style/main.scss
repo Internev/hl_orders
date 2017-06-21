@@ -234,6 +234,7 @@ tr:nth-child(even) {
 .pointer:hover {
   cursor: pointer;
   background: $primaryColor;
+  transition: 0.4s;
 }
 
 .order-history {
