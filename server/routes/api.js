@@ -22,7 +22,7 @@ router.post('/order', (req, res) => {
       customerEmail(order, req.body.customer.email)
       factoryEmail(order, req.body.customer, req.body.totalAmt)
       res.json({
-        message: 'Order received, thank you.',
+        message: 'Order received, thank you for your business. A copy of this order has been emailed to you.',
         order: order
       })
     })

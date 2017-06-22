@@ -9,6 +9,7 @@ import OrderSummary from './OrderSummary'
 import OrderHistory from './OrderHistory'
 import store from './redux/store'
 import { logoutUser } from './redux/authCreators'
+import { clearMessage } from './redux/actionCreators'
 
 const routes = {
   // base component (wrapper for the whole application).
@@ -17,6 +18,7 @@ const routes = {
     {
       path: '/',
       getComponent: (location, callback) => {
+        store.dispatch(clearMessage())
         if (store.getState().isAuthenticated) {
           callback(null, OrderForm)
         } else {
@@ -37,6 +39,7 @@ const routes = {
     {
       path: '/radmin',
       getComponent: (location, callback) => {
+        store.dispatch(clearMessage())
         if (store.getState().isAuthenticated) {
           callback(null, Radmin)
         } else {
@@ -67,6 +70,7 @@ const routes = {
     {
       path: '/orderhistory',
       getComponent: (location, callback) => {
+        store.dispatch(clearMessage())
         if (store.getState().isAuthenticated) {
           callback(null, OrderHistory)
         } else {

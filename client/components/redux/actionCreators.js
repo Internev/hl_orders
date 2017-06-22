@@ -16,9 +16,16 @@ import {
   CLEAR_ORDER,
   GET_ORDER_HISTORY_SUCCESS,
   GET_ORDER_HISTORY_FAILURE,
-  SET_ORDER_DISPLAY
+  SET_ORDER_DISPLAY,
+  CLEAR_MESSAGE
 } from './actions'
 import axios from 'axios'
+
+export function clearMessage () {
+  return {
+    type: CLEAR_MESSAGE
+  }
+}
 
 export function updateAddInfo (key, value) {
   return {

@@ -81,7 +81,7 @@ class Radmin extends React.Component {
               ))}
             </table>
           </div>
-          <CardActions>
+          <CardActions style={{paddingTop: '25px'}}>
             <input
               type='file'
               accept='.csv'

@@ -210,6 +210,42 @@ tr:nth-child(even) {
   margin: auto;
 }
 
+.success {
+  padding: 10px;
+  margin: auto auto 15px auto;
+  background: $primaryColor;
+  border-radius: 5px;
+  border: 2px dotted $accentColor;
+  color: white;
+  width: 70%;
+  font-size: 1.2em;
+}
+
+.summary-info {
+  margin: auto;
+  width: 70%;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  font-size: 1.2em;
+  background: rgba($baseColor, 0.05);
+  border: 1px solid $baseColor;
+
+  > div {
+    flex: 1;
+    padding: 5px;
+  }
+
+  .col-left {
+    text-align: right;
+  }
+
+  .col-right {
+    text-align: left;
+  }
+}
+
+
 .warning-message {
   font-style: italic;
   font-size: 0.8em;
