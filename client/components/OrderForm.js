@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { Card } from 'material-ui/Card'
+// import { Card } from 'material-ui/Card'
 import { GridList } from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import Backspace from 'material-ui/svg-icons/content/backspace'
+import {grey400, amber400} from 'material-ui/styles/colors'
 import Sock from './Sock'
 import { getOrderForm, setSearchTerm, updateOrder, updateTotals, clearOrder } from './redux/actionCreators'
 
@@ -54,12 +56,19 @@ class OrderForm extends React.Component {
         <div className={this.props.orderTotalAmt ? 'content bottom-bar-padding' : 'content'}>
           <div className='container'>
             <div className='card-heading'>Humphrey Law Order Form</div>
-            <TextField
-              id='filterSocks'
-              onChange={e => this.handleLiveSearch(e)}
-              placeholder='Filter Socks'
-              value={this.props.searchTerm}
+            <div className='filter-input'>
+              <div />
+              <TextField
+                id='filterSocks'
+                onChange={e => this.handleLiveSearch(e)}
+                placeholder='Filter Socks'
+                value={this.props.searchTerm}
+                style={{flex: '3'}}
               />
+              {this.props.searchTerm
+              ? (<div><br /><span className='filter-clear'>Clear</span></div>)
+              : <div />}
+            </div>
             { this.props.orderForm.length > 0
             ? <GridList cellHeight={'auto'} padding={13}>
               {this.props.orderForm
@@ -72,7 +81,6 @@ class OrderForm extends React.Component {
                     sock={sock}
                     handleFormSubmit={this.handleFormSubmit}
                     key={sock.styleID}
-                    className='FUCK'
                   />)
                 )}
             </GridList>

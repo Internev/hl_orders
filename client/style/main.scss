@@ -210,6 +210,26 @@ tr:nth-child(even) {
   margin: auto;
 }
 
+.filter-input {
+  display: flex;
+   > div {
+     flex: 2;
+     text-align: left;
+     line-height: 110%;
+   }
+   > TextField {
+     flex: 3;
+   }
+   .filter-clear {
+     padding-left: 5px;
+     cursor: pointer;
+   }
+   .filter-clear:hover {
+     color: $accentColor;
+     transition: 0.4s;
+   }
+}
+
 .success {
   padding: 10px;
   margin: auto auto 15px auto;
