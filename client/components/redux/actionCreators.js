@@ -17,13 +17,20 @@ import {
   GET_ORDER_HISTORY_SUCCESS,
   GET_ORDER_HISTORY_FAILURE,
   SET_ORDER_DISPLAY,
-  CLEAR_MESSAGE
+  CLEAR_MESSAGE,
+  CLEAR_FILTER
 } from './actions'
 import axios from 'axios'
 
 export function clearMessage () {
   return {
     type: CLEAR_MESSAGE
+  }
+}
+
+export function clearFilter () {
+  return {
+    type: CLEAR_FILTER
   }
 }
 

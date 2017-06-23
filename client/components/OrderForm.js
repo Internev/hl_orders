@@ -5,10 +5,10 @@ import { browserHistory } from 'react-router'
 import { GridList } from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import Backspace from 'material-ui/svg-icons/content/backspace'
-import {grey400, amber400} from 'material-ui/styles/colors'
+// import Backspace from 'material-ui/svg-icons/content/backspace'
+// import {grey400, amber400} from 'material-ui/styles/colors'
 import Sock from './Sock'
-import { getOrderForm, setSearchTerm, updateOrder, updateTotals, clearOrder } from './redux/actionCreators'
+import { getOrderForm, setSearchTerm, updateOrder, updateTotals, clearOrder, clearFilter } from './redux/actionCreators'
 
 class OrderForm extends React.Component {
   constructor (props) {
@@ -16,6 +16,7 @@ class OrderForm extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
     this.handleClear = this.handleClear.bind(this)
+    this.handleFilterClear = this.handleFilterClear.bind(this)
   }
   componentDidMount () {
     if (!this.props.orderForm.length) {
@@ -50,6 +51,9 @@ class OrderForm extends React.Component {
   handleClear () {
     this.props.dispatch(clearOrder())
   }
+  handleFilterClear () {
+    this.props.dispatch(clearFilter())
+  }
   render () {
     return (
       <div>
@@ -66,7 +70,10 @@ class OrderForm extends React.Component {
                 style={{flex: '3'}}
               />
               {this.props.searchTerm
-              ? (<div><br /><span className='filter-clear'>Clear</span></div>)
+              ? (<div>&nbsp;<RaisedButton
+                label='Remove Filter'
+                onClick={this.handleFilterClear}
+                /></div>)
               : <div />}
             </div>
             { this.props.orderForm.length > 0
