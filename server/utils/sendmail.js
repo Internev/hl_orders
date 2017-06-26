@@ -47,8 +47,14 @@ const factoryEmail = (order, customer, totalAmt) => {
           ID: ${customer.customerid}<br />
           Customer: ${customer.name}<br />
           Email: ${customer.email}<br /></div>`
-  html += `<div><br />A CSV of this order is attached to this email.</div>`
-  if (order.addinfo.comments) html += `<div><br /><b>Customer Comments:</b><br />${order.addinfo.comments}</div>`
+  if (Object.keys(order.addinfo).length) {
+    html += `<div><br />Additional Information provided by customer:<br />`
+    for (let info in order.addinfo) {
+      html += `<b>${info}:</b> ${order.addinfo[info]}<br />`
+    }
+    html += `<br /></div>`
+  }
+  html += `<div><br />A CSV of this order is attached to this email.<br /></div>`
 
   mailOptions.subject = `Humphrey Law Order Confirmation, order no ${webOrderNumber}`
   mailOptions.html = html

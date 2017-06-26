@@ -12,7 +12,7 @@ class LoginPage extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
   componentDidUpdate () {
-    console.log('loginpage props:', this.props)
+    // console.log('loginpage props:', this.props)
     if (this.props.auth.success) {
       browserHistory.push('/')
     }
