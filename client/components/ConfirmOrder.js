@@ -69,7 +69,7 @@ class ConfirmOrder extends React.Component {
                   <div className='additional-info-box'>
                     <div className='additional-info-column'>
                       <TextField
-                        hintText='Customer Reference Number (12)'
+                        hintText='Customer Order Number (12)'
                         maxLength='12'
                         value={this.props.addinfo.customerRef}
                         onChange={this.handleInfoUpdate}
@@ -114,7 +114,7 @@ class ConfirmOrder extends React.Component {
                     </div>
                     <div className='additional-info-column'>
                       <TextField
-                        floatingLabelText='Comments'
+                        floatingLabelText='Special Instructions'
                         value={this.props.addinfo.comments}
                         onChange={this.handleInfoUpdate}
                         name='comments'
