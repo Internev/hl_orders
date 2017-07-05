@@ -27,6 +27,7 @@ const customerEmail = (order, email) => {
 
   mailOptions.html = html
   mailOptions.to = email
+  mailOptions.subject = 'Humphrey Law Order Confirmation'
 
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {
