@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import TextField from 'material-ui/TextField'
 import CircularProgress from 'material-ui/CircularProgress'
-import { saveOrder, updateAddInfo, clearOrder } from './redux/actionCreators'
+import { saveOrder, updateAddInfo, clearComplete } from './redux/actionCreators'
 import ConfirmSock from './ConfirmSock'
 
 class ConfirmOrder extends React.Component {
@@ -23,7 +23,7 @@ class ConfirmOrder extends React.Component {
       browserHistory.push('/logout')
     }
     if (this.props.orderComplete) {
-      // this.props.dispatch(clearOrder())
+      this.props.dispatch(clearComplete())
       browserHistory.push('/ordersummary')
     }
     // console.log('order form filtered:', this.props.orderForm.filter(sock => sock.totalAmt))

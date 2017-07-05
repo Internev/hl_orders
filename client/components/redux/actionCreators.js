@@ -18,9 +18,16 @@ import {
   GET_ORDER_HISTORY_FAILURE,
   SET_ORDER_DISPLAY,
   CLEAR_MESSAGE,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  CLEAR_COMPLETE
 } from './actions'
 import axios from 'axios'
+
+export function clearComplete () {
+  return {
+    type: CLEAR_COMPLETE
+  }
+}
 
 export function clearMessage () {
   return {
@@ -185,7 +192,7 @@ export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipp
     // const email = user.email
     axios.post('/api/order', {order, customer, totalPrice, totalAmt, addinfo, shipping}, config)
     .then(res => {
-      console.log('response from saveorder:', res.data)
+      // console.log('response from saveorder:', res.data)
       dispatch(saveOrderSuccess(res.data))
       dispatch(clearOrder())
     })

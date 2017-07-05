@@ -26,7 +26,8 @@ import { SIGNUP_REQUEST,
   GET_ORDER_HISTORY_FAILURE,
   SET_ORDER_DISPLAY,
   CLEAR_MESSAGE,
-  CLEAR_FILTER
+  CLEAR_FILTER,
+  CLEAR_COMPLETE
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -54,6 +55,11 @@ const DEFAULT_STATE = {
   orderHistory: [],
   msg: '',
   searchTerm: ''
+}
+
+const clearComplete = (state, action) => {
+  const newState = {...state, ...{orderComplete: false, addinfo: {}}}
+  return newState
 }
 
 const clearMessage = (state, action) => {
@@ -362,6 +368,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return clearMessage(state, action)
     case CLEAR_FILTER:
       return clearFilter(state, action)
+    case CLEAR_COMPLETE:
+      return clearComplete(state, action)
     default:
       return state
   }
