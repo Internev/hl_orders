@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import { updateAddInfo } from './redux/actionCreators'
 
-class Addinfo extends React.Component {
+class AddInfo extends React.Component {
   constructor (props) {
     super(props)
     this.handleInfoUpdate = this.handleInfoUpdate.bind(this)
@@ -90,4 +90,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Addinfo)
+export default connect(mapStateToProps)(AddInfo)

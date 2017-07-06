@@ -19,7 +19,9 @@ import {
   SET_ORDER_DISPLAY,
   CLEAR_MESSAGE,
   CLEAR_FILTER,
-  CLEAR_COMPLETE
+  CLEAR_COMPLETE,
+  GET_PROXY_USER,
+  SET_PROXY_USER
 } from './actions'
 import axios from 'axios'
 
@@ -38,6 +40,33 @@ export function clearMessage () {
 export function clearFilter () {
   return {
     type: CLEAR_FILTER
+  }
+}
+
+export function getProxyUser (id) {
+  return dispatch => {
+    const config = {
+      headers: {
+        'authorization': localStorage.getItem('id_token'),
+        id
+      }
+    }
+    axios.get('/api/customers', config)
+      .then(res => {
+        console.log('res from proxyUser:', res)
+        return dispatch(setProxyUser(res.data))
+      })
+      .catch(err => {
+        if (err) console.log('err from proxyUser:', err)
+        // if (err) return dispatch(uploadOrderFormFailure(err.response.data))
+      })
+  }
+}
+
+function setProxyUser (user) {
+  return {
+    type: SET_PROXY_USER,
+    user
   }
 }
 

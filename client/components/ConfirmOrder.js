@@ -5,17 +5,17 @@ import { Card } from 'material-ui/Card'
 // import {GridList, GridTile} from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import {Tabs, Tab} from 'material-ui/Tabs'
-import TextField from 'material-ui/TextField'
+// import TextField from 'material-ui/TextField'
 import CircularProgress from 'material-ui/CircularProgress'
-import { saveOrder, updateAddInfo, clearComplete } from './redux/actionCreators'
+import { saveOrder, clearComplete } from './redux/actionCreators'
 import ConfirmSock from './ConfirmSock'
 import AddInfo from './AddInfo'
+import DefInfo from './DefInfo'
 
 class ConfirmOrder extends React.Component {
   constructor (props) {
     super(props)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
-    this.handleUserProxy = this.handleUserProxy.bind(this)
     this.state = {shipping: this.props.orderTotalAmt < 48 ? 10 : 0}
   }
   componentDidUpdate () {
@@ -31,9 +31,6 @@ class ConfirmOrder extends React.Component {
   handleOrderSubmit () {
     // TotalPrice stored as cents in db.
     this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping))
-  }
-  handleUserProxy () {
-
   }
   render () {
     return (
@@ -57,24 +54,7 @@ class ConfirmOrder extends React.Component {
             <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${(this.props.orderTotalPrice + this.state.shipping).toFixed(2)} exGST {this.state.shipping ? ' (including $10 shipping)' : ''}</h2>
             <Tabs>
               <Tab label='Default Information'>
-                <div className='default-shipping'>
-                  {this.props.user.admin
-                    ? (<div>
-                    Please select a customer for this order. <br />
-                      <TextField
-                        hintText='Customer ID'
-                        maxLength='6'
-                        onChange={this.handleUserProxy}
-                      />&nbsp;
-                      <RaisedButton
-                        label='Find Customer'
-                        onClick={this.handleUserProxy}
-                      />
-                    </div>)
-                    : (<div>Shipping to:
-                        { this.props.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) }</div>)
-                  }
-                </div>
+                <DefInfo />
               </Tab>
               <Tab label='Add additional information (optional)'>
                 <AddInfo />

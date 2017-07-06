@@ -88,7 +88,7 @@ router.get('/order-form', (req, res) => {
 })
 
 router.post('/store-geo', (req, res) => {
-  console.log('\n\n*********\nStore Geo:', req.body)
+  // console.log('\n\n*********\nStore Geo:', req.body)
   for (let i = 180; i < 190; i++) {
     let c = req.body[i]
     let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
@@ -114,10 +114,10 @@ router.post('/customers', (req, res) => {
     if (c.customerid.length === 0) continue
     User.upsert(c)
       .then(result => {
-        console.log('\n********\nupsert result:', result, '\n********\n')
+        // console.log('\n********\nupsert result:', result, '\n********\n')
       })
       .catch(err => {
-        console.log('\n********\nupsert err:', err, '\n********\n')
+        // console.log('\n********\nupsert err:', err, '\n********\n')
         if (err) {
           error = err
         }
@@ -132,6 +132,18 @@ router.post('/customers', (req, res) => {
       message: 'Customer List Updated.'
     })
   }
+})
+
+router.get('/customers', (req, res) => {
+  console.log('\n****\n\n****\n\n****\nget req to customers!\n****\n\n****\n\n****\n')
+  let query = req.headers.id ? {customerid: req.headers.id} : {}
+  User.findOne({where: query})
+    .then(user => {
+      res.status(200).json(user)
+    })
+    .catch(err => {
+      res.status(500).json({err})
+    })
 })
 
 module.exports = router

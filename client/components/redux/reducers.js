@@ -27,7 +27,9 @@ import { SIGNUP_REQUEST,
   SET_ORDER_DISPLAY,
   CLEAR_MESSAGE,
   CLEAR_FILTER,
-  CLEAR_COMPLETE
+  CLEAR_COMPLETE,
+  GET_PROXY_USER,
+  SET_PROXY_USER
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -45,6 +47,7 @@ const DEFAULT_STATE = {
     message: '',
     errors: {}
   },
+  proxyUser: {},
   addinfo: {},
   orderForm: [],
   orderTotalAmt: 0,
@@ -78,6 +81,20 @@ const updateAddInfo = (state, action) => {
   let value = action.value
   newAddinfo = {...newAddinfo, ...{[key]: value}}
   const newState = {...state, ...{addinfo: newAddinfo}}
+  return newState
+}
+
+const getProxyUser = (state, action) => {
+  const newState = {...state, ...{orderProcessing: true}}
+  return newState
+}
+
+const setProxyUser = (state, action) => {
+  const newState = {...state,
+    ...{
+      orderProcessing: false,
+      proxyUser: action.user
+    }}
   return newState
 }
 
@@ -370,6 +387,10 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return clearFilter(state, action)
     case CLEAR_COMPLETE:
       return clearComplete(state, action)
+    case GET_PROXY_USER:
+      return getProxyUser(state, action)
+    case SET_PROXY_USER:
+      return setProxyUser(state, action)
     default:
       return state
   }
