@@ -4,7 +4,6 @@ $baseColor: rgb(33, 33, 33);
 $backgroundColor: rgba(242,242,242,1);
 $headFont: 'Crimson Text', serif;
 $baseFont: 'Open Sans', sans-serif;
-// rgb(230, 157, 50)
 
 body {
   margin: 0;
@@ -93,15 +92,20 @@ tr:nth-child(even) {
   margin: auto;
 
   .top-bar-left {
+    flex: 1;
     margin: auto;
   }
 
   .top-bar-center {
+    flex: 1;
     margin: auto;
+    text-align: center;
   }
 
   .top-bar-right {
+    flex: 1;
     margin: auto;
+    text-align: right;
   }
 
   a {

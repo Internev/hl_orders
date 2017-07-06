@@ -7,22 +7,20 @@ class Frame extends React.Component {
     return (
       <div>
         <div className='top-bar'>
-          <div className='top-bar-left'>
-            <IndexLink to='/'>Order Form</IndexLink>
-            <Link to='/orderhistory'>Order History</Link>
-            { this.props.user.admin ? (<Link to='/radmin'>Admin Tools</Link>) : ''}
-          </div>
+          { this.props.isAuthenticated ? (
+            <div className='top-bar-left'>
+              <IndexLink to='/'>Order Form</IndexLink>
+              <Link to='/orderhistory'>Order History</Link>
+              { this.props.user.admin ? (<Link to='/radmin'>Admin Tools</Link>) : ''}
+            </div>
+        ) : <div />}
           <div className='top-bar-center'><img src='../style/images/hl_logo.png' /></div>
           { this.props.isAuthenticated ? (
             <div className='top-bar-right'>
               <span>Welcome, {this.props.user.name.slice(0, this.props.user.name.indexOf(','))}.</span>
               <Link to='/logout'>Log out</Link>
             </div>
-          ) : (
-            <div className='top-bar-right'>
-              <Link to='/login'>Log in</Link>
-            </div>
-          )
+          ) : <div />
         }
 
         </div>
