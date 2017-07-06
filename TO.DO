@@ -1,11 +1,11 @@
 
-- change signup page to be 'register password' or something.
+
 - get geolocation?
   - started: redux basics done, backend retrieval underway.
-- Tidy up the toolbar: radmin link for admins etc. Mostly Done
-- Admin check for /radmin path
-- Style it!
-  - Msgs brighter plus fadeout.
-- Add csv and order to HL email functionality.
-  - add proper usage of email address from user obj
-- Add recent orders to radmin? And to customer.
+
+
+- Admin proxy orders:
+  - Find customer in db.
+  - Redux: add proxy user option(?)
+  - Find c_id its own component?
+  - 
