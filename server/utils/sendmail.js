@@ -9,13 +9,6 @@ import ConfirmSock from '../../client/components/ConfirmSock'
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport(config.mail)
-// setup email data with unicode symbols
-let mailOptions = {
-  from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>', // sender address
-  subject: 'Humphrey Law Order Confirmation', // Subject line
-  text: 'Humphrey Law Order Confirmation', // plain text body
-  html: '<b>Humphrey Law Order Confirmation</b>' // html body
-}
 
 const padToFive = number => number <= 99999 ? ('0000' + number).slice(-5) : number
 
@@ -24,6 +17,10 @@ const customerEmail = (order, email) => {
   // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
   html += `<div>Thank you for your business!</div>`
+
+  let mailOptions = {
+    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>'
+  }
 
   mailOptions.html = html
   mailOptions.to = email
@@ -38,9 +35,15 @@ const agentEmail = (order, customer, email) => {
   html += htmlFromOrder(order)
   html += `<div>Thanks!</div>`
 
-  mailOptions.html = html
-  mailOptions.to = email
-  mailOptions.subject = `${customer.customerid} Humphrey Law Order Confirmation`
+  let mailOptions = {
+    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>',
+    html,
+    to: email,
+    subject: `${customer.customerid} Humphrey Law Order Confirmation`
+  }
+  // mailOptions.html = html
+  // mailOptions.to = email
+  // mailOptions.subject = `${customer.customerid} Humphrey Law Order Confirmation`
 
   return transporter.sendMail(mailOptions)
 }
@@ -63,6 +66,9 @@ const factoryEmail = (order, customer, totalAmt) => {
   }
   html += `<div><br />A CSV of this order is attached to this email.<br /></div>`
 
+  let mailOptions = {
+    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>'
+  }
   mailOptions.subject = `Humphrey Law Order Confirmation, order no ${webOrderNumber}`
   mailOptions.html = html
   mailOptions.to = config.factoryEmail
