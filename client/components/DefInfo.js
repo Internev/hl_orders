@@ -14,14 +14,14 @@ class DefInfo extends React.Component {
     this.state = {customerid: '', validId: ''}
   }
   componentDidUpdate () {
-    console.log('definfo props:', this.props)
+    // console.log('definfo props:', this.props)
   }
   updateCustomerid (e) {
     e.preventDefault()
     this.setState({customerid: e.target.value})
   }
   handleUserProxy () {
-    console.log('state for customerid:', this.state)
+    // console.log('state for customerid:', this.state)
     if (/[A-Za-z]{3}\d{3}/.test(this.state.customerid)) {
       this.setState({validId: ''})
       this.props.dispatch(getProxyUser(this.state.customerid.toUpperCase()))
@@ -33,30 +33,32 @@ class DefInfo extends React.Component {
     return (
       <div className='default-shipping'>
         {this.props.user.admin
-          ? (<div>
-          Please select a customer for this order. <br />
-            <TextField
-              hintText='Customer ID'
-              maxLength='6'
-              value={this.state.customerid}
-              onChange={this.updateCustomerid}
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  e.preventDefault()
-                  this.handleUserProxy()
-                }
-              }}
-              errorText={this.state.validId}
-            />&nbsp;
-            <RaisedButton
-              label='Find Customer'
-              onClick={this.handleUserProxy}
-            />
+          ? (<div className='default-shipping-admin'>
+            <div>
+            Please select a customer for this order. <br />
+              <TextField
+                hintText='Customer ID'
+                maxLength='6'
+                value={this.state.customerid}
+                onChange={this.updateCustomerid}
+                onKeyPress={e => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    this.handleUserProxy()
+                  }
+                }}
+                errorText={this.state.validId}
+              />&nbsp;
+              <RaisedButton
+                label='Find Customer'
+                onClick={this.handleUserProxy}
+              />
+            </div>
             {this.props.proxyUser.email
             ? (
               <div>Ordering on behalf of: <br />
+                { this.props.proxyUser.name.split(',').map((line, i) => <div key={i}>{line}</div>) } <br />
               Customer id: {this.props.proxyUser.customerid} <br />
-              Shipping to: { this.props.proxyUser.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
               Email Confirmation to: {this.props.proxyUser.email}
               </div>
             )

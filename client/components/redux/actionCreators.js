@@ -53,7 +53,7 @@ export function getProxyUser (id) {
     }
     axios.get('/api/customers', config)
       .then(res => {
-        console.log('res from proxyUser:', res)
+        // console.log('res from proxyUser:', res)
         return dispatch(setProxyUser(res.data))
       })
       .catch(err => {
@@ -210,16 +210,13 @@ export function updateTotals () {
   }
 }
 
-export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipping) {
+export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipping, agent) {
   return dispatch => {
     dispatch(saveOrderProcessing())
     const config = {
       headers: {'authorization': localStorage.getItem('id_token')}
     }
-    // const userId = user.id
-    // const customerid = user.customerid
-    // const email = user.email
-    axios.post('/api/order', {order, customer, totalPrice, totalAmt, addinfo, shipping}, config)
+    axios.post('/api/order', {order, customer, totalPrice, totalAmt, addinfo, shipping, agent}, config)
     .then(res => {
       // console.log('response from saveorder:', res.data)
       dispatch(saveOrderSuccess(res.data))

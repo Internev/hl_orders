@@ -1,6 +1,6 @@
 const express = require('express')
 const { Order, Storedorder, User, genHash } = require('../models/db')
-const { customerEmail, factoryEmail } = require('../utils/sendmail')
+const { customerEmail, factoryEmail, agentEmail } = require('../utils/sendmail')
 const axios = require('axios')
 // const config = require('../../config')
 
@@ -20,7 +20,22 @@ router.post('/order', (req, res) => {
   })
     .then(order => {
       customerEmail(order, req.body.customer.email)
-      factoryEmail(order, req.body.customer, req.body.totalAmt)
+        .then(info => {
+          console.log('Customer Message %s sent: %s', info.messageId, info.response)
+          return factoryEmail(order, req.body.customer, req.body.totalAmt)
+        })
+        .then(info => {
+          console.log('Factory Message %s sent: %s', info.messageId, info.response)
+          if (req.body.agent) return agentEmail(order, req.body.customer, req.body.agent.email)
+        })
+        .then(info => {
+          console.log('Agent Message %s sent: %s', info.messageId, info.response)
+        })
+        .catch(error => {
+          console.log('Sendmail error:', error)
+        })
+      // factoryEmail(order, req.body.customer, req.body.totalAmt)
+      // if (req.body.agent) setTimeout(agentEmail(order, req.body.customer, req.body.agent.email), 5000)
       res.json({
         message: 'Order received, thank you for your business. A copy of this order has been emailed to you.',
         order: order

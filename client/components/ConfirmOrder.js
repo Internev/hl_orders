@@ -16,6 +16,7 @@ class ConfirmOrder extends React.Component {
   constructor (props) {
     super(props)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
+    this.submitAllowed = this.submitAllowed.bind(this)
     this.state = {shipping: this.props.orderTotalAmt < 48 ? 10 : 0}
   }
   componentDidUpdate () {
@@ -30,7 +31,16 @@ class ConfirmOrder extends React.Component {
   }
   handleOrderSubmit () {
     // TotalPrice stored as cents in db.
-    this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping))
+    if (this.props.user.admin) {
+      this.props.dispatch(saveOrder(this.props.orderForm, this.props.proxyUser, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping, this.props.user))
+    } else {
+      this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping))
+    }
+  }
+  submitAllowed () {
+    return this.props.user.admin
+      ? !(this.props.orderTotalAmt > 23 && this.props.proxyUser.email)
+      : this.props.orderTotalAmt < 24
   }
   render () {
     return (
@@ -72,7 +82,7 @@ class ConfirmOrder extends React.Component {
               <RaisedButton
                 label='Confirm and Submit Order'
                 onClick={this.handleOrderSubmit}
-                disabled={this.props.orderTotalAmt < 24}
+                disabled={this.submitAllowed()}
                 />
             </div>
           </div>
@@ -94,7 +104,8 @@ const mapStateToProps = (state) => {
     orderProcessing: state.orderProcessing,
     orderComplete: state.orderComplete,
     msg: state.msg,
-    addinfo: state.addinfo
+    addinfo: state.addinfo,
+    proxyUser: state.proxyUser
   }
 }
 

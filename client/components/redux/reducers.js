@@ -168,7 +168,8 @@ const clearOrder = (state, action) => {
       orderForm: [...orderFormUpdate],
       orderTotalAmt: 0,
       orderTotalPrice: 0,
-      searchTerm: ''
+      searchTerm: '',
+      proxyUser: {}
     }}
   return newState
 }

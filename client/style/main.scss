@@ -176,6 +176,14 @@ tr:nth-child(even) {
   padding: 1em 3em 1em 3em;
 }
 
+.default-shipping-admin {
+  display: flex;
+
+  div {
+    flex: 1
+  }
+}
+
 .additional-info {
   display: flex;
   width: 100%;

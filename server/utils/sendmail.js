@@ -29,14 +29,20 @@ const customerEmail = (order, email) => {
   mailOptions.to = email
   mailOptions.subject = 'Humphrey Law Order Confirmation'
 
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error)
-    }
-    console.log('Message %s sent: %s', info.messageId, info.response)
-  })
-  return '250'
+  return transporter.sendMail(mailOptions)
+}
+
+const agentEmail = (order, customer, email) => {
+  let html = `<div>This confirms the sock order you made with Humphrey Law on behalf of customer ${customer.customerid}, you ordered:</div>`
+  // console.log(Array.isArray(order.order))
+  html += htmlFromOrder(order)
+  html += `<div>Thanks!</div>`
+
+  mailOptions.html = html
+  mailOptions.to = email
+  mailOptions.subject = `${customer.customerid} Humphrey Law Order Confirmation`
+
+  return transporter.sendMail(mailOptions)
 }
 
 const factoryEmail = (order, customer, totalAmt) => {
@@ -66,14 +72,7 @@ const factoryEmail = (order, customer, totalAmt) => {
       content: csvFromOrder(order, customer, totalAmt)
     }
   ]
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error)
-    }
-    console.log('Message %s sent: %s', info.messageId, info.response)
-  })
-  return '250'
+  return transporter.sendMail(mailOptions)
 }
 
 const csvFromOrder = (order, customer, totalAmt) => {
@@ -131,3 +130,4 @@ const htmlFromOrder = (order) => {
 
 module.exports.customerEmail = customerEmail
 module.exports.factoryEmail = factoryEmail
+module.exports.agentEmail = agentEmail
