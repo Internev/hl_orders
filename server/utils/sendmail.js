@@ -19,12 +19,15 @@ const customerEmail = (order, email) => {
   html += `<div>Thank you for your business!</div>`
 
   let mailOptions = {
-    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>'
+    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>',
+    html,
+    to: email,
+    subject: 'Humphrey Law Order Confirmation'
   }
 
-  mailOptions.html = html
-  mailOptions.to = email
-  mailOptions.subject = 'Humphrey Law Order Confirmation'
+  // mailOptions.html = html
+  // mailOptions.to = email
+  // mailOptions.subject = 'Humphrey Law Order Confirmation'
 
   return transporter.sendMail(mailOptions)
 }
