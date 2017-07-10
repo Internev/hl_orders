@@ -178,9 +178,11 @@ tr:nth-child(even) {
 
 .default-shipping-admin {
   display: flex;
+  align-content: space-between;
 
-  div {
-    flex: 1
+  > div {
+    flex: 1;
+    min-width: 50%;
   }
 }
 

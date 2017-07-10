@@ -150,11 +150,10 @@ router.post('/customers', (req, res) => {
 })
 
 router.get('/customers', (req, res) => {
-  console.log('\n****\n\n****\n\n****\nget req to customers!\n****\n\n****\n\n****\n')
   let query = req.headers.id ? {customerid: req.headers.id} : {}
   User.findOne({where: query})
     .then(user => {
-      res.status(200).json(user)
+      user ? res.status(200).json(user) : res.status(500).json({msg: 'user not found'})
     })
     .catch(err => {
       res.status(500).json({err})

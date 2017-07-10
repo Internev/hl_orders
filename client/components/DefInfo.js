@@ -54,7 +54,7 @@ class DefInfo extends React.Component {
                 onClick={this.handleUserProxy}
               />
             </div>
-            {this.props.proxyUser.email
+            {this.props.proxyUser && this.props.proxyUser.email
             ? (
               <div>Ordering on behalf of: <br />
                 { this.props.proxyUser.name.split(',').map((line, i) => <div key={i}>{line}</div>) } <br />
@@ -62,7 +62,7 @@ class DefInfo extends React.Component {
               Email Confirmation to: {this.props.proxyUser.email}
               </div>
             )
-            : null
+            : this.props.proxyUserMsg ? <div>{this.props.proxyUserMsg}</div> : null
           }
           </div>)
           : (<div>Shipping to:
@@ -80,7 +80,8 @@ const mapStateToProps = (state) => {
     id_token: state.id_token,
     isAuthenticated: state.isAuthenticated,
     addinfo: state.addinfo,
-    proxyUser: state.proxyUser
+    proxyUser: state.proxyUser,
+    proxyUserMsg: state.proxyUserMsg
   }
 }
 
