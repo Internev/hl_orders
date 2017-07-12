@@ -51,9 +51,14 @@ const agentEmail = (order, customer, email) => {
   return transporter.sendMail(mailOptions)
 }
 
-const factoryEmail = (order, customer, totalAmt) => {
+const factoryEmail = (order, customer, totalAmt, agent) => {
   let webOrderNumber = 'A' + padToFive(order.id)
-  let html = `<div>A new customer order has been made, order number: ${webOrderNumber}.<br /><br />The order is:</div>`
+  let html = ''
+  if (agent) {
+    html += `<div>Agent ${agent.customerid} has made an order on behalf of ${customer.customerid}, order number: ${webOrderNumber}.<br /><br />The order is:</div>`
+  } else {
+    html += `<div>A new customer order has been made, order number: ${webOrderNumber}.<br /><br />The order is:</div>`
+  }
   // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
   html += `<div><br /><b>Customer Details</b><br />

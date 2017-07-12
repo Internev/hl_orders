@@ -22,14 +22,17 @@ router.post('/order', (req, res) => {
       customerEmail(order, req.body.customer.email)
         .then(info => {
           console.log('Customer Message %s sent: %s', info.messageId, info.response)
-          return factoryEmail(order, req.body.customer, req.body.totalAmt)
+          if (req.body.agent) return factoryEmail(order, req.body.customer, req.body.totalAmt, req.body.agent)
+          else return factoryEmail(order, req.body.customer, req.body.totalAmt)
         })
         .then(info => {
           console.log('Factory Message %s sent: %s', info.messageId, info.response)
-          if (req.body.agent) return agentEmail(order, req.body.customer, req.body.agent.email)
-        })
-        .then(info => {
-          console.log('Agent Message %s sent: %s', info.messageId, info.response)
+          if (req.body.agent) {
+            agentEmail(order, req.body.customer, req.body.agent.email)
+              .then(info => {
+                console.log('Agent Message %s sent: %s', info.messageId, info.response)
+              })
+          }
         })
         .catch(error => {
           console.log('Sendmail error:', error)
@@ -53,7 +56,7 @@ router.get('/order', (req, res) => {
   // Manage query for individual user or admin.
   let query = req.headers.id ? {userId: req.headers.id} : {}
   Order.findAll({
-    limit: 10,
+    limit: 12,
     where: query,
     order: [[ 'createdAt', 'DESC' ]],
     include: [ {model: User, required: true} ]
