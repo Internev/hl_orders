@@ -31,6 +31,7 @@ import { SIGNUP_REQUEST,
   GET_PROXY_USER,
   SET_PROXY_USER,
   SET_PROXY_USER_LIST,
+  CLOSE_PROXY_USER_LIST,
   PROXY_USER_FAILURE
 } from './actions'
 
@@ -51,6 +52,7 @@ const DEFAULT_STATE = {
   },
   proxyUser: {},
   proxyUserList: [],
+  proxyUserListOpen: false,
   proxyUserMsg: '',
   addinfo: {},
   orderForm: [],
@@ -98,13 +100,23 @@ const setProxyUser = (state, action) => {
     ...{
       orderProcessing: false,
       proxyUser: action.user,
-      proxyUserMsg: ''
+      proxyUserMsg: '',
+      proxyUserListOpen: false
     }}
   return newState
 }
 
 const setProxyUserList = (state, action) => {
-  const newState = {...state, ...{proxyUserList: action.users}}
+  const newState = {...state,
+    ...{
+      proxyUserList: action.users,
+      proxyUserListOpen: true
+    }}
+  return newState
+}
+
+const closeProxyUserList = (state, action) => {
+  const newState = {...state, ...{proxyUserListOpen: false}}
   return newState
 }
 
@@ -184,7 +196,8 @@ const clearOrder = (state, action) => {
       orderTotalAmt: 0,
       orderTotalPrice: 0,
       searchTerm: '',
-      proxyUser: {}
+      proxyUser: {},
+      proxyUserList: []
     }}
   return newState
 }
@@ -409,6 +422,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return setProxyUser(state, action)
     case SET_PROXY_USER_LIST:
       return setProxyUserList(state, action)
+    case CLOSE_PROXY_USER_LIST:
+      return closeProxyUserList(state, action)
     case PROXY_USER_FAILURE:
       return proxyUserFailure(state, action)
     default:

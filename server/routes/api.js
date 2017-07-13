@@ -163,7 +163,10 @@ router.get('/customers', (req, res) => {
       query = {name: {$ilike: '%' + req.headers.query + '%'}}
     }
   }
-  User.findAll({where: query})
+  User.findAll({
+    where: query,
+    order: [[ 'customerid', 'ASC' ]]
+  })
     .then(users => {
       // console.log('\n\n************\nUser result:', user)
       users ? res.status(200).json(users) : res.status(500).json({msg: 'user not found'})

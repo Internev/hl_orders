@@ -4,14 +4,14 @@ import { connect } from 'react-redux'
 // import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import { getProxyUser, setProxyUser } from './redux/actionCreators'
+import ProxyUserPicker from './ProxyUserPicker'
+import { getProxyUser } from './redux/actionCreators'
 
 class DefInfo extends React.Component {
   constructor (props) {
     super(props)
     this.handleUserProxy = this.handleUserProxy.bind(this)
     this.updateCustomerSearch = this.updateCustomerSearch.bind(this)
-    this.handleUserProxyListClick = this.handleUserProxyListClick.bind(this)
     this.state = {customerSearch: '', validId: ''}
   }
   componentDidUpdate () {
@@ -29,21 +29,6 @@ class DefInfo extends React.Component {
     } else {
       this.setState({validId: 'Please enter a search term'})
     }
-    // if (/[A-Za-z]{3}\d{3}/.test(this.state.customerSearch)) {
-    //   this.setState({validId: ''})
-    //   this.props.dispatch(getProxyUser(this.state.customerSearch.toUpperCase(), 'id'))
-    // } else if (/@/g.test(this.state.customerSearch)) {
-    //   console.log('email search!')
-    //   this.setState({validId: ''})
-    //   // this.props.dispatch(getProxyUser(this.state.customerSearch.toUpperCase(), 'email'))
-    // } else {
-    //   console.log('generic search!')
-    //   this.setState({validId: ''})
-    //   // this.props.dispatch(getProxyUser(this.state.customerSearch.toUpperCase()))
-    // }
-  }
-  handleUserProxyListClick (user) {
-    this.props.dispatch(setProxyUser(user))
   }
   render () {
     return (
@@ -70,29 +55,7 @@ class DefInfo extends React.Component {
                 onClick={this.handleUserProxy}
               />
               {this.props.proxyUserList.length > 1
-              ? (
-                <table className='order-history'>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Customer Code</th>
-                  </tr>
-                  {this.props.proxyUserList.map(user => (
-                    <tr
-                      className='pointer'
-                      key={user.id}
-                      onClick={e => {
-                        e.preventDefault()
-                        this.handleUserProxyListClick(user)
-                      }}
-                      >
-                      <td>{user.name.slice(0, this.props.user.name.indexOf(','))}</td>
-                      <td>{user.email}</td>
-                      <td>{user.customerid}</td>
-                    </tr>
-                  ))}
-                </table>
-              )
+              ? <ProxyUserPicker />
               : <div />}
             </div>
             {this.props.proxyUser && this.props.proxyUser.email

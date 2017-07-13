@@ -22,6 +22,7 @@ import {
   CLEAR_COMPLETE,
   SET_PROXY_USER,
   SET_PROXY_USER_LIST,
+  CLOSE_PROXY_USER_LIST,
   PROXY_USER_FAILURE
 } from './actions'
 import axios from 'axios'
@@ -56,7 +57,7 @@ export function getProxyUser (query) {
       .then(res => {
         console.log('res from proxyUser:', res)
         if (res.data.length === 1) {
-          return dispatch(setProxyUser(res.data))
+          return dispatch(setProxyUser(res.data[0]))
         } else {
           return dispatch(setProxyUserList(res.data))
         }
@@ -79,6 +80,12 @@ function setProxyUserList (users) {
   return {
     type: SET_PROXY_USER_LIST,
     users
+  }
+}
+
+export function closeProxyUserList () {
+  return {
+    type: CLOSE_PROXY_USER_LIST
   }
 }
 
