@@ -21,6 +21,7 @@ import {
   CLEAR_FILTER,
   CLEAR_COMPLETE,
   SET_PROXY_USER,
+  SET_PROXY_USER_LIST,
   PROXY_USER_FAILURE
 } from './actions'
 import axios from 'axios'
@@ -43,18 +44,22 @@ export function clearFilter () {
   }
 }
 
-export function getProxyUser (id) {
+export function getProxyUser (query) {
   return dispatch => {
     const config = {
       headers: {
         'authorization': localStorage.getItem('id_token'),
-        id
+        query
       }
     }
     axios.get('/api/customers', config)
       .then(res => {
         console.log('res from proxyUser:', res)
-        return dispatch(setProxyUser(res.data))
+        if (res.data.length === 1) {
+          return dispatch(setProxyUser(res.data))
+        } else {
+          return dispatch(setProxyUserList(res.data))
+        }
       })
       .catch(err => {
         // if (err) console.log('err from proxyUser:', err)
@@ -63,10 +68,17 @@ export function getProxyUser (id) {
   }
 }
 
-function setProxyUser (user) {
+export function setProxyUser (user) {
   return {
     type: SET_PROXY_USER,
     user
+  }
+}
+
+function setProxyUserList (users) {
+  return {
+    type: SET_PROXY_USER_LIST,
+    users
   }
 }
 

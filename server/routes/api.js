@@ -153,10 +153,20 @@ router.post('/customers', (req, res) => {
 })
 
 router.get('/customers', (req, res) => {
-  let query = req.headers.id ? {customerid: req.headers.id} : {}
-  User.findOne({where: query})
-    .then(user => {
-      user ? res.status(200).json(user) : res.status(500).json({msg: 'user not found'})
+  let query = {}
+  if (req.headers.query) {
+    if (/[A-Za-z]{3}\d{3}/.test(req.headers.query)) {
+      query = {customerid: req.headers.query.toUpperCase()}
+    } else if (/@/g.test(req.headers.query)) {
+      query = {email: {$ilike: req.headers.query}}
+    } else {
+      query = {name: {$ilike: '%' + req.headers.query + '%'}}
+    }
+  }
+  User.findAll({where: query})
+    .then(users => {
+      // console.log('\n\n************\nUser result:', user)
+      users ? res.status(200).json(users) : res.status(500).json({msg: 'user not found'})
     })
     .catch(err => {
       res.status(500).json({err})

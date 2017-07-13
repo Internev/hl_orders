@@ -30,6 +30,7 @@ import { SIGNUP_REQUEST,
   CLEAR_COMPLETE,
   GET_PROXY_USER,
   SET_PROXY_USER,
+  SET_PROXY_USER_LIST,
   PROXY_USER_FAILURE
 } from './actions'
 
@@ -49,6 +50,7 @@ const DEFAULT_STATE = {
     errors: {}
   },
   proxyUser: {},
+  proxyUserList: [],
   proxyUserMsg: '',
   addinfo: {},
   orderForm: [],
@@ -98,6 +100,11 @@ const setProxyUser = (state, action) => {
       proxyUser: action.user,
       proxyUserMsg: ''
     }}
+  return newState
+}
+
+const setProxyUserList = (state, action) => {
+  const newState = {...state, ...{proxyUserList: action.users}}
   return newState
 }
 
@@ -400,6 +407,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return getProxyUser(state, action)
     case SET_PROXY_USER:
       return setProxyUser(state, action)
+    case SET_PROXY_USER_LIST:
+      return setProxyUserList(state, action)
     case PROXY_USER_FAILURE:
       return proxyUserFailure(state, action)
     default:

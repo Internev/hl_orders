@@ -4,30 +4,46 @@ import { connect } from 'react-redux'
 // import { Card } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import { getProxyUser } from './redux/actionCreators'
+import { getProxyUser, setProxyUser } from './redux/actionCreators'
 
 class DefInfo extends React.Component {
   constructor (props) {
     super(props)
     this.handleUserProxy = this.handleUserProxy.bind(this)
-    this.updateCustomerid = this.updateCustomerid.bind(this)
-    this.state = {customerid: '', validId: ''}
+    this.updateCustomerSearch = this.updateCustomerSearch.bind(this)
+    this.handleUserProxyListClick = this.handleUserProxyListClick.bind(this)
+    this.state = {customerSearch: '', validId: ''}
   }
   componentDidUpdate () {
-    // console.log('definfo props:', this.props)
+    console.log('definfo props:', this.props)
   }
-  updateCustomerid (e) {
+  updateCustomerSearch (e) {
     e.preventDefault()
-    this.setState({customerid: e.target.value})
+    this.setState({customerSearch: e.target.value})
   }
   handleUserProxy () {
-    // console.log('state for customerid:', this.state)
-    if (/[A-Za-z]{3}\d{3}/.test(this.state.customerid)) {
+    // console.log('state for customerSearch:', this.state)
+    if (this.state.customerSearch) {
       this.setState({validId: ''})
-      this.props.dispatch(getProxyUser(this.state.customerid.toUpperCase()))
+      this.props.dispatch(getProxyUser(this.state.customerSearch))
     } else {
-      this.setState({validId: 'Customer Id takes the form: AAA999'})
+      this.setState({validId: 'Please enter a search term'})
     }
+    // if (/[A-Za-z]{3}\d{3}/.test(this.state.customerSearch)) {
+    //   this.setState({validId: ''})
+    //   this.props.dispatch(getProxyUser(this.state.customerSearch.toUpperCase(), 'id'))
+    // } else if (/@/g.test(this.state.customerSearch)) {
+    //   console.log('email search!')
+    //   this.setState({validId: ''})
+    //   // this.props.dispatch(getProxyUser(this.state.customerSearch.toUpperCase(), 'email'))
+    // } else {
+    //   console.log('generic search!')
+    //   this.setState({validId: ''})
+    //   // this.props.dispatch(getProxyUser(this.state.customerSearch.toUpperCase()))
+    // }
+  }
+  handleUserProxyListClick (user) {
+    this.props.dispatch(setProxyUser(user))
   }
   render () {
     return (
@@ -36,11 +52,11 @@ class DefInfo extends React.Component {
           ? (<div className='default-shipping-admin'>
             <div>
             Please select a customer for this order. <br />
+            Search by ID, Email Address, Name, or Postcode. <br />
               <TextField
-                hintText='Customer ID'
-                maxLength='6'
-                value={this.state.customerid}
-                onChange={this.updateCustomerid}
+                hintText='Search Customers'
+                value={this.state.customerSearch}
+                onChange={this.updateCustomerSearch}
                 onKeyPress={e => {
                   if (e.key === 'Enter') {
                     e.preventDefault()
@@ -53,6 +69,31 @@ class DefInfo extends React.Component {
                 label='Find Customer'
                 onClick={this.handleUserProxy}
               />
+              {this.props.proxyUserList.length > 1
+              ? (
+                <table className='order-history'>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Customer Code</th>
+                  </tr>
+                  {this.props.proxyUserList.map(user => (
+                    <tr
+                      className='pointer'
+                      key={user.id}
+                      onClick={e => {
+                        e.preventDefault()
+                        this.handleUserProxyListClick(user)
+                      }}
+                      >
+                      <td>{user.name.slice(0, this.props.user.name.indexOf(','))}</td>
+                      <td>{user.email}</td>
+                      <td>{user.customerid}</td>
+                    </tr>
+                  ))}
+                </table>
+              )
+              : <div />}
             </div>
             {this.props.proxyUser && this.props.proxyUser.email
             ? (
@@ -62,7 +103,7 @@ class DefInfo extends React.Component {
               Email Confirmation to: {this.props.proxyUser.email}
               </div>
             )
-            : this.props.proxyUserMsg ? <div>{this.props.proxyUserMsg}</div> : null
+            : this.props.proxyUserMsg ? <div>{this.props.proxyUserMsg}</div> : <div />
           }
           </div>)
           : (<div>Shipping to:
@@ -81,6 +122,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.isAuthenticated,
     addinfo: state.addinfo,
     proxyUser: state.proxyUser,
+    proxyUserList: state.proxyUserList,
     proxyUserMsg: state.proxyUserMsg
   }
 }
