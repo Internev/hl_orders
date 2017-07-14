@@ -24,11 +24,6 @@ const customerEmail = (order, email) => {
     to: email,
     subject: 'Humphrey Law Order Confirmation'
   }
-
-  // mailOptions.html = html
-  // mailOptions.to = email
-  // mailOptions.subject = 'Humphrey Law Order Confirmation'
-
   return transporter.sendMail(mailOptions)
 }
 
@@ -44,10 +39,6 @@ const agentEmail = (order, customer, email) => {
     to: email,
     subject: `${customer.customerid} Humphrey Law Order Confirmation`
   }
-  // mailOptions.html = html
-  // mailOptions.to = email
-  // mailOptions.subject = `${customer.customerid} Humphrey Law Order Confirmation`
-
   return transporter.sendMail(mailOptions)
 }
 
@@ -90,6 +81,11 @@ const factoryEmail = (order, customer, totalAmt, agent) => {
 }
 
 const csvFromOrder = (order, customer, totalAmt, agent) => {
+  // Handle no-postcode field uploads.
+  if (customer.name.split('').filter(ch => ch === ',').length === 3) {
+    customer.name = customer.name + ','
+  }
+
   // filter by sock, then also by size before outputting to csv.
   let csv = `Date Ordered, Style Number, Pattern, Colour/Pattern, Quantity, Unit Price, Line Total, Order Total, Shipping Costs, Order Grand Total, Total Pair, Store Name, Store Address 1, Store Address 2, Store Address 3, Store Address 4, Customer Name, Delivery Address, Customer Code, Web Order Number, Delivery Instructions, Department, Reference Number, Contact Person, Email Address, Comments, Agent Order\n`
   let day = order.updatedAt.getDate() < 10 ? '0' + order.updatedAt.getDate() : '' + order.updatedAt.getDate()
@@ -114,13 +110,11 @@ const csvFromOrder = (order, customer, totalAmt, agent) => {
       .forEach(colour => {
         sock.sizes.forEach(size => {
           if (colour.hasOwnProperty(size) && colour[size] > 0) {
-            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${order.addinfo.customerName}, ${clean(order.addinfo.deliveryAddress)}, ${customer.customerid}, ${webOrderNumber}, ${clean(order.addinfo.deliveryInstructions)}, ${clean(order.addinfo.department)}, ${clean(order.addinfo.customerRef)}, ${clean(order.addinfo.contactPerson)}, ${clean(order.addinfo.email)}, ${clean(order.addinfo.comments)}, ${agent ? agent.customerid : ''}\n`
+            csv += `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${clean(order.addinfo.customerName)}, ${clean(order.addinfo.deliveryAddress)}, ${customer.customerid}, ${webOrderNumber}, ${clean(order.addinfo.deliveryInstructions)}, ${clean(order.addinfo.department)}, ${clean(order.addinfo.customerRef)}, ${clean(order.addinfo.contactPerson)}, ${clean(order.addinfo.email)}, ${clean(order.addinfo.comments)}, ${agent ? agent.customerid : ''}\n`
           }
         })
       })
     })
-  // csv += `Total Price:, ${order.totalprice / 100}\n\n`
-  // csv += `CustomerID:, ${customer.customerid}\nShipping Address:\n${order.addinfo.deliveryAddress}\n`
   return csv
 }
 
