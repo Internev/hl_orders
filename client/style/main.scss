@@ -310,3 +310,22 @@ tr:nth-child(even) {
 .order-history {
   width: 100%;
 }
+
+.user-upgrade {
+  margin: 10px;
+
+  .user-upgrade-info {
+    border: 1px dotted $baseColor;
+    padding: 3px;
+    margin: auto;
+    display: flex;
+    width: 40%;
+    > div {
+      flex: 2;
+    }
+    .checkbox {
+      flex: 1;
+      max-width: 100px;
+    }
+  }
+}

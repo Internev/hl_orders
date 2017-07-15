@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { Card, CardText, CardActions } from 'material-ui/Card'
+import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
+import TextField from 'material-ui/TextField'
+import Checkbox from 'material-ui/Checkbox'
 // import TextField from 'material-ui/TextField'
-import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory, setOrderDisplay } from './redux/actionCreators'
+import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin } from './redux/actionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 
 class Radmin extends React.Component {
@@ -13,6 +15,10 @@ class Radmin extends React.Component {
     this.uploadStoreGeo = this.uploadStoreGeo.bind(this)
     this.uploadOrderForm = this.uploadOrderForm.bind(this)
     this.uploadCustomers = this.uploadCustomers.bind(this)
+    this.updateCustomerSearch = this.updateCustomerSearch.bind(this)
+    this.handleUserProxy = this.handleUserProxy.bind(this)
+    this.toggleAdmin = this.toggleAdmin.bind(this)
+    this.state = {customerSearch: '', validId: ''}
   }
   componentDidMount () {
     this.props.dispatch(getOrderHistory())
@@ -56,6 +62,24 @@ class Radmin extends React.Component {
     this.props.dispatch(setOrderDisplay(order))
     browserHistory.push('/ordersummary')
   }
+  updateCustomerSearch (e) {
+    e.preventDefault()
+    this.setState({customerSearch: e.target.value})
+  }
+  handleUserProxy () {
+    // console.log('state for customerSearch:', this.state)
+    if (/[A-Za-z]{3}\d{3}/.test(this.state.customerSearch)) {
+      this.setState({validId: ''})
+      this.props.dispatch(getProxyUser(this.state.customerSearch))
+    } else {
+      this.setState({validId: 'IDs take the form: AAA999'})
+    }
+  }
+  toggleAdmin () {
+    if (this.props.user.customerid !== this.props.proxyUser.customerid && this.props.user.admin) {
+      this.props.dispatch(toggleAdmin(this.props.proxyUser))
+    }
+  }
   render () {
     return (
       <Card className='container'>
@@ -65,23 +89,27 @@ class Radmin extends React.Component {
           <div>
             <h3>Recent Orders</h3>
             <table className='order-history'>
-              <tr>
-                <th>Date</th>
-                <th>No. of Pairs</th>
-                <th>Total Price</th>
-                <th>Customer Code</th>
-              </tr>
-              {this.props.orderHistory.map(order => (
-                <tr className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
-                  <td>{order.updatedAt.slice(0, 10)}</td>
-                  <td>{order.totalamt}</td>
-                  <td>{(order.totalprice / 100).toFixed(2)}</td>
-                  <td>{order.user.customerid}</td>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>No. of Pairs</th>
+                  <th>Total Price</th>
+                  <th>Customer Code</th>
                 </tr>
-              ))}
+              </thead>
+              <tbody>
+                {this.props.orderHistory.map(order => (
+                  <tr className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
+                    <td>{order.updatedAt.slice(0, 10)}</td>
+                    <td>{order.totalamt}</td>
+                    <td>{(order.totalprice / 100).toFixed(2)}</td>
+                    <td>{order.user.customerid}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
-          <CardActions style={{paddingTop: '25px'}}>
+          <div style={{paddingTop: '25px'}}>
             <input
               type='file'
               accept='.csv'
@@ -97,7 +125,7 @@ class Radmin extends React.Component {
                   this.storeGeo.click()
                 }, 200)
               }}
-            />
+            />&nbsp;
             <input
               type='file'
               accept='.csv'
@@ -113,7 +141,7 @@ class Radmin extends React.Component {
                   this.orderInput.click()
                 }, 200)
               }}
-            />
+            />&nbsp;
             <input
               type='file'
               accept='.csv'
@@ -129,9 +157,46 @@ class Radmin extends React.Component {
                   this.customerUpload.click()
                 }, 200)
               }}
+            />&nbsp;
+        </div>
+        <div className='user-upgrade'>
+          <div>
+            Upgrade a user to admin:<br />
+            <TextField
+              hintText='Search by ID'
+              maxLength={6}
+              value={this.state.customerSearch}
+              onChange={this.updateCustomerSearch}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  this.handleUserProxy()
+                }
+              }}
+              errorText={this.state.validId}
+            />&nbsp;
+            <RaisedButton
+              label='Search'
+              onClick={this.handleUserProxy}
             />
-          </CardActions>
-
+          </div>
+          <div>
+            {this.props.proxyUser.name
+            ? (<div className='user-upgrade-info'>
+              <div>{ this.props.proxyUser.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
+                {this.props.proxyUser.email}
+              </div>
+              <div className='checkbox'>
+                <Checkbox
+                checked={this.props.proxyUser.admin}
+                label='Admin'
+                onCheck={this.toggleAdmin}
+                />
+              </div>
+              </div>)
+            : ''}
+          </div>
+        </div>
         </CardText>
       </Card>
     )
@@ -146,7 +211,8 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.isAuthenticated,
     orderForm: state.orderForm,
     msg: state.msg,
-    orderHistory: state.orderHistory
+    orderHistory: state.orderHistory,
+    proxyUser: state.proxyUser
   }
 }
 

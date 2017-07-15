@@ -32,7 +32,8 @@ import { SIGNUP_REQUEST,
   SET_PROXY_USER,
   SET_PROXY_USER_LIST,
   CLOSE_PROXY_USER_LIST,
-  PROXY_USER_FAILURE
+  PROXY_USER_FAILURE,
+  TOGGLE_ADMIN
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -78,6 +79,11 @@ const clearMessage = (state, action) => {
 
 const clearFilter = (state, action) => {
   const newState = {...state, ...{searchTerm: ''}}
+  return newState
+}
+
+const toggleAdmin = (state, action) => {
+  const newState = {...state, ...{proxyUser: action.proxyUser}}
   return newState
 }
 
@@ -426,6 +432,8 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return closeProxyUserList(state, action)
     case PROXY_USER_FAILURE:
       return proxyUserFailure(state, action)
+    case TOGGLE_ADMIN:
+      return toggleAdmin(state, action)
     default:
       return state
   }

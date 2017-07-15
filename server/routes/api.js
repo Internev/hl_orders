@@ -176,4 +176,23 @@ router.get('/customers', (req, res) => {
     })
 })
 
+router.post('/customer', (req, res) => {
+  // let c = req.body
+  // c.admin = !c.admin
+  User.update(
+    {admin: !req.body.admin},
+    {where: {customerid: req.body.customerid},
+      returning: true,
+      plain: true}
+  )
+    .then(user => {
+      console.log('\n\ncustoemr updated?', user)
+      res.status(200).json({user})
+    })
+    .catch(err => {
+      console.log('\n\nerror in customer update:', err)
+      if (err) res.status(500).json({err})
+    })
+})
+
 module.exports = router

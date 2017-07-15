@@ -23,7 +23,8 @@ import {
   SET_PROXY_USER,
   SET_PROXY_USER_LIST,
   CLOSE_PROXY_USER_LIST,
-  PROXY_USER_FAILURE
+  PROXY_USER_FAILURE,
+  TOGGLE_ADMIN
 } from './actions'
 import axios from 'axios'
 
@@ -45,6 +46,29 @@ export function clearFilter () {
   }
 }
 
+export function toggleAdmin (proxyUser) {
+  return dispatch => {
+    const config = {
+      headers: {
+        'authorization': localStorage.getItem('id_token')
+      }
+    }
+    axios.post('/api/customer', proxyUser, config)
+      .then(res => {
+        dispatch(toggleProxyAdmin(res.data.user[1]))
+      })
+      .catch(err => console.log('toggleAdmin error:', err))
+  }
+
+}
+
+function toggleProxyAdmin (proxyUser) {
+  return {
+    type: TOGGLE_ADMIN,
+    proxyUser
+  }
+}
+
 export function getProxyUser (query) {
   return dispatch => {
     const config = {
@@ -55,7 +79,6 @@ export function getProxyUser (query) {
     }
     axios.get('/api/customers', config)
       .then(res => {
-        console.log('res from proxyUser:', res)
         if (res.data.length === 1) {
           return dispatch(setProxyUser(res.data[0]))
         } else {
