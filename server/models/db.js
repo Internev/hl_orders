@@ -26,6 +26,13 @@ const Storedorder = db.define('storedorder', {
   storedorder: Sequelize.JSON
 })
 
+const Storegeo = db.define('storegeo', {
+  name: Sequelize.STRING,
+  address: Sequelize.STRING,
+  lat: {type: Sequelize.FLOAT, allowNull: false},
+  lng: {type: Sequelize.FLOAT, allowNull: false}
+})
+
 Order.belongsTo(User, {
   onDelete: 'cascade',
   foreignKey: {
@@ -37,6 +44,7 @@ Order.belongsTo(User, {
 User.sync()
 Order.sync()
 Storedorder.sync()
+Storegeo.sync()
 
 const genHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
@@ -53,6 +61,7 @@ const validPass = (password, storedPassword) => {
 module.exports.User = User
 module.exports.Order = Order
 module.exports.Storedorder = Storedorder
+module.exports.Storegeo = Storegeo
 module.exports.genHash = genHash
 module.exports.genHashAsync = genHashAsync
 module.exports.validPass = validPass
