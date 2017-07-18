@@ -11,7 +11,6 @@ class Frame extends React.Component {
             <div className='top-bar-left'>
               <IndexLink to='/'>Order Form</IndexLink>
               <Link to='/orderhistory'>Order History</Link>
-              { this.props.user.admin ? (<Link to='/radmin'>Admin Tools</Link>) : ''}
             </div>
         ) : <div />}
           <div className='top-bar-center'><img src='../style/images/hl_logo.png' /></div>
