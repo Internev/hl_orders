@@ -23,12 +23,15 @@ class Radmin extends React.Component {
   componentDidMount () {
     this.props.dispatch(getOrderHistory())
     // console.log('Radmin, props:', this.props)
-    if (!this.props.user.admin) {
-      browserHistory.push('/')
-    }
+    // if (!this.props.user.admin) {
+    //   browserHistory.push('/')
+    // }
   }
   componentDidUpdate () {
     // console.log('Radmin, props:', this.props)
+    if (!this.props.user.admin) {
+      browserHistory.push('/')
+    }
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
