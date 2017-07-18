@@ -302,7 +302,7 @@ function saveOrderFailure (err) {
 }
 
 export function uploadStoreGeo (data) {
-  console.log('store geo, data:', data)
+  // console.log('store geo, data:', data)
   // return dispatch => {
     const config = {
       headers: {'authorization': localStorage.getItem('id_token')}

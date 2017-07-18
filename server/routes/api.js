@@ -1,8 +1,9 @@
 const express = require('express')
-const { Order, Storedorder, User, genHash } = require('../models/db')
+const { Order, Storedorder, User, Storegeo, genHash } = require('../models/db')
 const { customerEmail, factoryEmail, agentEmail } = require('../utils/sendmail')
 const axios = require('axios')
-// const config = require('../../config')
+const limit = require('simple-rate-limiter')
+const config = require('../../config')
 
 const router = new express.Router()
 
@@ -107,18 +108,31 @@ router.get('/order-form', (req, res) => {
 
 router.post('/store-geo', (req, res) => {
   // console.log('\n\n*********\nStore Geo:', req.body)
-  for (let i = 180; i < 190; i++) {
-    let c = req.body[i]
+  Storegeo.sync({force: true})
+  let request = limit(require('request')).to(50).per(1000)
+  // req.body = req.body.slice(0, 20)
+  let count = 1
+  req.body.forEach(c => {
     let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
-    console.log('queryString looks like:', query)
-    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=AIzaSyB_tnq4J0bWvyDk0EUJiXgSoabFi76QEV8`)
-    .then(res => {
-      console.log(`\n${query} response data:`, res.data)
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${config.GMAPS_API}`
+    request(url, (err, res, body) => {
+      let geo = JSON.parse(body).results[0]
+      // console.log(`\n${query} response body:`, body, '\nerror?', err)
+      if (geo) {
+        Storegeo.create({
+          name: c.name.trim(),
+          address: geo.formatted_address,
+          lat: geo.geometry.location.lat,
+          lng: geo.geometry.location.lng,
+          customerid: c.customerid
+        }).then(geo => {
+          console.log('\ngeo written to db, record:', count++)
+        })
+      } else {
+        console.log('\ngeo error, body is:', body, 'for customer:', c.name.trim())
+      }
     })
-    .catch(err => {
-      console.log('axios error:', err)
-    })
-  }
+  })
   res.status(200).json({
     message: 'Store locations uploaded, commencing geolocation.'
   })
