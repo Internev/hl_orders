@@ -114,7 +114,7 @@ router.post('/store-geo', (req, res) => {
   let count = 1
   req.body.forEach(c => {
     let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${config.GMAPS_API}`
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
     request(url, (err, res, body) => {
       let geo = JSON.parse(body).results[0]
       // console.log(`\n${query} response body:`, body, '\nerror?', err)
@@ -135,6 +135,28 @@ router.post('/store-geo', (req, res) => {
   })
   res.status(200).json({
     message: 'Store locations uploaded, commencing geolocation.'
+  })
+})
+
+router.get('/store-geo', (req, res) => {
+  const query = `SELECT
+    "name", "address", ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location")
+    FROM "storegeos"
+    WHERE
+    ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location") < :maxDistance`
+  Storegeo.sequelize.query(query, {
+    replacements: {
+      latitude: -37.813627,
+      longitude: 144.963057,
+      maxDistance: 5000 * 1000
+    },
+    type: Storegeo.sequelize.QueryTypes.SELECT
+  })
+  .then(res => {
+    console.log('\n\nEe got a response from store geo!\n', res)
+  })
+  .catch(err => {
+    console.log('\n\nerror from store geo:\n', err)
   })
 })
 

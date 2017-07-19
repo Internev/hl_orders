@@ -8,6 +8,7 @@ import Checkbox from 'material-ui/Checkbox'
 // import TextField from 'material-ui/TextField'
 import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin } from './redux/actionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
+import axios from 'axios'
 
 class Radmin extends React.Component {
   constructor (props) {
@@ -19,6 +20,8 @@ class Radmin extends React.Component {
     this.handleUserProxy = this.handleUserProxy.bind(this)
     this.toggleAdmin = this.toggleAdmin.bind(this)
     this.state = {customerSearch: '', validId: ''}
+
+    this.storeGeoTest = this.storeGeoTest.bind(this)
   }
   componentDidMount () {
     this.props.dispatch(getOrderHistory())
@@ -82,6 +85,17 @@ class Radmin extends React.Component {
     if (this.props.user.customerid !== this.props.proxyUser.customerid && this.props.user.admin) {
       this.props.dispatch(toggleAdmin(this.props.proxyUser))
     }
+  }
+  storeGeoTest () {
+    const config = {
+      headers: {
+        'authorization': localStorage.getItem('id_token')
+      }
+    }
+    axios.get('/api/store-geo', config)
+      .then(res => {
+        console.log('storegeores:', res)
+      })
   }
   render () {
     return (
@@ -160,6 +174,10 @@ class Radmin extends React.Component {
                   this.customerUpload.click()
                 }, 200)
               }}
+            />&nbsp;
+            <RaisedButton
+              label='StoreGeoTest'
+              onClick={this.storeGeoTest}
             />&nbsp;
         </div>
         <div className='user-upgrade'>
