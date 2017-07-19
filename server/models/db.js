@@ -29,8 +29,7 @@ const Storedorder = db.define('storedorder', {
 const Storegeo = db.define('storegeo', {
   name: Sequelize.STRING,
   address: Sequelize.STRING,
-  lat: {type: Sequelize.FLOAT, allowNull: false},
-  lng: {type: Sequelize.FLOAT, allowNull: false}
+  location: Sequelize.GEOMETRY('POINT')
 })
 
 Order.belongsTo(User, {

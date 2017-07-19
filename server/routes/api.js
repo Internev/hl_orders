@@ -118,13 +118,13 @@ router.post('/store-geo', (req, res) => {
     request(url, (err, res, body) => {
       let geo = JSON.parse(body).results[0]
       // console.log(`\n${query} response body:`, body, '\nerror?', err)
+      if (err) console.log('error getting geo:', err)
       if (geo) {
+        let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
         Storegeo.create({
           name: c.name.trim(),
           address: geo.formatted_address,
-          lat: geo.geometry.location.lat,
-          lng: geo.geometry.location.lng,
-          customerid: c.customerid
+          location: point
         }).then(geo => {
           console.log('\ngeo written to db, record:', count++)
         })
