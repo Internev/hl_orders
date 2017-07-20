@@ -1,5 +1,5 @@
 import React from 'react'
-import {GridTile} from 'material-ui/GridList'
+// import {GridTile} from 'material-ui/GridList'
 
 const Sock = ({sock, handleFormSubmit}) => (
   <div className='sock-tile'>
@@ -12,7 +12,7 @@ const Sock = ({sock, handleFormSubmit}) => (
       </div>
     </div>
     <form className='sock-tile-form'>
-      <table style={{ borderCollapse: 'collapse' }}>
+      <table>
         <tbody>
           <tr>
             <th>Colour ID</th>

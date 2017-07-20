@@ -77,7 +77,7 @@ class OrderForm extends React.Component {
               : <div />}
             </div>
             { this.props.orderForm.length > 0
-            ? <GridList cellHeight={'auto'} padding={13}>
+            ? <div className='sock-container'>
               {this.props.orderForm
                 .filter(sock =>
                   !this.props.searchTerm
@@ -90,7 +90,7 @@ class OrderForm extends React.Component {
                     key={sock.styleID}
                   />)
                 )}
-            </GridList>
+            </div>
             : <div /> }
           </div>
         </div>
@@ -98,7 +98,7 @@ class OrderForm extends React.Component {
         {this.props.orderTotalAmt
           ? <div className='bottom-bar'>
             <div className='bottom-bar-left'>
-              <div className='card-heading'>{this.props.orderTotalAmt} Pair{this.props.orderTotalAmt > 1 ? 's' : ''} in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</div>
+              <div className='bottom-bar-summary'>{this.props.orderTotalAmt} Pair{this.props.orderTotalAmt > 1 ? 's' : ''} in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</div>
             </div>
             <div className='bottom-bar-right'>
               <RaisedButton

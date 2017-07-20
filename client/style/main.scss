@@ -25,10 +25,18 @@ a {
 
 }
 
+.container {
+  background: $backgroundColor;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1000px;
+  padding: .5em;
+}
+
 .card-heading {
   font-family: $headFont;
   font-weight: normal;
-  font-size: 2.2em;
+  font-size: 1.8em;
 }
 
 h3 {
@@ -38,15 +46,30 @@ h3 {
   // border: 1px dashed $baseColor;
 }
 
-.sock-tile {
-  // border: 1px dotted $baseColor;
-  // border-radius: 3px;
-  // -moz-border-radius: 3px;
+.sock-container {
+  display: flex;
+  flex-wrap: wrap;
+  @media screen and (max-width: 850px) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+}
 
+.sock-tile {
+  flex: 1;
   background: white;
-  height: 100%;
+  min-height: 100%;
   box-sizing: border-box;
-  // margin-bottom: 150px;
+  max-width: 480px;
+  min-width: 45%;
+  margin: 0 10px 15px 0;
+  @media screen and (max-width: 850px) {
+    max-width: 600px;
+    width: 85%;
+    text-align: center;
+  }
+
   -webkit-box-shadow: 0 10px 6px -6px #AAA;
    -moz-box-shadow: 0 10px 6px -6px #AAA;
         box-shadow: 0 10px 6px -6px #AAA;
@@ -72,6 +95,11 @@ h3 {
 
   form {
       padding: 5px 5px 5px 15px;
+      >table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        width: 95%;
+      }
   }
 }
 
@@ -83,41 +111,65 @@ tr:nth-child(even) {
   background: rgba($baseColor, 0.05);
 }
 
-.top-bar {
+nav {
   padding: 10px 15px;
   margin-bottom: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
   margin: auto;
 
-  .top-bar-left {
-    flex: 1;
-    margin: auto;
-  }
-
-  .top-bar-center {
-    flex: 1;
-    margin: auto;
+  .navbar-wide {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     text-align: center;
+
+    >div {
+      flex: 1;
+    }
+
+    .navbar-wide-left {
+      text-align: left;
+      padding-top: 1em;
+    }
+
+    .navbar-wide-right {
+      text-align: right;
+      padding-top: 1em;
+    }
   }
 
-  .top-bar-right {
-    flex: 1;
-    margin: auto;
-    text-align: right;
+  .navbar-narrow {
+    display: none;
+    width: 100%;
+
+    >div {
+      text-align: center;
+    }
+
+    .menu-narrow {
+      display: none;
+      width: 100%;
+
+      >* {
+        display: block;
+        width: 100%;
+        padding: 0.3em;
+        text-align: center;
+        border-bottom: 1px dotted rgba($baseColor, 0.05);
+      }
+    }
   }
 
-  a {
-    margin: 0 8px;
+  @media screen and (max-width: 850px) {
+    .navbar-wide {
+      display: none;
+    }
+
+    .navbar-narrow {
+      display: block;
+    }
   }
 }
 
-.top-bar::after {
-  content: '';
-  display: block;
-  clear: both;
-}
 
 .nav a {
   margin: 0 8px;
@@ -128,35 +180,55 @@ tr:nth-child(even) {
   text-align: center;
   left: 0px;
   bottom: 0px;
-  height: 64px;
+  min-height: 64px;
   width: 100%;
   color: $primaryColor;
   background: $backgroundColor;
   border-top: 1px dotted $baseColor;
+  display: flex;
+  justify-content: space-between;
+
+  .bottom-bar-summary {
+    padding-top: 0.3em;
+    font-family: $headFont;
+    font-weight: normal;
+    font-size: 1.8em;
+    @media screen and (max-width: 850px) {
+      padding-top: 0.1em;
+      font-size: 1.3em;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    flex-direction: column;
+  }
 
   .bottom-bar-left {
-    float: left;
+    flex: 1;
     padding-left: 3em;
+    @media screen and (max-width: 850px) {
+      padding-top: 0.5em;
+      padding-left: 0;
+    }
   }
 
   .bottom-bar-right {
-    float: right;
+    flex: 1;
     padding-right: 3em;
-    padding-top: 0.5em;
+    padding-top: 0.7em;
+    @media screen and (max-width: 850px) {
+      padding-bottom: 0.5em;
+      padding-right: 0;
+    }
   }
 }
 
 .bottom-bar-padding {
-  height: calc(100vh - 164px);
+  height: calc(100vh - 167px);
   overflow: auto;
-}
-
-.container {
-  background: $backgroundColor;
-  margin: 0 auto;
-  text-align: center;
-  max-width: 1000px;
-  padding: .5em;
+  @media screen and (max-width: 850px) {
+    height: calc(100vh - 180px);
+  }
 }
 
 .content {
@@ -197,6 +269,9 @@ tr:nth-child(even) {
   justify-content: space-around;
   width: 85%;
   margin: auto;
+  @media screen and (max-width: 850px) {
+    flex-direction: column;
+  }
 }
 
 .hidden {
