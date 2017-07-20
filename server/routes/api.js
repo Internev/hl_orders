@@ -3,6 +3,7 @@ const { Order, Storedorder, User, Storegeo, genHash } = require('../models/db')
 const { customerEmail, factoryEmail, agentEmail } = require('../utils/sendmail')
 const axios = require('axios')
 const limit = require('simple-rate-limiter')
+const PromiseThrottle = require('promise-throttle')
 const config = require('../../config')
 
 const router = new express.Router()
@@ -109,33 +110,107 @@ router.get('/order-form', (req, res) => {
 router.post('/store-geo', (req, res) => {
   // console.log('\n\n*********\nStore Geo:', req.body)
   Storegeo.sync({force: true})
-  let request = limit(require('request')).to(50).per(1000)
-  // req.body = req.body.slice(0, 20)
-  let count = 1
+  // let request = limit(axios.request).to(50).per(1000)
+  let pThrottle = new PromiseThrottle({
+    requestsPerSecond: 50,
+    promiseImplementation: Promise
+  })
+  let geoRequests = []
+  let storeNames = []
+  // req.body = req.body.slice(100, 200)
   req.body.forEach(c => {
-    let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
-    request(url, (err, res, body) => {
-      let geo = JSON.parse(body).results[0]
-      // console.log(`\n${query} response body:`, body, '\nerror?', err)
-      if (err) console.log('error getting geo:', err)
-      if (geo) {
-        let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
-        Storegeo.create({
-          name: c.name.trim(),
-          address: geo.formatted_address,
-          location: point
-        }).then(geo => {
-          console.log('\ngeo written to db, record:', count++)
+    if (c.name) {
+      let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
+      let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
+      storeNames.push({
+        name: c.name.trim(),
+        address: `${c.street},${c.suburb},${c.state}`
+      })
+      geoRequests.push(pThrottle.add(axios.request.bind(this, url)))
+    }
+  })
+
+  let geoResults = []
+  let geoFailures = []
+  Promise.all(geoRequests)
+    .then(resList => {
+      resList.forEach((res, i) => {
+        console.log('res:', res.data.results)
+        if (res.data.status === 'OK') {
+          let geo = res.data.results[0]
+          let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
+          geoResults.push(Storegeo.create({
+            name: storeNames[i].name,
+            address: geo.formatted_address,
+            location: point
+          }))
+        } else {
+          geoFailures.push({
+            store: storeNames[i],
+            status: res.data.status
+          })
+        }
+      })
+      Promise.all(geoResults)
+        .then(dbList => {
+          res.status(200).json({
+            message: 'Store locations uploaded.',
+            geoFailures
+          })
         })
-      } else {
-        console.log('\ngeo error, body is:', body, 'for customer:', c.name.trim())
-      }
+        .catch(err => {
+          if (err) {
+            console.log('geoResults error:', err)
+            res.status(500).json({err})
+          }
+        })
     })
-  })
-  res.status(200).json({
-    message: 'Store locations uploaded, commencing geolocation.'
-  })
+    .catch(err => {
+      if (err) console.log('geoRequests error:', err)
+    })
+
+  // req.body.forEach(c => {
+  //   let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
+  //   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
+  //   request(url)
+  //     .then(res => {
+  //       let body = res.body
+  //       let geo = JSON.parse(body).results[0]
+  //       console.log(`\n${query} response body:`, body)
+  //       if (geo) {
+  //         let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
+  //         Storegeo.create({
+  //           name: c.name.trim(),
+  //           address: geo.formatted_address,
+  //           location: point
+  //         }).then(geo => {
+  //           console.log('\ngeo written to db, record:', count++)
+  //         })
+  //       } else {
+  //         console.log('\ngeo error, body is:', body, 'for customer:', c.name.trim())
+  //       }
+  //     })
+  //     .catch(err => {
+  //       if (err) console.log('axios store geo error:', err)
+  //     })
+    // request(url, (err, res, body) => {
+    //   let geo = JSON.parse(body).results[0]
+    //   // console.log(`\n${query} response body:`, body, '\nerror?', err)
+    //   if (err) console.log('error getting geo:', err)
+    //   if (geo) {
+    //     let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
+    //     Storegeo.create({
+    //       name: c.name.trim(),
+    //       address: geo.formatted_address,
+    //       location: point
+    //     }).then(geo => {
+    //       console.log('\ngeo written to db, record:', count++)
+    //     })
+    //   } else {
+    //     console.log('\ngeo error, body is:', body, 'for customer:', c.name.trim())
+    //   }
+    // })
+  // })
 })
 
 router.get('/store-geo', (req, res) => {
