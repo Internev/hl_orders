@@ -39,7 +39,7 @@ class ConfirmOrder extends React.Component {
   }
   submitAllowed () {
     return this.props.user.admin
-      ? !(this.props.orderTotalAmt > 23 && this.props.proxyUser.email)
+      ? !(this.props.orderTotalAmt > 23 && this.props.proxyUser.customerid)
       : this.props.orderTotalAmt < 24
   }
   render () {

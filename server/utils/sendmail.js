@@ -13,6 +13,7 @@ let transporter = nodemailer.createTransport(config.mail)
 const padToFive = number => number <= 99999 ? ('0000' + number).slice(-5) : number
 
 const customerEmail = (order, email) => {
+  if (!email) return Promise.resolve({messageId: 0, response: 'no email address provided.'})
   let html = '<div>This email confirms your sock order with Humphrey Law, you ordered:</div>'
   // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)

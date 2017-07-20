@@ -15,7 +15,7 @@ class DefInfo extends React.Component {
     this.state = {customerSearch: '', validId: ''}
   }
   componentDidUpdate () {
-    console.log('definfo props:', this.props)
+    // console.log('definfo props:', this.props)
   }
   updateCustomerSearch (e) {
     e.preventDefault()
@@ -58,7 +58,7 @@ class DefInfo extends React.Component {
               ? <ProxyUserPicker />
               : <div />}
             </div>
-            {this.props.proxyUser && this.props.proxyUser.email
+            {this.props.proxyUser && this.props.proxyUser.customerid
             ? (
               <div>Ordering on behalf of: <br />
                 { this.props.proxyUser.name.split(',').map((line, i) => <div key={i}>{line}</div>) } <br />
