@@ -27,12 +27,13 @@ class ProxyUserPicker extends React.Component {
           autoScrollBodyContent={true}
         >
           <table className='order-history'>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Customer Code</th>
-            </tr>
-            {this.props.proxyUserList.length > 1
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Customer Code</th>
+              </tr>
+              {this.props.proxyUserList.length > 1
                           ? this.props.proxyUserList.map(user => (
                             <tr
                               className='pointer'
@@ -49,6 +50,7 @@ class ProxyUserPicker extends React.Component {
                         ))
                         : <div />
                       }
+            </tbody>
           </table>
         </Dialog>
       </div>

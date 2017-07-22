@@ -33,7 +33,7 @@ class DefInfo extends React.Component {
   render () {
     return (
       <div className='default-shipping'>
-        {this.props.user.admin
+        {this.props.user.admin || this.props.user.agent
           ? (<div className='default-shipping-admin'>
             <div>
             Please select a customer for this order. <br />

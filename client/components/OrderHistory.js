@@ -12,7 +12,6 @@ class OrderHistory extends React.Component {
     this.props.dispatch(getOrderHistory(this.props.user))
   }
   componentDidUpdate () {
-    console.log('order History this props is:', this.props)
     if (!this.props.isAuthenticated) {
       browserHistory.push('/logout')
     }
@@ -27,18 +26,20 @@ class OrderHistory extends React.Component {
         <Card className='container'>
           <h2 className='card-heading'>Order History</h2>
           <table className='order-history'>
-            <tr>
-              <th>Date</th>
-              <th>No. of Pairs</th>
-              <th>Total Price</th>
-            </tr>
-            {this.props.orderHistory.map(order => (
-              <tr className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
-                <td>{order.updatedAt.slice(0, 10)}</td>
-                <td>{order.totalamt}</td>
-                <td>{(order.totalprice / 100).toFixed(2)}</td>
+            <tbody>
+              <tr>
+                <th>Date</th>
+                <th>No. of Pairs</th>
+                <th>Total Price</th>
               </tr>
-            ))}
+              {this.props.orderHistory.map(order => (
+                <tr className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
+                  <td>{order.updatedAt.slice(0, 10)}</td>
+                  <td>{order.totalamt}</td>
+                  <td>{(order.totalprice / 100).toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </Card>
       </div>

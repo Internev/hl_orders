@@ -31,14 +31,14 @@ class ConfirmOrder extends React.Component {
   }
   handleOrderSubmit () {
     // TotalPrice stored as cents in db.
-    if (this.props.user.admin) {
+    if (this.props.user.admin || this.props.user.agent) {
       this.props.dispatch(saveOrder(this.props.orderForm, this.props.proxyUser, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping, this.props.user))
     } else {
       this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping))
     }
   }
   submitAllowed () {
-    return this.props.user.admin
+    return this.props.user.admin || this.props.user.agent
       ? !(this.props.orderTotalAmt > 23 && this.props.proxyUser.customerid)
       : this.props.orderTotalAmt < 24
   }

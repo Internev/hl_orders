@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 // import TextField from 'material-ui/TextField'
-import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin } from './redux/actionCreators'
+import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent } from './redux/actionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 import axios from 'axios'
 
@@ -19,6 +19,7 @@ class Radmin extends React.Component {
     this.updateCustomerSearch = this.updateCustomerSearch.bind(this)
     this.handleUserProxy = this.handleUserProxy.bind(this)
     this.toggleAdmin = this.toggleAdmin.bind(this)
+    this.toggleAgent = this.toggleAgent.bind(this)
     this.state = {customerSearch: '', validId: ''}
 
     this.storeGeoTest = this.storeGeoTest.bind(this)
@@ -84,6 +85,11 @@ class Radmin extends React.Component {
   toggleAdmin () {
     if (this.props.user.customerid !== this.props.proxyUser.customerid && this.props.user.admin) {
       this.props.dispatch(toggleAdmin(this.props.proxyUser))
+    }
+  }
+  toggleAgent () {
+    if (this.props.user.customerid !== this.props.proxyUser.customerid && this.props.user.admin) {
+      this.props.dispatch(toggleAgent(this.props.proxyUser))
     }
   }
   storeGeoTest () {
@@ -182,7 +188,7 @@ class Radmin extends React.Component {
         </div>
         <div className='user-upgrade'>
           <div>
-            Upgrade a user to admin:<br />
+            Upgrade a user:<br />
             <TextField
               hintText='Search by ID'
               maxLength={6}
@@ -212,6 +218,13 @@ class Radmin extends React.Component {
                 checked={this.props.proxyUser.admin}
                 label='Admin'
                 onCheck={this.toggleAdmin}
+                />
+              </div>
+              <div className='checkbox'>
+                <Checkbox
+                checked={this.props.proxyUser.agent}
+                label='Agent'
+                onCheck={this.toggleAgent}
                 />
               </div>
               </div>)

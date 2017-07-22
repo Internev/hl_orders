@@ -11,6 +11,7 @@ const User = db.define('user', {
   email: Sequelize.STRING,
   password: Sequelize.STRING,
   admin: {type: Sequelize.BOOLEAN, defaultValue: false},
+  agent: {type: Sequelize.BOOLEAN, defaultValue: false},
   customerid: {type: Sequelize.STRING, unique: true}
 })
 
