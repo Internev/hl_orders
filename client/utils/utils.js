@@ -97,7 +97,7 @@ export const parseCustomers = (csv) => {
       name: c.substring(c.indexOf(',') + 1, c.lastIndexOf(',')),
       password: c.substring(0, 6),
       customerid: c.substring(0, 6),
-      email: c.substring(c.lastIndexOf(',') + 1)
+      email: c.substring(c.lastIndexOf(',') + 1).toLowerCase()
     }
   })
 }

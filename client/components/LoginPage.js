@@ -21,7 +21,7 @@ class LoginPage extends React.Component {
     e.preventDefault()
 
     const creds = {
-      email: this.refs.email.input.value,
+      email: this.refs.email.input.value.toLowerCase(),
       password: this.refs.password.input.value
     }
     this.props.dispatch(loginUser(creds))
