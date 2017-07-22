@@ -2,7 +2,6 @@ const express = require('express')
 const { Order, Storedorder, User, Storegeo, genHash } = require('../models/db')
 const { customerEmail, factoryEmail, agentEmail } = require('../utils/sendmail')
 const axios = require('axios')
-const limit = require('simple-rate-limiter')
 const PromiseThrottle = require('promise-throttle')
 const config = require('../../config')
 
@@ -168,62 +167,21 @@ router.post('/store-geo', (req, res) => {
     .catch(err => {
       if (err) console.log('geoRequests error:', err)
     })
-
-  // req.body.forEach(c => {
-  //   let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
-  //   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
-  //   request(url)
-  //     .then(res => {
-  //       let body = res.body
-  //       let geo = JSON.parse(body).results[0]
-  //       console.log(`\n${query} response body:`, body)
-  //       if (geo) {
-  //         let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
-  //         Storegeo.create({
-  //           name: c.name.trim(),
-  //           address: geo.formatted_address,
-  //           location: point
-  //         }).then(geo => {
-  //           console.log('\ngeo written to db, record:', count++)
-  //         })
-  //       } else {
-  //         console.log('\ngeo error, body is:', body, 'for customer:', c.name.trim())
-  //       }
-  //     })
-  //     .catch(err => {
-  //       if (err) console.log('axios store geo error:', err)
-  //     })
-    // request(url, (err, res, body) => {
-    //   let geo = JSON.parse(body).results[0]
-    //   // console.log(`\n${query} response body:`, body, '\nerror?', err)
-    //   if (err) console.log('error getting geo:', err)
-    //   if (geo) {
-    //     let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
-    //     Storegeo.create({
-    //       name: c.name.trim(),
-    //       address: geo.formatted_address,
-    //       location: point
-    //     }).then(geo => {
-    //       console.log('\ngeo written to db, record:', count++)
-    //     })
-    //   } else {
-    //     console.log('\ngeo error, body is:', body, 'for customer:', c.name.trim())
-    //   }
-    // })
-  // })
 })
 
 router.get('/store-geo', (req, res) => {
   const query = `SELECT
-    "name", "address", ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location")
+    "name", "address", ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location") AS distance
     FROM "storegeos"
     WHERE
-    ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location") < :maxDistance`
+    ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location") < :maxDistance
+    ORDER BY distance ASC
+    LIMIT 25`
   Storegeo.sequelize.query(query, {
     replacements: {
       latitude: -37.813627,
       longitude: 144.963057,
-      maxDistance: 5000 * 1000
+      maxDistance: 50 * 1000
     },
     type: Storegeo.sequelize.QueryTypes.SELECT
   })
