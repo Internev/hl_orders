@@ -19,7 +19,7 @@ const routes = {
       path: '/',
       getComponent: (location, callback) => {
         store.dispatch(clearMessage())
-        if (store.getState().isAuthenticated) {
+        if (store.getState().user.isAuthenticated) {
           callback(null, OrderForm)
         } else {
           callback(null, LoginPage)
@@ -29,7 +29,7 @@ const routes = {
     {
       path: '/orderform',
       getComponent: (location, callback) => {
-        if (store.getState().isAuthenticated) {
+        if (store.getState().user.isAuthenticated) {
           callback(null, OrderForm)
         } else {
           callback(null, LoginPage)
@@ -40,7 +40,7 @@ const routes = {
       path: '/radmin',
       getComponent: (location, callback) => {
         store.dispatch(clearMessage())
-        if (store.getState().isAuthenticated) {
+        if (store.getState().user.isAuthenticated) {
           callback(null, Radmin)
         } else {
           callback(null, LoginPage)
@@ -50,7 +50,7 @@ const routes = {
     {
       path: '/confirm',
       getComponent: (location, callback) => {
-        if (store.getState().isAuthenticated) {
+        if (store.getState().user.isAuthenticated) {
           callback(null, ConfirmOrder)
         } else {
           callback(null, LoginPage)
@@ -60,7 +60,7 @@ const routes = {
     {
       path: '/ordersummary',
       getComponent: (location, callback) => {
-        if (store.getState().isAuthenticated) {
+        if (store.getState().user.isAuthenticated) {
           callback(null, OrderSummary)
         } else {
           callback(null, LoginPage)
@@ -71,7 +71,7 @@ const routes = {
       path: '/orderhistory',
       getComponent: (location, callback) => {
         store.dispatch(clearMessage())
-        if (store.getState().isAuthenticated) {
+        if (store.getState().user.isAuthenticated) {
           callback(null, OrderHistory)
         } else {
           callback(null, LoginPage)

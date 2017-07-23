@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField'
 // import Backspace from 'material-ui/svg-icons/content/backspace'
 // import {grey400, amber400} from 'material-ui/styles/colors'
 import Sock from './Sock'
-import { getOrderForm, setSearchTerm, updateOrder, updateTotals, clearOrder, clearFilter } from './redux/actionCreators'
+import { getOrderForm, setSearchTerm, updateOrder, updateTotals, clearOrder, clearFilter, clearProxyUser } from './redux/actionCreators'
 
 class OrderForm extends React.Component {
   constructor (props) {
@@ -19,12 +19,12 @@ class OrderForm extends React.Component {
     this.handleFilterClear = this.handleFilterClear.bind(this)
   }
   componentDidMount () {
-    if (!this.props.orderForm.length) {
+    if (!this.props.order.form.length) {
       this.props.dispatch(getOrderForm())
     }
   }
   componentDidUpdate () {
-    if (!this.props.isAuthenticated) {
+    if (!this.props.user.isAuthenticated) {
       browserHistory.push('/logout')
     }
     // console.log('OrderForm, props:', this.props)
@@ -50,6 +50,7 @@ class OrderForm extends React.Component {
   }
   handleClear () {
     this.props.dispatch(clearOrder())
+    this.props.dispatch(clearProxyUser())
   }
   handleFilterClear () {
     this.props.dispatch(clearFilter())
@@ -57,7 +58,7 @@ class OrderForm extends React.Component {
   render () {
     return (
       <div>
-        <div className={this.props.orderTotalAmt ? 'content bottom-bar-padding' : 'content'}>
+        <div className={this.props.order.totalAmt ? 'content bottom-bar-padding' : 'content'}>
           <div className='container'>
             <div className='card-heading'>Humphrey Law Order Form</div>
             <div className='filter-input'>
@@ -66,23 +67,23 @@ class OrderForm extends React.Component {
                 id='filterSocks'
                 onChange={e => this.handleLiveSearch(e)}
                 placeholder='Filter Socks'
-                value={this.props.searchTerm}
+                value={this.props.order.searchTerm}
                 style={{flex: '3'}}
               />
-              {this.props.searchTerm
+              {this.props.order.searchTerm
               ? (<div>&nbsp;<RaisedButton
                 label='Remove Filter'
                 onClick={this.handleFilterClear}
                 /></div>)
               : <div />}
             </div>
-            { this.props.orderForm.length > 0
+            { this.props.order.form.length > 0
             ? <div className='sock-container'>
-              {this.props.orderForm
+              {this.props.order.form
                 .filter(sock =>
-                  !this.props.searchTerm
+                  !this.props.order.searchTerm
                   ? true
-                  : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.searchTerm.toUpperCase()) >= 0)
+                  : `${sock.styleID}${sock.desc}`.toUpperCase().indexOf(this.props.order.searchTerm.toUpperCase()) >= 0)
                 .map(sock => (
                   <Sock
                     sock={sock}
@@ -95,10 +96,10 @@ class OrderForm extends React.Component {
           </div>
         </div>
 
-        {this.props.orderTotalAmt
+        {this.props.order.totalAmt
           ? <div className='bottom-bar'>
             <div className='bottom-bar-left'>
-              <div className='bottom-bar-summary'>{this.props.orderTotalAmt} Pair{this.props.orderTotalAmt > 1 ? 's' : ''} in Order. Total Price: ${this.props.orderTotalPrice.toFixed(2)} exGST</div>
+              <div className='bottom-bar-summary'>{this.props.order.totalAmt} Pair{this.props.order.totalAmt > 1 ? 's' : ''} in Order. Total Price: ${this.props.order.totalPrice.toFixed(2)} exGST</div>
             </div>
             <div className='bottom-bar-right'>
               <RaisedButton
@@ -121,13 +122,13 @@ class OrderForm extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    auth: state.auth,
-    id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated,
-    orderForm: state.orderForm,
-    searchTerm: state.searchTerm,
-    orderTotalAmt: state.orderTotalAmt,
-    orderTotalPrice: state.orderTotalPrice
+    // auth: state.auth,
+    // id_token: state.id_token,
+    // isAuthenticated: state.isAuthenticated,
+    order: state.order,
+    // searchTerm: state.searchTerm,
+    // orderTotalAmt: state.orderTotalAmt,
+    // orderTotalPrice: state.orderTotalPrice
   }
 }
 

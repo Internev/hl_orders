@@ -12,8 +12,9 @@ class LoginPage extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
   componentDidUpdate () {
-    // console.log('loginpage props:', this.props)
-    if (this.props.auth.success) {
+    console.log('loginpage props:', this.props)
+    if (this.props.user.auth.success) {
+      console.log('go to orderform!')
       browserHistory.push('/')
     }
   }
@@ -32,14 +33,14 @@ class LoginPage extends React.Component {
         <form action='/' onSubmit={this.handleFormSubmit}>
           <h2 className='card-heading'>Login</h2>
 
-          {this.props.auth.message && <p className='success-message'>{this.props.auth.message}</p>}
+          {this.props.user.auth.message && <p className='success-message'>{this.props.user.auth.message}</p>}
 
           <div className='field-line'>
             <TextField
               floatingLabelText='Email'
               name='email'
               ref='email'
-              errorText={this.props.auth.errors && this.props.auth.errors.email ? this.props.auth.errors.email : ''}
+              errorText={this.props.user.auth.errors && this.props.user.auth.errors.email ? this.props.user.auth.errors.email : ''}
             />
           </div>
 
@@ -49,7 +50,7 @@ class LoginPage extends React.Component {
               type='password'
               name='password'
               ref='password'
-              errorText={this.props.auth.errors && this.props.auth.errors.password ? this.props.auth.errors.password : ''}
+              errorText={this.props.user.auth.errors && this.props.user.auth.errors.password ? this.props.user.auth.errors.password : ''}
             />
           </div>
 
@@ -65,7 +66,7 @@ class LoginPage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    user: state.user
   }
 }
 

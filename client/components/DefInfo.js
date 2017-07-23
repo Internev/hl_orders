@@ -54,19 +54,19 @@ class DefInfo extends React.Component {
                 label='Find Customer'
                 onClick={this.handleUserProxy}
               />
-              {this.props.proxyUserList.length > 1
+            {this.props.proxyUser.userList.length > 1
               ? <ProxyUserPicker />
               : <div />}
             </div>
-            {this.props.proxyUser && this.props.proxyUser.customerid
+            {this.props.proxyUser.user && this.props.proxyUser.user.customerid
             ? (
               <div>Ordering on behalf of: <br />
-                { this.props.proxyUser.name.split(',').map((line, i) => <div key={i}>{line}</div>) } <br />
-              Customer id: {this.props.proxyUser.customerid} <br />
-              Email Confirmation to: {this.props.proxyUser.email}
+                { this.props.proxyUser.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) } <br />
+              Customer id: {this.props.proxyUser.user.customerid} <br />
+            Email Confirmation to: {this.props.proxyUser.user.email}
               </div>
             )
-            : this.props.proxyUserMsg ? <div>{this.props.proxyUserMsg}</div> : <div />
+            : this.props.proxyUser.msg ? <div>{this.props.proxyUser.msg}</div> : <div />
           }
           </div>)
           : (<div>Shipping to:
@@ -80,13 +80,13 @@ class DefInfo extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    auth: state.auth,
-    id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated,
-    addinfo: state.addinfo,
-    proxyUser: state.proxyUser,
-    proxyUserList: state.proxyUserList,
-    proxyUserMsg: state.proxyUserMsg
+    // auth: state.auth,
+    // id_token: state.id_token,
+    // isAuthenticated: state.isAuthenticated,
+    order: state.order,
+    proxyUser: state.proxyUser
+    // proxyUserList: state.proxyUserList,
+    // proxyUserMsg: state.proxyUserMsg
   }
 }
 

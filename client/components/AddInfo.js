@@ -24,23 +24,23 @@ class AddInfo extends React.Component {
             <TextField
               hintText='Customer Order Number (12)'
               maxLength='12'
-              value={this.props.addinfo.customerRef}
+              value={this.props.order.addinfo.customerRef}
               onChange={this.handleInfoUpdate}
               name='customerRef' /><br />
             <TextField
               hintText='Department (8)'
               maxLength='8'
-              value={this.props.addinfo.department}
+              value={this.props.order.addinfo.department}
               onChange={this.handleInfoUpdate}
               name='department' /><br />
             <TextField
               hintText='Contact Person'
-              value={this.props.addinfo.contactPerson}
+              value={this.props.order.addinfo.contactPerson}
               onChange={this.handleInfoUpdate}
               name='contactPerson' /><br />
             <TextField
               hintText='Email Address (if not shop address)'
-              value={this.props.addinfo.email}
+              value={this.props.order.addinfo.email}
               onChange={this.handleInfoUpdate}
               type='email'
               name='email' /><br />
@@ -48,19 +48,19 @@ class AddInfo extends React.Component {
           <div className='additional-info-column'>
             <TextField
               hintText='Customer Name'
-              value={this.props.addinfo.customerName}
+              value={this.props.order.addinfo.customerName}
               onChange={this.handleInfoUpdate}
               name='customerName' /><br />
             <TextField
               hintText='Delivery Address'
-              value={this.props.addinfo.deliveryAddress}
+              value={this.props.order.addinfo.deliveryAddress}
               onChange={this.handleInfoUpdate}
               name='deliveryAddress'
               multiLine={true}
               rows={3} /><br />
             <TextField
               hintText='Delivery Instructions'
-              value={this.props.addinfo.deliveryInstructions}
+              value={this.props.order.addinfo.deliveryInstructions}
               onChange={this.handleInfoUpdate}
               name='deliveryInstructions' /><br />
 
@@ -68,7 +68,7 @@ class AddInfo extends React.Component {
           <div className='additional-info-column'>
             <TextField
               floatingLabelText='Special Instructions'
-              value={this.props.addinfo.comments}
+              value={this.props.order.addinfo.comments}
               onChange={this.handleInfoUpdate}
               name='comments'
               multiLine={true}
@@ -82,11 +82,7 @@ class AddInfo extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
-    auth: state.auth,
-    id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated,
-    addinfo: state.addinfo
+    order: state.order
   }
 }
 

@@ -21,7 +21,7 @@ class Navigation extends React.Component {
     return (
       <nav>
         <div className='navbar-wide'>
-          { this.props.isAuthenticated ? (
+          { this.props.user.isAuthenticated ? (
             <div className='navbar-wide-left'>
               <IndexLink to='/'>Order Form</IndexLink> |&nbsp;
               <Link to='/orderhistory'>Order History</Link>
@@ -33,7 +33,7 @@ class Navigation extends React.Component {
           )
           : <div />}
           <div><img src='../style/images/hl_logo.png' /></div>
-          { this.props.isAuthenticated ? (
+          { this.props.user.isAuthenticated ? (
             <div className='navbar-wide-right'>
               <span>Welcome, {this.props.user.name.slice(0, this.props.user.name.indexOf(','))}.&nbsp;</span>
               <Link to='/logout'>Log out</Link>
@@ -53,7 +53,7 @@ class Navigation extends React.Component {
             color={grey600}
             />
           <div><img src='../style/images/hl_logo.png' /></div>
-          { this.props.isAuthenticated ? (
+          { this.props.user.isAuthenticated ? (
             <div className='menu-narrow'>
               <span>Welcome, {this.props.user.name.slice(0, this.props.user.name.indexOf(','))}.</span>
               <IndexLink to='/' onClick={this.menuToggle}>Order Form</IndexLink>
@@ -73,8 +73,8 @@ class Navigation extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user,
-    isAuthenticated: state.isAuthenticated
+    user: state.user
+    // isAuthenticated: state.isAuthenticated
   }
 }
 

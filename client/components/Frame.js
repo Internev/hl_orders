@@ -20,8 +20,8 @@ class Frame extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user,
-    isAuthenticated: state.isAuthenticated
+    user: state.user
+    // isAuthenticated: state.isAuthenticated
   }
 }
 

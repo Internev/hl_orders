@@ -10,7 +10,8 @@ class OrderSummary extends React.Component {
     this.state = {date: ''}
   }
   componentDidMount () {
-    let orderDate = this.props.orderDisplay.updatedAt
+    console.log('summary order this props is:', this.props)
+    let orderDate = this.props.order.display.updatedAt
                     .slice(0, 10)
                     .split('-')
                     .reverse()
@@ -18,8 +19,7 @@ class OrderSummary extends React.Component {
     this.setState({date: orderDate})
   }
   componentDidUpdate () {
-    // console.log('summary order this props is:', this.props)
-    if (!this.props.isAuthenticated) {
+    if (!this.props.user.isAuthenticated) {
       browserHistory.push('/logout')
     }
   }
@@ -28,7 +28,7 @@ class OrderSummary extends React.Component {
       <div>
         <Card className='container'>
           <h2 className='card-heading'>Order Summary</h2>
-          { this.props.msg ? <div className='success'>{this.props.msg}</div> : <div /> }
+          { this.props.root.msg ? <div className='success'>{this.props.root.msg}</div> : <div /> }
           <div />
           <div className='summary-info'>
             <div className='col-left'>
@@ -38,17 +38,17 @@ class OrderSummary extends React.Component {
             </div>
             <div className='col-right'>
               <div>{this.state.date}</div>
-              <div>{this.props.orderDisplay.totalamt}</div>
-              <div>${(this.props.orderDisplay.totalprice / 100).toFixed(2)}
-                {this.props.orderDisplay.shipping
+              <div>{this.props.order.display.totalamt}</div>
+              <div>${(this.props.order.display.totalprice / 100).toFixed(2)}
+                {this.props.order.display.shipping
                   ? ' (including $10 shipping)'
                   : ''}
               </div>
             </div>
           </div>
           <div>
-            {this.props.orderDisplay.order
-            ? this.props.orderDisplay.order
+            {this.props.order.display.order
+            ? this.props.order.display.order
               .filter(sock => sock.totalAmt)
               .map(sock => (<ConfirmSock sock={sock} key={sock.styleID} />)
               )
@@ -62,9 +62,9 @@ class OrderSummary extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.isAuthenticated,
-    orderDisplay: state.orderDisplay,
-    msg: state.msg
+    user: state.user,
+    order: state.order,
+    root: state.root
   }
 }
 

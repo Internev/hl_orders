@@ -12,7 +12,7 @@ class OrderHistory extends React.Component {
     this.props.dispatch(getOrderHistory(this.props.user))
   }
   componentDidUpdate () {
-    if (!this.props.isAuthenticated) {
+    if (!this.props.user.isAuthenticated) {
       browserHistory.push('/logout')
     }
   }
@@ -32,7 +32,7 @@ class OrderHistory extends React.Component {
                 <th>No. of Pairs</th>
                 <th>Total Price</th>
               </tr>
-              {this.props.orderHistory.map(order => (
+              {this.props.order.history.map(order => (
                 <tr className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
                   <td>{order.updatedAt.slice(0, 10)}</td>
                   <td>{order.totalamt}</td>
@@ -50,11 +50,11 @@ class OrderHistory extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    auth: state.auth,
-    id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated,
-    orderDisplay: state.orderDisplay,
-    orderHistory: state.orderHistory
+    // auth: state.auth,
+    // id_token: state.id_token,
+    // isAuthenticated: state.isAuthenticated,
+    order: state.order
+    // orderHistory: state.orderHistory
   }
 }
 

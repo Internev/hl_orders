@@ -17,21 +17,29 @@ import {
   GET_ORDER_HISTORY_SUCCESS,
   GET_ORDER_HISTORY_FAILURE,
   SET_ORDER_DISPLAY,
+  SET_MESSAGE,
   CLEAR_MESSAGE,
   CLEAR_FILTER,
-  CLEAR_COMPLETE,
   SET_PROXY_USER,
   SET_PROXY_USER_LIST,
   CLOSE_PROXY_USER_LIST,
   PROXY_USER_FAILURE,
   TOGGLE_ADMIN,
-  TOGGLE_AGENT
+  TOGGLE_AGENT,
+  CLEAR_PROXY_USER
 } from './actions'
 import axios from 'axios'
 
-export function clearComplete () {
+export function clearProxyUser () {
   return {
-    type: CLEAR_COMPLETE
+    type: CLEAR_PROXY_USER
+  }
+}
+
+export function setMessage (msg) {
+  return {
+    type: SET_MESSAGE,
+    msg
   }
 }
 

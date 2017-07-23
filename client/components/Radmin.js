@@ -36,7 +36,7 @@ class Radmin extends React.Component {
     if (!this.props.user.admin) {
       browserHistory.push('/')
     }
-    if (!this.props.isAuthenticated) {
+    if (!this.props.user.isAuthenticated) {
       browserHistory.push('/logout')
     }
   }
@@ -83,13 +83,13 @@ class Radmin extends React.Component {
     }
   }
   toggleAdmin () {
-    if (this.props.user.customerid !== this.props.proxyUser.customerid && this.props.user.admin) {
-      this.props.dispatch(toggleAdmin(this.props.proxyUser))
+    if (this.props.user.customerid !== this.props.proxyUser.user.customerid && this.props.user.admin) {
+      this.props.dispatch(toggleAdmin(this.props.proxyUser.user))
     }
   }
   toggleAgent () {
-    if (this.props.user.customerid !== this.props.proxyUser.customerid && this.props.user.admin) {
-      this.props.dispatch(toggleAgent(this.props.proxyUser))
+    if (this.props.user.customerid !== this.props.proxyUser.user.customerid && this.props.user.admin) {
+      this.props.dispatch(toggleAgent(this.props.proxyUser.user))
     }
   }
   storeGeoTest () {
@@ -107,7 +107,8 @@ class Radmin extends React.Component {
     return (
       <Card className='container'>
         <h2 className='card-heading'>HL Orders Admin</h2>
-        { this.props.msg ? <div className='success'>{this.props.msg}</div> : <div /> }
+        { this.props.root.msg ? <div className='success'>{this.props.root.msg}</div> : <div /> }
+        { this.props.order.msg ? <div className='success'>{this.props.order.msg}</div> : <div /> }
         <CardText>
           <div>
             <h3>Recent Orders</h3>
@@ -121,7 +122,7 @@ class Radmin extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {this.props.orderHistory.map(order => (
+                {this.props.order.history.map(order => (
                   <tr className='pointer' key={order.id} onClick={e => this.handleOrderClick(order)}>
                     <td>{order.updatedAt.slice(0, 10)}</td>
                     <td>{order.totalamt}</td>
@@ -208,21 +209,21 @@ class Radmin extends React.Component {
             />
           </div>
           <div>
-            {this.props.proxyUser.name
+            {this.props.proxyUser.user.name
             ? (<div className='user-upgrade-info'>
-              <div>{ this.props.proxyUser.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
-                {this.props.proxyUser.email}
+              <div>{ this.props.proxyUser.user.name.split(',').map((line, i) => <div key={i}>{line}</div>) }
+                {this.props.proxyUser.user.email}
               </div>
               <div className='checkbox'>
                 <Checkbox
-                checked={this.props.proxyUser.admin}
+                checked={this.props.proxyUser.user.admin}
                 label='Admin'
                 onCheck={this.toggleAdmin}
                 />
               </div>
               <div className='checkbox'>
                 <Checkbox
-                checked={this.props.proxyUser.agent}
+                checked={this.props.proxyUser.user.agent}
                 label='Agent'
                 onCheck={this.toggleAgent}
                 />
@@ -240,12 +241,9 @@ class Radmin extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    auth: state.auth,
-    id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated,
-    orderForm: state.orderForm,
-    msg: state.msg,
-    orderHistory: state.orderHistory,
+    order: state.order,
+    root: state.root,
+    // orderHistory: state.orderHistory,
     proxyUser: state.proxyUser
   }
 }

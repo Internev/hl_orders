@@ -12,7 +12,7 @@ class SignUpPage extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
   componentDidUpdate () {
-    if (this.props.auth.success) {
+    if (this.props.user.auth.success) {
       this.props.dispatch({type: 'SIGNUP_REDIRECT'})
       browserHistory.push('/login')
     }
@@ -33,14 +33,14 @@ class SignUpPage extends React.Component {
         <form onSubmit={this.handleFormSubmit}>
           <h2 className='card-heading'>Signup</h2>
 
-          {!this.props.auth.success && <p className='error-message'>{this.props.auth.message}</p>}
+          {!this.props.user.auth.success && <p className='error-message'>{this.props.user.auth.message}</p>}
 
           <div className='field-line'>
             <TextField
               floatingLabelText='Name'
               name='name'
               ref='name'
-              errorText={this.props.auth.errors.name}
+              errorText={this.props.user.auth.errors.name}
             />
           </div>
 
@@ -50,7 +50,7 @@ class SignUpPage extends React.Component {
               type='email'
               name='email'
               ref='email'
-              errorText={this.props.auth.errors.email}
+              errorText={this.props.user.auth.errors.email}
             />
           </div>
 
@@ -60,7 +60,7 @@ class SignUpPage extends React.Component {
               type='password'
               name='password'
               ref='password'
-              errorText={this.props.auth.errors.password}
+              errorText={this.props.user.auth.errors.password}
             />
           </div>
 
@@ -77,10 +77,10 @@ class SignUpPage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
-    isFetching: state.isFetching,
-    isAuthenticated: state.isAuthenticated,
-    auth: state.auth
+    user: state.user
+    // isFetching: state.isFetching,
+    // isAuthenticated: state.isAuthenticated,
+    // auth: state.auth
   }
 }
 

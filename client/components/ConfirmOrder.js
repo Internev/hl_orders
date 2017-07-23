@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {Tabs, Tab} from 'material-ui/Tabs'
 // import TextField from 'material-ui/TextField'
 import CircularProgress from 'material-ui/CircularProgress'
-import { saveOrder, clearComplete } from './redux/actionCreators'
+import { saveOrder, clearOrder, clearProxyUser, setMessage } from './redux/actionCreators'
 import ConfirmSock from './ConfirmSock'
 import AddInfo from './AddInfo'
 import DefInfo from './DefInfo'
@@ -17,41 +17,43 @@ class ConfirmOrder extends React.Component {
     super(props)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
     this.submitAllowed = this.submitAllowed.bind(this)
-    this.state = {shipping: this.props.orderTotalAmt < 48 ? 10 : 0}
+    this.state = {shipping: this.props.order.totalAmt < 48 ? 10 : 0}
   }
   componentDidUpdate () {
     // console.log('confirm order this props is:', this.props)
-    if (!this.props.isAuthenticated) {
+    if (!this.props.user.isAuthenticated) {
       browserHistory.push('/logout')
     }
-    if (this.props.orderComplete) {
-      this.props.dispatch(clearComplete())
+    if (this.props.order.complete) {
+      this.props.dispatch(setMessage(this.props.order.msg))
+      this.props.dispatch(clearOrder())
+      this.props.dispatch(clearProxyUser())
       browserHistory.push('/ordersummary')
     }
   }
   handleOrderSubmit () {
     // TotalPrice stored as cents in db.
     if (this.props.user.admin || this.props.user.agent) {
-      this.props.dispatch(saveOrder(this.props.orderForm, this.props.proxyUser, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping, this.props.user))
+      this.props.dispatch(saveOrder(this.props.order.form, this.props.proxyUser.user, (this.props.order.totalPrice * 100), this.props.order.totalAmt, this.props.order.addinfo, this.state.shipping, this.props.user))
     } else {
-      this.props.dispatch(saveOrder(this.props.orderForm, this.props.user, (this.props.orderTotalPrice * 100), this.props.orderTotalAmt, this.props.addinfo, this.state.shipping))
+      this.props.dispatch(saveOrder(this.props.order.form, this.props.user, (this.props.order.totalPrice * 100), this.props.order.totalAmt, this.props.order.addinfo, this.state.shipping))
     }
   }
   submitAllowed () {
     return this.props.user.admin || this.props.user.agent
-      ? !(this.props.orderTotalAmt > 23 && this.props.proxyUser.customerid)
-      : this.props.orderTotalAmt < 24
+      ? !(this.props.order.totalAmt > 23 && this.props.proxyUser.user.customerid)
+      : this.props.order.totalAmt < 24
   }
   render () {
     return (
       <div>
-        <div className={this.props.orderProcessing ? 'overlay-spinner' : 'hidden'}>
+        <div className={this.props.order.processing ? 'overlay-spinner' : 'hidden'}>
           <CircularProgress className='center' />
         </div>
         <Card className='container'>
           <h2 className='card-heading'>Confirm Your Order</h2>
-          <div>{this.props.msg}</div>
-          {this.props.orderForm
+          <div>{this.props.root.msg}</div>
+          {this.props.order.form
             .filter(sock => sock.totalAmt)
             .map(sock => (
               <ConfirmSock sock={sock} key={sock.styleID} />
@@ -61,7 +63,7 @@ class ConfirmOrder extends React.Component {
             Shipping is free for orders over 48 pairs.
           </div>
           <div>
-            <h2>{this.props.orderTotalAmt} Pairs in Order. Total Price: ${(this.props.orderTotalPrice + this.state.shipping).toFixed(2)} exGST {this.state.shipping ? ' (including $10 shipping)' : ''}</h2>
+            <h2>{this.props.order.totalAmt} Pairs in Order. Total Price: ${(this.props.order.totalPrice + this.state.shipping).toFixed(2)} exGST {this.state.shipping ? ' (including $10 shipping)' : ''}</h2>
             <Tabs>
               <Tab label='Default Information'>
                 <DefInfo />
@@ -71,7 +73,7 @@ class ConfirmOrder extends React.Component {
               </Tab>
             </Tabs>
             <div>
-              {this.props.orderTotalAmt < 24
+              {this.props.order.totalAmt < 24
               ? (<div className='warning-message'>Minimum order quantity is 24 pairs, please adjust your order.</div>)
               : ''}
               <RaisedButton
@@ -95,16 +97,16 @@ class ConfirmOrder extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    auth: state.auth,
-    id_token: state.id_token,
-    isAuthenticated: state.isAuthenticated,
-    orderForm: state.orderForm,
-    orderTotalAmt: state.orderTotalAmt,
-    orderTotalPrice: state.orderTotalPrice,
-    orderProcessing: state.orderProcessing,
-    orderComplete: state.orderComplete,
-    msg: state.msg,
-    addinfo: state.addinfo,
+    // auth: state.auth,
+    // id_token: state.id_token,
+    // isAuthenticated: state.isAuthenticated,
+    order: state.order,
+    // orderTotalAmt: state.orderTotalAmt,
+    // orderTotalPrice: state.orderTotalPrice,
+    // orderProcessing: state.orderProcessing,
+    // orderComplete: state.orderComplete,
+    root: state.root,
+    // addinfo: state.addinfo,
     proxyUser: state.proxyUser
   }
 }

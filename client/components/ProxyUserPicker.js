@@ -22,7 +22,7 @@ class ProxyUserPicker extends React.Component {
         <Dialog
           title='Please Select a User'
           modal={false}
-          open={this.props.proxyUserListOpen}
+          open={this.props.proxyUser.userListOpen}
           onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
         >
@@ -33,8 +33,8 @@ class ProxyUserPicker extends React.Component {
                 <th>Email</th>
                 <th>Customer Code</th>
               </tr>
-              {this.props.proxyUserList.length > 1
-                          ? this.props.proxyUserList.map(user => (
+              {this.props.proxyUser.userList.length > 1
+                          ? this.props.proxyUser.userList.map(user => (
                             <tr
                               className='pointer'
                               key={user.id}
@@ -60,9 +60,9 @@ class ProxyUserPicker extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    proxyUser: state.proxyUser,
-    proxyUserList: state.proxyUserList,
-    proxyUserListOpen: state.proxyUserListOpen
+    proxyUser: state.proxyUser
+    // proxyUserList: state.proxyUserList,
+    // proxyUserListOpen: state.proxyUserListOpen
   }
 }
 
