@@ -125,7 +125,7 @@ const mapStateToProps = (state) => {
     // auth: state.auth,
     // id_token: state.id_token,
     // isAuthenticated: state.isAuthenticated,
-    order: state.order,
+    order: state.order
     // searchTerm: state.searchTerm,
     // orderTotalAmt: state.orderTotalAmt,
     // orderTotalPrice: state.orderTotalPrice
