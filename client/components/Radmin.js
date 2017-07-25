@@ -5,6 +5,7 @@ import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
+import StoreMap from './storeMap'
 // import TextField from 'material-ui/TextField'
 import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent } from './redux/actionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
@@ -216,21 +217,24 @@ class Radmin extends React.Component {
               </div>
               <div className='checkbox'>
                 <Checkbox
-                checked={this.props.proxyUser.user.admin}
-                label='Admin'
-                onCheck={this.toggleAdmin}
-                />
+                  checked={this.props.proxyUser.user.admin}
+                  label='Admin'
+                  onCheck={this.toggleAdmin}
+                  />
               </div>
               <div className='checkbox'>
                 <Checkbox
-                checked={this.props.proxyUser.user.agent}
-                label='Agent'
-                onCheck={this.toggleAgent}
-                />
+                  checked={this.props.proxyUser.user.agent}
+                  label='Agent'
+                  onCheck={this.toggleAgent}
+                  />
               </div>
-              </div>)
+            </div>)
             : ''}
           </div>
+        </div>
+        <div style={{width: '100%', height: '600px'}}>
+          <StoreMap />
         </div>
         </CardText>
       </Card>

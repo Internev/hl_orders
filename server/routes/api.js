@@ -171,7 +171,7 @@ router.post('/store-geo', (req, res) => {
 
 router.get('/store-geo', (req, res) => {
   const query = `SELECT
-    "name", "address", ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location") AS distance
+    "name", "address", "location", ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location") AS distance
     FROM "storegeos"
     WHERE
     ST_Distance_Sphere(ST_MakePoint(:longitude, :latitude), "location") < :maxDistance
@@ -185,8 +185,9 @@ router.get('/store-geo', (req, res) => {
     },
     type: Storegeo.sequelize.QueryTypes.SELECT
   })
-  .then(res => {
-    console.log('\n\nEe got a response from store geo!\n', res)
+  .then(geo => {
+    console.log('\n\nEe got a response from store geo!\n', geo)
+    res.status(200).json(geo)
   })
   .catch(err => {
     console.log('\n\nerror from store geo:\n', err)
