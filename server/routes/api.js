@@ -107,7 +107,7 @@ router.get('/order-form', (req, res) => {
 })
 
 router.post('/store-geo', (req, res) => {
-  // console.log('\n\n*********\nStore Geo:', req.body)
+  console.log('\n\n*********\nStore Geo:', req.body)
   Storegeo.sync({force: true})
   // let request = limit(axios.request).to(50).per(1000)
   let pThrottle = new PromiseThrottle({

@@ -4,7 +4,7 @@ import GoogleMapReact from 'google-map-react'
 import config from '../../config'
 
 const AnyReactComponent = ({ text }) =>  {
-  console.log("component, text", text)
+  // console.log("component, text", text)
   return (<div style={{
     position: 'relative', color: 'white', background: 'red',
     height: 40, width: 60, top: -20, left: -30,
@@ -15,7 +15,7 @@ class StoreMap extends React.Component {
     super(props)
   }
   componentDidMount () {
-    console.log("MAP")
+    // console.log('MAP')
   }
   render () {
     return (

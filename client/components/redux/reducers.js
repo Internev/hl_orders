@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import user from './userReducers'
 import order from './orderFormReducers'
 import proxyUser from './proxyUserReducers'
+import geo from './geoReducers'
 import {
   CUSTOMERS_SUCCESS,
   CUSTOMERS_FAILURE,
@@ -66,5 +67,6 @@ export default combineReducers({
   root,
   user,
   order,
-  proxyUser
+  proxyUser,
+  geo
 })

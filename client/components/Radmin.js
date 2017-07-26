@@ -5,9 +5,10 @@ import { Card, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
-import StoreMap from './storeMap'
+import StoreMap from './StoreMap'
 // import TextField from 'material-ui/TextField'
-import { uploadOrderForm, uploadStoreGeo, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent } from './redux/actionCreators'
+import { uploadOrderForm, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent, setMessage } from './redux/actionCreators'
+import { uploadStoreGeo, uploadGeoProcessing } from './redux/geoActionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 import axios from 'axios'
 
@@ -42,9 +43,10 @@ class Radmin extends React.Component {
     }
   }
   uploadStoreGeo (e) {
+    this.props.dispatch(uploadGeoProcessing())
     let reader = new FileReader()
     reader.onload = (file) => {
-      uploadStoreGeo(parseStoreGeo(file.target.result))
+      this.props.dispatch(uploadStoreGeo(parseStoreGeo(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
     this.storeGeo.value = null
@@ -110,6 +112,7 @@ class Radmin extends React.Component {
         <h2 className='card-heading'>HL Orders Admin</h2>
         { this.props.root.msg ? <div className='success'>{this.props.root.msg}</div> : <div /> }
         { this.props.order.msg ? <div className='success'>{this.props.order.msg}</div> : <div /> }
+        { this.props.geo.msg ? <div className='success'>{this.props.geo.msg}</div> : <div /> }
         <CardText>
           <div>
             <h3>Recent Orders</h3>
@@ -233,9 +236,24 @@ class Radmin extends React.Component {
             : ''}
           </div>
         </div>
-        <div style={{width: '100%', height: '600px'}}>
-          <StoreMap />
-        </div>
+          <div>
+            {this.props.geo.failures.length > 0
+            ? <table>
+              <tbody>
+                {this.props.geo.failures.map((failure, i) => (
+                  <tr key={i}>
+                    <td>{failure.store.name}</td>
+                    <td>{failure.store.address}</td>
+                    <td>{failure.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            : null}
+          </div>
+          <div style={{width: '100%', height: '600px'}}>
+            <StoreMap />
+          </div>
         </CardText>
       </Card>
     )
@@ -248,7 +266,8 @@ const mapStateToProps = (state) => {
     order: state.order,
     root: state.root,
     // orderHistory: state.orderHistory,
-    proxyUser: state.proxyUser
+    proxyUser: state.proxyUser,
+    geo: state.geo
   }
 }
 
