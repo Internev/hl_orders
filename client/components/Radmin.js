@@ -8,7 +8,7 @@ import Checkbox from 'material-ui/Checkbox'
 import StoreMap from './StoreMap'
 // import TextField from 'material-ui/TextField'
 import { uploadOrderForm, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent, setMessage } from './redux/actionCreators'
-import { uploadStoreGeo, uploadGeoProcessing } from './redux/geoActionCreators'
+import { uploadStoreGeo, uploadGeoProcessing, getStoreGeo } from './redux/geoActionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
 import axios from 'axios'
 
@@ -34,7 +34,7 @@ class Radmin extends React.Component {
     // }
   }
   componentDidUpdate () {
-    // console.log('Radmin, props:', this.props)
+    console.log('Radmin, props:', this.props)
     if (!this.props.user.admin) {
       browserHistory.push('/')
     }
@@ -96,15 +96,7 @@ class Radmin extends React.Component {
     }
   }
   storeGeoTest () {
-    const config = {
-      headers: {
-        'authorization': localStorage.getItem('id_token')
-      }
-    }
-    axios.get('/api/store-geo', config)
-      .then(res => {
-        console.log('storegeores:', res)
-      })
+    this.props.dispatch(getStoreGeo())
   }
   render () {
     return (

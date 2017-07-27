@@ -24,11 +24,16 @@ class StoreMap extends React.Component {
         defaultCenter={{lat: -37.813627, lng: 144.963057}}
         defaultZoom={13}
       >
-        <AnyReactComponent
-          lat={-37.8137934}
-          lng={144.9640304}
-          text={'Myer (ladies socks only)'}
-        />
+        {this.props.geo.stores.length > 0
+        ? this.props.geo.stores.map((store, i) => (
+          <AnyReactComponent
+            key={i}
+            lat={store.location.coordinates[1]}
+            lng={store.location.coordinates[0]}
+            text={store.name}
+          />
+        ))
+        : null}
       </GoogleMapReact>
     )
   }

@@ -1,7 +1,8 @@
 import {
   UPLOAD_GEO_PROCESSING,
   UPLOAD_GEO_SUCCESS,
-  UPLOAD_GEO_FAILURE
+  UPLOAD_GEO_FAILURE,
+  GET_STORE_GEO_SUCCESS
 } from './actions'
 
 const DEFAULT_STATE = {
@@ -42,6 +43,16 @@ const uploadGeoFailure = (state, action) => {
   return newState
 }
 
+const getStoreGeoSuccess = (state, action) => {
+  const newState = {
+    ...state,
+    ...{
+      stores: action.stores
+    }
+  }
+  return newState
+}
+
 export default function (state = DEFAULT_STATE, action) {
   switch (action.type) {
     case UPLOAD_GEO_PROCESSING:
@@ -50,6 +61,8 @@ export default function (state = DEFAULT_STATE, action) {
       return uploadGeoSuccess(state, action)
     case UPLOAD_GEO_FAILURE:
       return uploadGeoFailure(state, action)
+    case GET_STORE_GEO_SUCCESS:
+      return getStoreGeoSuccess(state, action)
     default:
       return state
   }
