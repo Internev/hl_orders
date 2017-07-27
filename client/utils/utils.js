@@ -1,7 +1,7 @@
 export const parseOrderForm = (csv) => {
-  // console.log('parsing order form now...\n********')
   let socks = csv.split(/\n/).map(item => item.split(','))
   socks.shift()
+  // console.log('parsing order form now...\n********\n', socks)
   let orderObj = {}
   socks.forEach(item => {
     item[1] = fixTrademark(item[1])
@@ -55,11 +55,11 @@ export const parseOrderForm = (csv) => {
   for (let sock in orderObj) {
     orderForm.push(orderObj[sock])
   }
-
+  // console.log('Loop finished, orderForm = ', orderForm)
   orderForm = orderForm.sort((a, b) => {
     return a.styleID.slice(0, 3) > b.styleID.slice(0, 3) ? 1 : -1
   })
-  orderForm.shift() // ? Get rid of empty result
+  orderForm.shift() // ? Get rid of empty result from linebreak at bottom of original csv.
   // console.log('orderForm with new stuff!', orderForm)
   return orderForm
 }
