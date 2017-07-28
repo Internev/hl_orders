@@ -1,12 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-// import { Card } from 'material-ui/Card'
 import { GridList } from 'material-ui/GridList'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-// import Backspace from 'material-ui/svg-icons/content/backspace'
-// import {grey400, amber400} from 'material-ui/styles/colors'
 import Sock from './Sock'
 import { getOrderForm, setSearchTerm, updateOrder, updateTotals, clearOrder, clearFilter, clearProxyUser } from './redux/actionCreators'
 
@@ -122,13 +119,7 @@ class OrderForm extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    // auth: state.auth,
-    // id_token: state.id_token,
-    // isAuthenticated: state.isAuthenticated,
     order: state.order
-    // searchTerm: state.searchTerm,
-    // orderTotalAmt: state.orderTotalAmt,
-    // orderTotalPrice: state.orderTotalPrice
   }
 }
 

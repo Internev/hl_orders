@@ -14,7 +14,8 @@
     "collectCoverageFrom": [
       "server/*.js",
       "client/*.js"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "./client/__tests__/LocalStorageMock.js"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,7 @@
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "promise-throttle": "^0.3.1",
-    "react": "^15.4.1",
+    "react": "^15.6.1",
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.3",
     "react-router": "^3.0.0",
@@ -62,13 +63,14 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.4",
+    "enzyme": "^2.9.1",
     "extract-text-webpack-plugin": "^2.1.2",
     "html-webpack-plugin": "^2.29.0",
     "jest": "^19.0.2",
     "jest-cli": "^19.0.2",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
-    "react-test-renderer": "^15.5.4",
+    "react-test-renderer": "^15.6.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^2.2.0"
