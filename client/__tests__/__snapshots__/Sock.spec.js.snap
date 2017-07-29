@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sock Display Component should have 2 colours (and header row) 1`] = `
+Array [
+  "<tr><th>Colour ID</th><th>Colour Name</th><th>Pattern</th><th>01C05</th><th>01C07</th><th>01C10</th></tr>",
+  "<tr><td>74</td><td>ANTELOPE</td><td></td><td><input type=\\"number\\" min=\\"0\\" class=\\"order-input\\" value=\\"\\"/></td><td><input type=\\"number\\" min=\\"0\\" class=\\"order-input\\" value=\\"\\"/></td><td><input type=\\"number\\" min=\\"0\\" class=\\"order-input\\" value=\\"\\"/></td></tr>",
+  "<tr><td>66</td><td>DENIM</td><td></td><td><input type=\\"number\\" min=\\"0\\" class=\\"order-input\\" value=\\"\\"/></td><td><input type=\\"number\\" min=\\"0\\" class=\\"order-input\\" value=\\"\\"/></td><td><input type=\\"number\\" min=\\"0\\" class=\\"order-input\\" value=\\"\\"/></td></tr>",
+]
+`;

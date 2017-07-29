@@ -20,7 +20,7 @@ describe('Sock Display Component', () => {
   })
 
   it('should have 2 colours (and header row)', () => {
-    expect(wrapper.find('tbody > tr').length).toEqual(3)
+    expect(wrapper.find('tbody > tr').map(i => i.html())).toMatchSnapshot()
   })
 
   it('should render the colour names', () => {
