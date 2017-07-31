@@ -34,7 +34,7 @@ class Radmin extends React.Component {
     // }
   }
   componentDidUpdate () {
-    console.log('Radmin, props:', this.props)
+    // console.log('Radmin, props:', this.props)
     if (!this.props.user.admin) {
       browserHistory.push('/')
     }
@@ -243,7 +243,7 @@ class Radmin extends React.Component {
             </table>
             : null}
           </div>
-          <div style={{width: '100%', height: '600px'}}>
+          <div style={{width: '100%', height: '800px'}}>
             <StoreMap />
           </div>
         </CardText>

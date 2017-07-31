@@ -8,6 +8,7 @@ import {
 const DEFAULT_STATE = {
   stores: [],
   failures: [],
+  searchPoint: {lat: -37.8009595, lng: 144.9873447},
   msg: '',
   processing: false
 }
@@ -47,7 +48,8 @@ const getStoreGeoSuccess = (state, action) => {
   const newState = {
     ...state,
     ...{
-      stores: action.stores
+      stores: action.stores,
+      searchPoint: action.searchPoint
     }
   }
   return newState

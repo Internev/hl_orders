@@ -46,17 +46,19 @@ function uploadGeoFailure (err) {
   }
 }
 
-export function getStoreGeo () {
+export function getStoreGeo (search) {
+  console.log('storeGeo searchterm:', search)
   return dispatch => {
     const config = {
       headers: {
-        'authorization': localStorage.getItem('id_token')
+        'authorization': localStorage.getItem('id_token'),
+        search
       }
     }
     axios.get('/api/store-geo', config)
       .then(res => {
-        // console.log('storegeores:', res)
-        return dispatch(getStoreGeoSuccess(res.data))
+        console.log('storegeores:', res)
+        return dispatch(getStoreGeoSuccess(res.data.geo, res.data.searchPoint))
       })
       .catch(err => {
         console.log('storegeo error:', err)
@@ -64,9 +66,10 @@ export function getStoreGeo () {
     }
 }
 
-function getStoreGeoSuccess (stores) {
+function getStoreGeoSuccess (stores, searchPoint) {
   return {
     type: GET_STORE_GEO_SUCCESS,
-    stores
+    stores,
+    searchPoint
   }
 }

@@ -18,10 +18,10 @@ class StoreMarker extends React.Component {
       background: 'black',
       width: '18px',
       height: '18px',
-      'border-radius': '12px',
+      borderRadius: '12px',
       border: '2px solid orange',
       cursor: 'pointer',
-      'z-index': 1
+      zIndex: 1
     }
 
     const infoPopStyle = {
@@ -31,10 +31,10 @@ class StoreMarker extends React.Component {
       border: '2px solid orange',
       position: 'absolute',
       top: '-72px',
-      'font-size': '0.88em',
+      fontSize: '0.88em',
       color: 'white',
       display: this.state.hover ? 'block' : 'none',
-      'z-index': 1000
+      zIndex: 1000
     }
     return (
       <div style={{position: 'relative'}}>
