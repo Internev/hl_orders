@@ -9,6 +9,7 @@ class OrderHistory extends React.Component {
     super(props)
   }
   componentDidMount () {
+    console.log('get order history, user is:', this.props.user)
     this.props.dispatch(getOrderHistory(this.props.user))
   }
   componentDidUpdate () {

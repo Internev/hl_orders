@@ -235,7 +235,7 @@ export function getOrderHistory (user) {
       'authorization': localStorage.getItem('id_token')
     }
   }
-  if (user) config.headers.id = user.id
+  if (user) config.headers.id = user.customerid
   // console.log('getorderhistory, user:', user, 'config:', config)
   return dispatch => {
     axios.get('/api/order', config)

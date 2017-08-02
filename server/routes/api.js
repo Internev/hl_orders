@@ -55,12 +55,17 @@ router.post('/order', (req, res) => {
 
 router.get('/order', (req, res) => {
   // Manage query for individual user or admin.
-  let query = req.headers.id ? {userId: req.headers.id} : {}
+  console.log('order history, req.headers.id:', req.headers.id)
+  let query = req.headers.id ? {customerid: req.headers.id} : {}
   Order.findAll({
     limit: 12,
-    where: query,
+    // where: query,
     order: [[ 'createdAt', 'DESC' ]],
-    include: [ {model: User, required: true} ]
+    include: [ {
+      model: User,
+      required: true,
+      where: query
+    } ]
   })
     .then(orders => {
       // console.log('\n\n\n\nres from findall limit 10', orders, '\n\n\n\n')
