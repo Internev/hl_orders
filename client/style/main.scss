@@ -11,6 +11,9 @@ body {
   background: $backgroundColor;
   color: $baseColor;
   font-family: $baseFont;
+  @media screen and (max-width: 850px) {
+    font-size: .8em;
+  }
 }
 
 a {
