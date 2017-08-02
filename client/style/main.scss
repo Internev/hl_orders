@@ -31,6 +31,9 @@ a {
   text-align: center;
   max-width: 1000px;
   padding: .5em;
+  @media screen and (max-width: 850px) {
+    padding: 0;
+  }
 }
 
 .card-heading {
@@ -66,8 +69,9 @@ h3 {
   margin: 0 10px 15px 0;
   @media screen and (max-width: 850px) {
     max-width: 600px;
-    width: 85%;
+    min-width: 100%;
     text-align: center;
+    margin: 0;
   }
 
   -webkit-box-shadow: 0 10px 6px -6px #AAA;
@@ -99,6 +103,14 @@ h3 {
         border-collapse: collapse;
         margin: 0 auto;
         width: 95%;
+        @media screen and (max-width: 850px) {
+          width: 100%;
+          table-layout: fixed;
+          td {
+            max-width: 15%;
+            overflow: hidden;
+          }
+        }
       }
   }
 }
