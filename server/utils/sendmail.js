@@ -45,14 +45,21 @@ const agentEmail = (order, customer, email) => {
 
 const factoryEmail = (order, customer, totalAmt, agent) => {
   let webOrderNumber = 'A' + padToFive(order.id)
-  let html = ''
+  let html = '<div style="font-size:9pt">'
   if (agent) {
-    html += `<div>Agent ${agent.customerid} has made an order on behalf of ${customer.customerid}, order number: ${webOrderNumber}.<br /><br />The order is:</div>`
+    html += `<div>Agent ${agent.customerid} has made an order on behalf of ${customer.customerid}, order number: ${webOrderNumber}.<br/></div>`
   } else {
-    html += `<div>A new customer order has been made, order number: ${webOrderNumber}.<br /><br />The order is:</div>`
+    html += `<div>A new customer order has been made, order number: ${webOrderNumber}.<br /><br /></div>`
   }
+  html += `<br/>Humphrey Law Order Number: ${webOrderNumber}`
+  html += `<div><br/><b>Total Price: $${(order.totalprice / 100).toFixed(2)}</b></div>`
+  html += `<div><br/><b>Total Qty: ${order.totalamt}</b></div>`
+  html += `<div><br /><b>Shipping to:</b></div>`
+  // console.log('order delivery', order.addinfo.deliveryAddress)
+  order.addinfo.deliveryAddress.split(/[,\n]/g)
+    .map(line => `<div>${line}</div>`)
+    .forEach(line => { html += line })
   // console.log(Array.isArray(order.order))
-  html += htmlFromOrder(order)
   html += `<div><br /><b>Customer Details</b><br />
           ID: ${customer.customerid}<br />
           Customer: ${customer.name}<br />
@@ -64,8 +71,10 @@ const factoryEmail = (order, customer, totalAmt, agent) => {
     }
     html += `<br /></div>`
   }
+  html += '<div>The order is:<br /></div>'
+  html += htmlFromOrder(order)
   html += `<div><br />A CSV of this order is attached to this email.<br /></div>`
-
+  html += '</div>'
   let mailOptions = {
     from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>'
   }
