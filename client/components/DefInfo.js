@@ -51,7 +51,7 @@ class DefInfo extends React.Component {
                 errorText={this.state.validId}
               />&nbsp;
               <RaisedButton
-                label='Find Customer'
+                label={<span className='button-text'>Find Customer</span>}
                 onClick={this.handleUserProxy}
               />
             {this.props.proxyUser.userList.length > 1

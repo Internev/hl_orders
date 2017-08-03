@@ -65,10 +65,10 @@ class ConfirmOrder extends React.Component {
           <div>
             <h2>{this.props.order.totalAmt} Pairs in Order. Total Price: ${(this.props.order.totalPrice + this.state.shipping).toFixed(2)} exGST {this.state.shipping ? ' (including $10 shipping)' : ''}</h2>
             <Tabs>
-              <Tab label='Default Information'>
+              <Tab label='Information'>
                 <DefInfo />
               </Tab>
-              <Tab label='Add additional information (optional)'>
+              <Tab label='Add a Note'>
                 <AddInfo />
               </Tab>
             </Tabs>
@@ -97,16 +97,8 @@ class ConfirmOrder extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    // auth: state.auth,
-    // id_token: state.id_token,
-    // isAuthenticated: state.isAuthenticated,
     order: state.order,
-    // orderTotalAmt: state.orderTotalAmt,
-    // orderTotalPrice: state.orderTotalPrice,
-    // orderProcessing: state.orderProcessing,
-    // orderComplete: state.orderComplete,
     root: state.root,
-    // addinfo: state.addinfo,
     proxyUser: state.proxyUser
   }
 }

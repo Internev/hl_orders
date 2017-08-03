@@ -267,9 +267,20 @@ nav {
   display: flex;
   align-content: space-between;
 
+
+
   > div {
     flex: 1;
     min-width: 50%;
+  }
+
+  @media screen and (max-width: 850px) {
+    flex-direction: column;
+    text-align: center;
+    
+    .button-text {
+      font-size: .8em;
+    }
   }
 }
 
