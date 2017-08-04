@@ -50,7 +50,7 @@ class StoreMap extends React.Component {
         <GoogleMapReact
           bootstrapURLKeys={{key: config.GMAPS_MAP}}
           center={this.props.geo.searchPoint}
-          defaultZoom={13}
+          defaultZoom={14}
         >
           {this.props.geo.stores.length > 0
           ? this.props.geo.stores.map((store, i) => (

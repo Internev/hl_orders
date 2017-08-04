@@ -15,24 +15,26 @@ class StoreMarker extends React.Component {
   }
   render () {
     const storeDotStyle = {
-      background: 'black',
-      width: '18px',
-      height: '18px',
-      borderRadius: '12px',
-      border: '2px solid orange',
+      backgroundImage: 'url("./style/images/hl_icon2.png")',
+      backgroundRepeat: 'no-repeat',
+      width: '22px',
+      height: '22px',
+      borderRadius: '16px',
+      border: '1px solid rgb(230, 157, 50)',
       cursor: 'pointer',
       zIndex: 1
     }
 
     const infoPopStyle = {
       width: '125px',
-      height: '70px',
-      background: 'black',
-      border: '2px solid orange',
+      height: '60px',
+      background: 'white',
+      border: '1px solid rgb(230, 157, 50)',
       position: 'absolute',
-      top: '-72px',
-      fontSize: '0.88em',
-      color: 'white',
+      top: '-60px',
+      left: '10px',
+      fontSize: '0.92em',
+      color: 'black',
       display: this.state.hover ? 'block' : 'none',
       zIndex: 1000
     }
