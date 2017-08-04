@@ -24,10 +24,8 @@ class OrderForm extends React.Component {
     if (!this.props.user.isAuthenticated) {
       browserHistory.push('/logout')
     }
-    // console.log('OrderForm, props:', this.props)
   }
   handleFormSubmit (sock, colour, amount, size, index) {
-    // console.log('sock size updated, sock:', sock, '\ncolour:', colour, '\namount:', amount, '\nsize:', size, '\nindex:', index)
     colour[size] = parseInt(amount) || 0
     sock.colours[index] = colour
     sock.totalAmt = sock.colours.reduce((memo, colour) => {

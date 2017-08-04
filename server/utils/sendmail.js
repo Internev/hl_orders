@@ -15,7 +15,6 @@ const padToFive = number => number <= 99999 ? ('0000' + number).slice(-5) : numb
 const customerEmail = (order, email) => {
   if (!email) return Promise.resolve({messageId: 0, response: 'no email address provided.'})
   let html = '<div>This email confirms your sock order with Humphrey Law, you ordered:</div>'
-  // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
   html += `<div>Thank you for your business!</div>`
 
@@ -30,7 +29,6 @@ const customerEmail = (order, email) => {
 
 const agentEmail = (order, customer, email) => {
   let html = `<div>This confirms the sock order you made with Humphrey Law on behalf of customer ${customer.customerid}, you ordered:</div>`
-  // console.log(Array.isArray(order.order))
   html += htmlFromOrder(order)
   html += `<div>Thanks!</div>`
 
@@ -55,11 +53,9 @@ const factoryEmail = (order, customer, totalAmt, agent) => {
   html += `<div><br/><b>Total Price: $${(order.totalprice / 100).toFixed(2)}</b></div>`
   html += `<div><br/><b>Total Qty: ${order.totalamt}</b></div>`
   html += `<div><br /><b>Shipping to:</b></div>`
-  // console.log('order delivery', order.addinfo.deliveryAddress)
   order.addinfo.deliveryAddress.split(/[,\n]/g)
     .map(line => `<div>${line}</div>`)
     .forEach(line => { html += line })
-  // console.log(Array.isArray(order.order))
   html += `<div><br /><b>Customer Details</b><br />
           ID: ${customer.customerid}<br />
           Customer: ${customer.name}<br />
@@ -139,7 +135,6 @@ const htmlFromOrder = (order) => {
   html += `<br/>Humphrey Law Order Number: ${webOrderNumber}`
   html += `<div><br/><b>Total Price: $${(order.totalprice / 100).toFixed(2)}</b></div>`
   html += `<div><br /><b>Shipping to:</b></div>`
-  // console.log('order delivery', order.addinfo.deliveryAddress)
   order.addinfo.deliveryAddress.split(/[,\n]/g)
     .map(line => `<div>${line}</div>`)
     .forEach(line => { html += line })

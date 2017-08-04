@@ -121,7 +121,6 @@ const saveOrderProcessing = (state, action) => {
 }
 
 const saveOrderSuccess = (state, action) => {
-  console.log('saved Order Success, action:', action)
   const newState = {
     ...state,
     ...{

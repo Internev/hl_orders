@@ -80,13 +80,8 @@ class DefInfo extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    // auth: state.auth,
-    // id_token: state.id_token,
-    // isAuthenticated: state.isAuthenticated,
     order: state.order,
     proxyUser: state.proxyUser
-    // proxyUserList: state.proxyUserList,
-    // proxyUserMsg: state.proxyUserMsg
   }
 }
 

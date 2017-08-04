@@ -20,7 +20,6 @@ class ConfirmOrder extends React.Component {
     this.state = {shipping: this.props.order.totalAmt < 48 ? 10 : 0}
   }
   componentDidUpdate () {
-    // console.log('confirm order this props is:', this.props)
     if (!this.props.user.isAuthenticated) {
       browserHistory.push('/logout')
     }

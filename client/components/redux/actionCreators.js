@@ -218,29 +218,24 @@ export function getOrderForm () {
     }
     axios.get('/api/order-form', config)
       .then(res => {
-        // console.log('order form retrieval success, data:', res.data)
         return dispatch(getOrderFormSuccess(res.data))
       })
       .catch(err => {
-        console.log('get order form error', err)
         if (err) return dispatch(getOrderFormFailure(err))
       })
   }
 }
 
 export function getOrderHistory (user) {
-  // console.log('getorderhistoryuser:', user)
   const config = {
     headers: {
       'authorization': localStorage.getItem('id_token')
     }
   }
   if (user) config.headers.id = user.customerid
-  // console.log('getorderhistory, user:', user, 'config:', config)
   return dispatch => {
     axios.get('/api/order', config)
       .then(res => {
-        // console.log('response from orderhistory:', res)
         dispatch(getOrderHistorySuccess(res.data))
       })
       .catch(err => {
@@ -299,7 +294,6 @@ export function saveOrder (order, customer, totalPrice, totalAmt, addinfo, shipp
     }
     axios.post('/api/order', {order, customer, totalPrice, totalAmt, addinfo, shipping, agent}, config)
     .then(res => {
-      // console.log('response from saveorder:', res.data)
       dispatch(saveOrderSuccess(res.data))
       dispatch(clearOrder())
     })
@@ -355,7 +349,6 @@ export function uploadCustomers (data) {
     }
     axios.post('/api/customers', data, config)
       .then(res => {
-        console.log('res from customers api:', res)
         return dispatch(uploadCustomersSuccess(res.data, 'Order Form Saved to Database'))
       })
       .catch(err => {

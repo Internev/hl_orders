@@ -1,7 +1,6 @@
 export const parseOrderForm = (csv) => {
   let socks = csv.split(/\n/).map(item => item.split(','))
   socks.shift()
-  // console.log('parsing order form now...\n********\n', socks)
   let orderObj = {}
   socks.forEach(item => {
     item[1] = fixTrademark(item[1])
@@ -48,19 +47,16 @@ export const parseOrderForm = (csv) => {
       let colour = orderObj[style].colours[ind]
       colour[item[0]] = 0
     }
-    // console.log('Loop finished, orderObj = ', orderObj)
   })
 
   let orderForm = []
   for (let sock in orderObj) {
     orderForm.push(orderObj[sock])
   }
-  // console.log('Loop finished, orderForm = ', orderForm)
   orderForm = orderForm.sort((a, b) => {
     return a.styleID.slice(0, 3) > b.styleID.slice(0, 3) ? 1 : -1
   })
   orderForm.shift() // ? Get rid of empty result from linebreak at bottom of original csv.
-  // console.log('orderForm with new stuff!', orderForm)
   return orderForm
 }
 
@@ -75,7 +71,6 @@ const fixTrademark = (s) => {
 export const parseStoreGeo = (csv) => {
   let rows = csv.split(/\r\n/).map(item => item.split(','))
   rows.shift()
-  // console.log('parsed store geo:', rows)
   return rows.map(store => {
     let storeObj = {
       custCode: store[0],

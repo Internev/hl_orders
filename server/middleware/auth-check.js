@@ -7,9 +7,7 @@ const config = require('../../config')
  *  The Auth Checker middleware function.
  */
 module.exports = (req, res, next) => {
-  // console.log('auth checker, headers:', req.headers)
   if (!req.headers.authorization) {
-    console.log('\n\nauth not found in headers, headers:', req.headers)
     return res.status(401).end()
   }
 
