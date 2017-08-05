@@ -2,6 +2,43 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const path = require('path')
+const pdfPrinter = require('pdfmake/src/printer')
+
+
+// var doc = { content: 'this is a pdf! Here is a newline\nIs this the second line?' }
+// console.log(printer.createPdfKitDocument(doc))
+
+// function createPdfBinary (text) {
+//   const fontDescriptors = {
+//     Roboto: {
+//       normal: './server/utils/fonts/Roboto-Regular.ttf',
+//       bold: './server/utils/fonts/Roboto-Medium.ttf',
+//       italics: './server/utils/fonts/Roboto-Italic.ttf',
+//       bolditalics: './server/utils/fonts/Roboto-MediumItalic.ttf'
+//     }
+//   }
+//   const printer = new pdfPrinter(fontDescriptors)
+//   let doc = printer.createPdfKitDocument(text)
+//
+//   let chunks = []
+//   let result
+//
+//   return new Promise((resolve, reject) => {
+//     doc.on('data', chunk => {
+//       chunks.push(chunk)
+//     })
+//     doc.on('end', () => {
+//       result = Buffer.concat(chunks)
+//       resolve(result.toString('base64'))
+//     })
+//     doc.end()
+//   })
+// }
+
+// createPdfBinary({content: 'line1\nline2'})
+//   .then(pdf => {
+//     console.log(`binary pdf:`, pdf)
+//   })
 
 let port = process.env.PORT || 3000
 
