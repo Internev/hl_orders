@@ -1,6 +1,7 @@
 const express = require('express')
 const { Order, Storedorder, User, Storegeo, genHash } = require('../models/db')
-const { customerEmail, factoryEmail, agentEmail, createPdfBinary } = require('../utils/sendmail')
+const { customerEmail, factoryEmail, agentEmail } = require('../utils/sendmail')
+const { createPdfBinary } = require('../utils/createPdf')
 const axios = require('axios')
 const PromiseThrottle = require('promise-throttle')
 const config = require('../../config')
@@ -27,7 +28,7 @@ router.post('/order', (req, res) => {
         customerEmail(order, req.body.customer.email)
           .then(info => {
             console.log('Customer Message %s sent: %s', info.messageId, info.response)
-            return createPdfBinary({content: `Hi I'm line 1\nLine 2`})
+            return createPdfBinary(order, req.body.customer, req.body.totalAmt, req.body.agent)
           })
           .then(pdf => {
             console.log('pdf created')

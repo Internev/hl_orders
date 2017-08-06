@@ -1,8 +1,6 @@
 const nodemailer = require('nodemailer')
 const config = require('../../config')
 const React = require('react')
-const PdfPrinter = require('pdfmake/src/printer')
-const path = require('path')
 import { renderToString } from 'react-dom/server'
 // require('babel-core/register')({
 //   presets: ['es2015', 'react']
@@ -149,34 +147,6 @@ const htmlFromOrder = (order) => {
   return html
 }
 
-function createPdfBinary (text) {
-  const fontDescriptors = {
-    Roboto: {
-      normal: path.join(__dirname, '/fonts/Roboto-Regular.ttf'),
-      bold: path.join(__dirname, '/fonts/Roboto-Medium.ttf'),
-      italics: path.join(__dirname, '/fonts/Roboto-Italic.ttf'),
-      bolditalics: path.join(__dirname, '/fonts/Roboto-MediumItalic.ttf')
-    }
-  }
-  const printer = new PdfPrinter(fontDescriptors)
-  let doc = printer.createPdfKitDocument(text)
-
-  let chunks = []
-  let result
-
-  return new Promise((resolve, reject) => {
-    doc.on('data', chunk => {
-      chunks.push(chunk)
-    })
-    doc.on('end', () => {
-      result = Buffer.concat(chunks)
-      resolve(result.toString('base64'))
-    })
-    doc.end()
-  })
-}
-
 module.exports.customerEmail = customerEmail
 module.exports.factoryEmail = factoryEmail
 module.exports.agentEmail = agentEmail
-module.exports.createPdfBinary = createPdfBinary
