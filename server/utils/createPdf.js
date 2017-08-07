@@ -11,7 +11,7 @@ function createPdfBinary (order, user, totalAmt, agent) {
     }
   }
   const printer = new PdfPrinter(fontDescriptors)
-  let doc = printer.createPdfKitDocument({content: generatePdfText(order, user, totalAmt, agent)})
+  let doc = printer.createPdfKitDocument(generatePdfText(order, user, totalAmt, agent))
 
   let chunks = []
   let result
@@ -29,9 +29,16 @@ function createPdfBinary (order, user, totalAmt, agent) {
 }
 
 function generatePdfText (order, user, totalAmt, agent) {
-  return `<b>Hi am I bold?</b>
-          <i>Is this the same line?</i>
-          this should be a new line.`
+  let content = []
+  content.push(`Hi, I'm line one.`)
+  content.push({text: `This is bold?`, bold: true})
+  content.push({text: `Third line, italics!`, italics: true})
+  content.push({text: [
+    'Regular text',
+    {text: 'Background Colour!', background: 'purple'},
+    {text: 'Wavy Gravy?', decoration: 'underline', decorationStyle: 'wavy'}
+  ]})
+  return {content}
 }
 
 module.exports.createPdfBinary = createPdfBinary
