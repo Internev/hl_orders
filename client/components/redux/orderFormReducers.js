@@ -85,7 +85,7 @@ const clearOrder = (state, action) => {
     sock.totalAmt = 0
     sock.colours.forEach(colour => {
       sock.sizes.forEach(size => {
-        colour[size] = 0
+        if (colour.hasOwnProperty(size)) colour[size] = 0
       })
     })
     return sock
