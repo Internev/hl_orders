@@ -29,16 +29,85 @@ function createPdfBinary (order, user, totalAmt, agent) {
 }
 
 function generatePdfText (order, user, totalAmt, agent) {
+  const padToFive = number => number <= 99999 ? ('0000' + number).slice(-5) : number
+  let webOrderNumber = 'A' + padToFive(order.id)
   let content = []
-  content.push(`Hi, I'm line one.`)
-  content.push({text: `This is bold?`, bold: true})
-  content.push({text: `Third line, italics!`, italics: true})
-  content.push({text: [
-    'Regular text',
-    {text: 'Background Colour!', background: 'purple'},
-    {text: 'Wavy Gravy?', decoration: 'underline', decorationStyle: 'wavy'}
-  ]})
-  return {content}
+  agent
+    ? content.push(`Agent ${agent.customerid} has made an order on behalf of ${user.customerid}.`)
+    : content.push(`${user.customerid} has made a new order.`)
+  content.push(`Humphrey Law order number: ${webOrderNumber}.`)
+  content.push({text: `Total Price: $${(order.totalprice / 100).toFixed(2)}`, bold: true})
+  content.push({text: `Total Qty: ${order.totalamt}`, bold: true})
+
+  content.push({text: `\nShipping to:`, bold: true})
+  order.addinfo.deliveryAddress.split(/[,\n]/g)
+    .map(line => `${line}`)
+    .forEach(line => content.push(line))
+
+  content.push({text: `Customer Details:`, bold: true})
+  content.push(`ID: ${user.customerid}`)
+  content.push(`Customer: ${user.name}`)
+  content.push(`Email: ${user.email}`)
+
+  if (Object.keys(order.addinfo).length) {
+    content.push(`\nAdditional Information provided by customer:`)
+    for (let info in order.addinfo) {
+      content.push({text: [
+        {text: `${info}:`, bold: true},
+        ` ${order.addinfo[info]}`]
+      })
+    }
+  }
+  content.push(`\nThe order is:`)
+
+  order.order
+    .filter(sock => sock.totalAmt)
+    .forEach(sock => {
+      content.push(`${sock.styleID} - ${sock.desc}`)
+      let body = []
+      let row = ['Colour', 'Pattern']
+      sock.sizes.forEach(size => {
+        row.push(size)
+      })
+      row.push('Unit Price exGST')
+      row.push('Total exGST')
+      body.push(row, row.slice(), row.slice())
+      content.push({
+        layout: 'lightHorizontalLines',
+        table: {
+          headerRows: 1,
+          body
+        }
+      })
+    })
+
+    // .forEach(sock => {
+    //   sock.colours
+    //   .filter(colour => {
+    //     return sock.sizes.some(size => {
+    //       if (colour.hasOwnProperty(size)) {
+    //         return colour[size] > 0
+    //       }
+    //       return false
+    //     })
+    //   })
+    //   .forEach(colour => {
+    //     sock.sizes.forEach(size => {
+    //       if (colour.hasOwnProperty(size) && colour[size] > 0) {
+    //
+    //
+    //         let csv = `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${clean(order.addinfo.customerName)}, ${clean(order.addinfo.deliveryAddress)}, ${customer.customerid}, ${webOrderNumber}, ${clean(order.addinfo.deliveryInstructions)}, ${clean(order.addinfo.department)}, ${clean(order.addinfo.customerRef)}, ${clean(order.addinfo.contactPerson)}, ${clean(order.addinfo.email)}, ${clean(order.addinfo.comments)}, ${agent ? agent.customerid : ''}\n`
+    //       }
+    //     })
+    //   })
+    // })
+
+  return {
+    content,
+    defaultStyle: {
+      fontSize: 9
+    }
+  }
 }
 
 module.exports.createPdfBinary = createPdfBinary
