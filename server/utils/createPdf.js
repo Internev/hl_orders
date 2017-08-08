@@ -65,13 +65,55 @@ function generatePdfText (order, user, totalAmt, agent) {
     .forEach(sock => {
       content.push(`${sock.styleID} - ${sock.desc}`)
       let body = []
-      let row = ['Colour', 'Pattern']
+      let header = ['Colour', 'Pattern']
       sock.sizes.forEach(size => {
-        row.push(size)
+        header.push(size)
       })
-      row.push('Unit Price exGST')
-      row.push('Total exGST')
-      body.push(row, row.slice(), row.slice())
+      header.push('Unit Price exGST')
+      header.push('Total exGST')
+      body.push(header)
+      sock.colours
+        .filter(colour => {
+          return sock.sizes.some(size => {
+            if (colour.hasOwnProperty(size)) {
+              return colour[size] > 0
+            }
+            return false
+          })
+        })
+        .forEach(colour => {
+          let row = []
+          row.push(`${colour.colourID}: ${colour.colourName}`)
+          colour.patternID > 0
+            ? row.push(`${colour.patternID}: ${colour.patternName}`)
+            : row.push(` `)
+
+          sock.sizes.forEach(size => {
+            if (colour.hasOwnProperty(size) && colour[size] > 0) {
+              row.push(`${colour[size]}`)
+            } else {
+              row.push(`0`)
+            }
+          })
+
+          row.push(`$${sock.price.toFixed(2)}`)
+          row.push(`$${(
+            sock.sizes.reduce((memo, size) => {
+              if (colour.hasOwnProperty(size)) memo += colour[size]
+              return memo
+            }, 0) * sock.price).toFixed(2)}`)
+          body.push(row)
+        })
+      let subTotal = []
+      subTotal.push('Subtotal:', ' ')
+      sock.sizes.forEach(size => (
+        subTotal.push(sock.colours.reduce((memo, colour) => {
+          if (colour.hasOwnProperty(size)) memo += colour[size]
+          return memo
+        }, 0).toString())
+      ))
+      subTotal.push(` `, `$${(sock.totalAmt * sock.price).toFixed(2)}`)
+      body.push(subTotal)
       content.push({
         layout: 'lightHorizontalLines',
         table: {
@@ -83,14 +125,14 @@ function generatePdfText (order, user, totalAmt, agent) {
 
     // .forEach(sock => {
     //   sock.colours
-    //   .filter(colour => {
-    //     return sock.sizes.some(size => {
-    //       if (colour.hasOwnProperty(size)) {
-    //         return colour[size] > 0
-    //       }
-    //       return false
-    //     })
-    //   })
+      // .filter(colour => {
+      //   return sock.sizes.some(size => {
+      //     if (colour.hasOwnProperty(size)) {
+      //       return colour[size] > 0
+      //     }
+      //     return false
+      //   })
+      // })
     //   .forEach(colour => {
     //     sock.sizes.forEach(size => {
     //       if (colour.hasOwnProperty(size) && colour[size] > 0) {
