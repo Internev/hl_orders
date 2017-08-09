@@ -123,27 +123,6 @@ function generatePdfText (order, user, totalAmt, agent) {
       })
     })
 
-    // .forEach(sock => {
-    //   sock.colours
-      // .filter(colour => {
-      //   return sock.sizes.some(size => {
-      //     if (colour.hasOwnProperty(size)) {
-      //       return colour[size] > 0
-      //     }
-      //     return false
-      //   })
-      // })
-    //   .forEach(colour => {
-    //     sock.sizes.forEach(size => {
-    //       if (colour.hasOwnProperty(size) && colour[size] > 0) {
-    //
-    //
-    //         let csv = `${orderDate}, ${size}, ${colour.patternID}, ${colour.colourID}, ${colour[size]}, ${sock.price}, ${colour[size] * sock.price}, ${order.totalprice / 100}, ${order.shipping}, ${(order.totalprice / 100) + order.shipping}, ${totalAmt}, ${customer.name}, ${clean(order.addinfo.customerName)}, ${clean(order.addinfo.deliveryAddress)}, ${customer.customerid}, ${webOrderNumber}, ${clean(order.addinfo.deliveryInstructions)}, ${clean(order.addinfo.department)}, ${clean(order.addinfo.customerRef)}, ${clean(order.addinfo.contactPerson)}, ${clean(order.addinfo.email)}, ${clean(order.addinfo.comments)}, ${agent ? agent.customerid : ''}\n`
-    //       }
-    //     })
-    //   })
-    // })
-
   return {
     content,
     defaultStyle: {
