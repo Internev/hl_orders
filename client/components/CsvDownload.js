@@ -8,7 +8,6 @@ class CsvDownload extends React.Component {
     super(props)
 
     const defaultEndDate = new Date()
-    defaultEndDate.setHours(0, 0, 0, 0)
 
     this.state = {
       defaultEndDate
