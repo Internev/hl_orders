@@ -67,7 +67,7 @@ class ConfirmOrder extends React.Component {
               <Tab label='Information'>
                 <DefInfo />
               </Tab>
-              <Tab label='Add a Note'>
+              <Tab label='Add Details'>
                 <AddInfo />
               </Tab>
             </Tabs>

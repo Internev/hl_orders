@@ -1,5 +1,4 @@
 import React from 'react'
-// import {GridTile} from 'material-ui/GridList'
 
 const Sock = ({sock, handleFormSubmit}) => (
   <div className='sock-tile'>

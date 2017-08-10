@@ -64,7 +64,9 @@ h3 {
 
 .sock-tile {
   flex: 1;
+  display: block;
   background: white;
+  // height: 100px;
   min-height: 100%;
   box-sizing: border-box;
   max-width: 480px;
@@ -102,6 +104,7 @@ h3 {
 
   form {
       padding: 5px 5px 5px 15px;
+      min-height: 100%;
       >table {
         border-collapse: collapse;
         margin: 0 auto;
@@ -277,7 +280,7 @@ nav {
   @media screen and (max-width: 850px) {
     flex-direction: column;
     text-align: center;
-    
+
     .button-text {
       font-size: .8em;
     }
