@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import StoreMap from './geo/StoreMap'
+import CsvDownload from './CsvDownload'
 // import TextField from 'material-ui/TextField'
 import { uploadOrderForm, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent, setMessage } from './redux/actionCreators'
 import { uploadStoreGeo, uploadGeoProcessing, getStoreGeo } from './redux/geoActionCreators'
@@ -223,6 +224,9 @@ class Radmin extends React.Component {
             </div>)
             : ''}
           </div>
+        </div>
+        <div>
+          <CsvDownload />
         </div>
           <div>
             {this.props.geo.failures.length > 0
