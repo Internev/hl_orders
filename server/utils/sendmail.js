@@ -2,9 +2,6 @@ const nodemailer = require('nodemailer')
 const config = require('../../config')
 const React = require('react')
 import { renderToString } from 'react-dom/server'
-// require('babel-core/register')({
-//   presets: ['es2015', 'react']
-// })
 import ConfirmSock from '../../client/components/ConfirmSock'
 
 // create reusable transporter object using the default SMTP transport
@@ -19,7 +16,7 @@ const customerEmail = (order, email) => {
   html += `<div>Thank you for your business!</div>`
 
   let mailOptions = {
-    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>',
+    from: config.outgoingEmail,
     html,
     to: email,
     subject: 'Humphrey Law Order Confirmation'
@@ -33,7 +30,7 @@ const agentEmail = (order, customer, email) => {
   html += `<div>Thanks!</div>`
 
   let mailOptions = {
-    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>',
+    from: config.outgoingEmail,
     html,
     to: email,
     subject: `${customer.customerid} Humphrey Law Order Confirmation`
@@ -71,7 +68,7 @@ const factoryEmail = (order, customer, totalAmt, agent, pdf) => {
   html += htmlFromOrder(order)
   html += `<div><br />A CSV and a printable PDF of this order are attached to this email.<br /></div>`
   let mailOptions = {
-    from: '"Humphrey Law Orders" <orders@humphreylaw.com.au>'
+    from: config.outgoingEmail
   }
   mailOptions.subject = `Humphrey Law Order Confirmation, order no ${webOrderNumber}`
   mailOptions.html = html
