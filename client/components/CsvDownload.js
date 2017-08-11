@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import DatePicker from 'material-ui/DatePicker'
 import RaisedButton from 'material-ui/RaisedButton'
+import fileDownload from 'react-file-download'
 import axios from 'axios'
 
 class CsvDownload extends React.Component {
@@ -22,8 +23,6 @@ class CsvDownload extends React.Component {
     console.log('CsvDownload Mounted, props:', this.props)
   }
   handleStartDate (event, date) {
-    console.log(new Date('2017-08-10 00:00'))
-    console.log(date)
     this.setState({startDate: date})
   }
   handleEndDate (event, date) {
@@ -42,8 +41,13 @@ class CsvDownload extends React.Component {
     }
     axios.post('/api/csv', data, config)
       .then(response => {
-        console.log('response from csv get:', response)
-        console.log('our timestamp:', this.state.startDate)
+        let dateObj = new Date()
+        let month = dateObj.getUTCMonth() + 1
+        let day = dateObj.getUTCDate()
+        let year = dateObj.getUTCFullYear()
+        let newdate = year + '-' + month + '-' + day
+
+        fileDownload(response.data, `${newdate} Orders.csv`)
       })
   }
   render () {

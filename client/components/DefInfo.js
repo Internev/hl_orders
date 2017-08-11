@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import ProxyUserPicker from './ProxyUserPicker'
-import { getProxyUser } from './redux/actionCreators'
+import { getProxyUser, updateAddInfo } from './redux/actionCreators'
 
 class DefInfo extends React.Component {
   constructor (props) {
@@ -26,6 +26,7 @@ class DefInfo extends React.Component {
     if (this.state.customerSearch) {
       this.setState({validId: ''})
       this.props.dispatch(getProxyUser(this.state.customerSearch))
+      this.props.dispatch(updateAddInfo('agent', this.props.user))
     } else {
       this.setState({validId: 'Please enter a search term'})
     }

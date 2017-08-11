@@ -2,6 +2,8 @@ const express = require('express')
 const { Order, Storedorder, User, Storegeo, genHash } = require('../models/db')
 const { customerEmail, factoryEmail, agentEmail } = require('../utils/sendmail')
 const { createPdfBinary } = require('../utils/createPdf')
+const { assembleCsv } = require('../utils/createCsv')
+const path = require('path')
 const axios = require('axios')
 const PromiseThrottle = require('promise-throttle')
 const config = require('../../config')
@@ -288,17 +290,25 @@ router.post('/customer', (req, res) => {
 })
 
 router.post('/csv', (req, res) => {
-  console.log('req:', req, 'data?', req.body)
   const query = {
     createdAt: {
       $between: [req.body.start, req.body.end]
     }
   }
   Order.findAll({
-    where: query
+    where: query,
+    order: [[ 'createdAt', 'ASC' ]],
+    include: [ {
+      model: User,
+      required: true
+    } ]
   })
   .then(orders => {
-    res.status(200).json(orders)
+    let file = assembleCsv(orders)
+
+    res.setHeader('Content-disposition', `attachment; filename=Orders.csv`)
+    res.set('Content-Type', 'text/csv')
+    res.status(200).send(file)
   })
   .catch(err => {
     console.log('csv query error:', err)
