@@ -53,6 +53,7 @@ class CsvDownload extends React.Component {
   render () {
     return (
       <div className='csv-download'>
+        <h2 className='card-heading'>Order CSV Download</h2>
         <div>
           <DatePicker
             floatingLabelText='Start Date'
@@ -71,6 +72,7 @@ class CsvDownload extends React.Component {
           />
         </div>
         <div>
+          <br />
           <RaisedButton
             label='Download CSV for these dates'
             onClick={this.handleSubmit}
