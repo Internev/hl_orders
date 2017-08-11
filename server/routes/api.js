@@ -287,4 +287,23 @@ router.post('/customer', (req, res) => {
     })
 })
 
+router.post('/csv', (req, res) => {
+  console.log('req:', req, 'data?', req.body)
+  const query = {
+    createdAt: {
+      $between: [req.body.start, req.body.end]
+    }
+  }
+  Order.findAll({
+    where: query
+  })
+  .then(orders => {
+    res.status(200).json(orders)
+  })
+  .catch(err => {
+    console.log('csv query error:', err)
+    res.status(500).json(err)
+  })
+})
+
 module.exports = router
