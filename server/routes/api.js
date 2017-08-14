@@ -120,8 +120,8 @@ router.get('/order-form', (req, res) => {
 })
 
 router.post('/store-geo', (req, res) => {
-  console.log('\n\n*********\nStore Geo:', req.body)
-  Storegeo.sync({force: true})
+  // console.log('\n\n*********\nStore Geo:', req.body)
+
   // let request = limit(axios.request).to(50).per(1000)
   let pThrottle = new PromiseThrottle({
     requestsPerSecond: 50,
@@ -144,6 +144,7 @@ router.post('/store-geo', (req, res) => {
 
   let geoResults = []
   let geoFailures = []
+  Storegeo.sync({force: true})
   Promise.all(geoRequests)
     .then(resList => {
       resList.forEach((res, i) => {
