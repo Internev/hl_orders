@@ -41,15 +41,7 @@ class CsvDownload extends React.Component {
     }
     axios.post('/api/csv', data, config)
       .then(response => {
-        function dateString (d) {
-          let month = d.getMonth() + 1
-          let day = d.getDate()
-          let year = d.getFullYear()
-          return year + '-' + month + '-' + day
-        }
-        let start = dateString(this.state.startDate)
-        let end = dateString(this.state.endDate)
-        fileDownload(response.data, `${start} - ${end} Orders.csv`)
+        fileDownload(response.data, `onlineorders.csv`)
       })
   }
   render () {
