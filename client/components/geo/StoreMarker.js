@@ -41,11 +41,13 @@ class StoreMarker extends React.Component {
     return (
       <div style={{position: 'relative'}}>
         <div
-          style={storeDotStyle}
+          className='store-dot'
           onMouseOver={this.handleMouseIn}
           onMouseOut={this.handleMouseOut}
           />
-        <div style={infoPopStyle}>
+        <div
+          className='store-info'
+          style={{display: this.state.hover ? 'block' : 'none'}}>
           <div>{this.props.store.name}</div>
           <div>{this.props.store.address}</div>
         </div>
