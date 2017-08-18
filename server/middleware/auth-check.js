@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
   const token = req.headers.authorization
 
   // decode the token using a secret key-phrase
-  return jwt.verify(token, config.jwtSecret, {maxAge: '2 days'}, (err, decoded) => {
+  return jwt.verify(token, config.jwtSecret, {maxAge: '30 days'}, (err, decoded) => {
     // the 401 code is for unauthorized status
     if (err) {
       return res.status(401).end()

@@ -150,7 +150,7 @@ router.post('/login', (req, res, next) => {
 
 router.post('/token', (req, res, next) => {
   console.log('token request made, ', req.body)
-  jwt.verify(req.body.token, config.jwtSecret, {maxAge: '2 days'}, (err, decoded) => {
+  jwt.verify(req.body.token, config.jwtSecret, {maxAge: '30 days'}, (err, decoded) => {
     console.log('token jwt verify err', err, 'decoded', decoded)
     if (err) return res.status(401).end()
     if (decoded !== undefined) {
