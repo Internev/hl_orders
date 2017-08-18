@@ -77,5 +77,10 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^2.2.0"
+  },
+  "standard": {
+    "globals": [
+      "localStorage"
+    ]
   }
 }

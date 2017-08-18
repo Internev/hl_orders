@@ -132,7 +132,7 @@ router.post('/store-geo', (req, res) => {
   // req.body = req.body.slice(100, 200)
   req.body.forEach(c => {
     if (c.name) {
-      let query = `${c.name.trim()},${c.street},${c.suburb},${c.state}`.replace(/[ \t]/g, '+')
+      let query = `${c.street},${c.suburb},${c.state},${c.postcode}`.replace(/[ \t]/g, '+')
       let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
       storeNames.push({
         name: c.name.trim(),

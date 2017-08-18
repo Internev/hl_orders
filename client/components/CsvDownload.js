@@ -20,7 +20,7 @@ class CsvDownload extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount () {
-    console.log('CsvDownload Mounted, props:', this.props)
+    // console.log('CsvDownload Mounted, props:', this.props)
   }
   handleStartDate (event, date) {
     this.setState({startDate: date})

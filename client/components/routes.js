@@ -40,6 +40,7 @@ const routes = {
       path: '/radmin',
       getComponent: (location, callback) => {
         store.dispatch(clearMessage())
+        console.log('admin path, post clearMessage')
         if (store.getState().user.isAuthenticated) {
           callback(null, Radmin)
         } else {
