@@ -441,21 +441,79 @@ nav {
 }
 
 .store-dot {
-  background-image: url(./images/hl_icon2.png);
-  background-repeat: no-repeat;
-  width: 22px;
-  height: 22px;
-  border-radius: 16px;
-  border: 1px solid $accentColor;
+  // width: 22px;
+  // height: 22px;
+  // border-radius: 16px;
+  border: 2px solid $accentColor;
   cursor: pointer;
   z-index: 1;
+
+  width: 18px;
+  height: 18px;
+  border-radius: 50% 50% 50% 0;
+  background: #575757;
+  background-repeat: no-repeat;
+  position: absolute;
+  transform: rotate(-45deg);
+  // background-image: url(./images/hl_icon2.png);
+  left: 50%;
+  top: 50%;
+  margin: -20px 0 0 -20px;
+  animation-name: bounce;
+  animation-fill-mode: both;
+  animation-duration: 1s;
+  // &:after {
+  //   content: '';
+  //   width: 14px;
+  //   height: 14px;
+  //   margin: 8px 0 0 8px;
+  //   background: hotpink;
+  //   position: absolute;
+  //   border-radius: 50%;
+  // }
+  @keyframes bounce {
+  0% {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -webkit-transform: translateY(-50px) rotate(-45deg);
+    -moz-transform: translateY(-50px) rotate(-45deg);
+    -o-transform: translateY(-50px) rotate(-45deg);
+    -ms-transform: translateY(-50px) rotate(-45deg);
+    transform: translateY(-50px) rotate(-45deg);
+  }
+  25% {
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+    -webkit-transform: translateY(30px) rotate(-45deg);
+    -moz-transform: translateY(30px) rotate(-45deg);
+    -o-transform: translateY(30px) rotate(-45deg);
+    -ms-transform: translateY(30px) rotate(-45deg);
+    transform: translateY(30px) rotate(-45deg);
+  }
+  45% {
+    -webkit-transform: translateY(-10px) rotate(-45deg);
+    -moz-transform: translateY(-10px) rotate(-45deg);
+    -o-transform: translateY(-10px) rotate(-45deg);
+    -ms-transform: translateY(-10px) rotate(-45deg);
+    transform: translateY(-10px) rotate(-45deg);
+  }
+  65% {
+    -webkit-transform: translateY(0) rotate(-45deg);
+    -moz-transform: translateY(0) rotate(-45deg);
+    -o-transform: translateY(0) rotate(-45deg);
+    -ms-transform: translateY(0) rotate(-45deg);
+    transform: translateY(0) rotate(-45deg);
+  }
+}
 }
 
 .store-info {
   width: 125px;
   height: 60px;
   background: white;
-  border: 1px solid $accentColor;
+  border: 2px solid $accentColor;
   position: absolute;
   top: -60px;
   left: 10px;
