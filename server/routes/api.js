@@ -120,19 +120,16 @@ router.get('/order-form', (req, res) => {
 })
 
 router.post('/store-geo', (req, res) => {
-  // console.log('\n\n*********\nStore Geo:', req.body)
-
-  // let request = limit(axios.request).to(50).per(1000)
   let pThrottle = new PromiseThrottle({
     requestsPerSecond: 50,
     promiseImplementation: Promise
   })
   let geoRequests = []
   let storeNames = []
-  // req.body = req.body.slice(100, 200)
+
   req.body.forEach(c => {
     if (c.name) {
-      let query = `${c.street},${c.suburb},${c.state},${c.postcode}`.replace(/[ \t]/g, '+')
+      let query = `${c.name},${c.street},${c.suburb},${c.state},${c.postcode}`.replace(/[ \t]/g, '+')
       let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
       storeNames.push({
         name: c.name.trim(),
