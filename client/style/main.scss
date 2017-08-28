@@ -514,11 +514,28 @@ nav {
   height: 60px;
   background: white;
   border: 2px solid $accentColor;
+  border-radius: 2px;
   position: absolute;
-  top: -60px;
-  left: 10px;
+  top: -65px;
+  left: 16px;
   font-size: 0.92em;
   color: black;
-  // display: this.state.hover ? block : none;
+  margin: auto;
+  cursor: pointer;
   z-index: 1000;
+
+  :after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 100%;
+    top: 85%;
+    margin-top: -10px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-right: 8px solid $accentColor;
+    border-bottom: 10px solid transparent;
+    border-left: 8px solid transparent;
+  }
 }
