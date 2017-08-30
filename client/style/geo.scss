@@ -95,7 +95,7 @@
 
 .store-info {
   width: 125px;
-  height: 60px;
+  min-height: 60px;
   background: white;
   border: 2px solid $accentColor;
   border-radius: 2px;
@@ -107,7 +107,7 @@
   margin: auto;
   cursor: pointer;
   z-index: 1000;
-  overflow: hidden;
+  // overflow-y: hidden;
 
   :after {
     content: '';
