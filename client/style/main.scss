@@ -5,6 +5,8 @@ $backgroundColor: rgba(242,242,242,1);
 $headFont: 'Crimson Text', serif;
 $baseFont: 'Open Sans', sans-serif;
 
+@import 'geo.scss';
+
 body {
   margin: 0;
   font-size: 16px;
@@ -438,104 +440,4 @@ nav {
   padding: 10px 0 20px 0;
   margin: 10px 0 20px 0;
   border: 1px dotted $baseColor;
-}
-
-.store-dot {
-  // width: 22px;
-  // height: 22px;
-  // border-radius: 16px;
-  border: 2px solid $accentColor;
-  cursor: pointer;
-  z-index: 1;
-
-  width: 18px;
-  height: 18px;
-  border-radius: 50% 50% 50% 0;
-  background: #575757;
-  background-repeat: no-repeat;
-  position: absolute;
-  transform: rotate(-45deg);
-  // background-image: url(./images/hl_icon2.png);
-  left: 50%;
-  top: 50%;
-  margin: -20px 0 0 -20px;
-  animation-name: bounce;
-  animation-fill-mode: both;
-  animation-duration: 1s;
-  // &:after {
-  //   content: '';
-  //   width: 14px;
-  //   height: 14px;
-  //   margin: 8px 0 0 8px;
-  //   background: hotpink;
-  //   position: absolute;
-  //   border-radius: 50%;
-  // }
-  @keyframes bounce {
-  0% {
-    opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
-    -webkit-transform: translateY(-30px) rotate(-45deg);
-    -moz-transform: translateY(-30px) rotate(-45deg);
-    -o-transform: translateY(-30px) rotate(-45deg);
-    -ms-transform: translateY(-30px) rotate(-45deg);
-    transform: translateY(-30px) rotate(-45deg);
-  }
-  15% {
-    opacity: 1;
-    -ms-filter: none;
-    filter: none;
-    -webkit-transform: translateY(10px) rotate(-45deg);
-    -moz-transform: translateY(10px) rotate(-45deg);
-    -o-transform: translateY(10px) rotate(-45deg);
-    -ms-transform: translateY(10px) rotate(-45deg);
-    transform: translateY(10px) rotate(-45deg);
-  }
-  25% {
-    -webkit-transform: translateY(-5px) rotate(-45deg);
-    -moz-transform: translateY(-5px) rotate(-45deg);
-    -o-transform: translateY(-5px) rotate(-45deg);
-    -ms-transform: translateY(-5px) rotate(-45deg);
-    transform: translateY(-5px) rotate(-45deg);
-  }
-  35% {
-    -webkit-transform: translateY(0) rotate(-45deg);
-    -moz-transform: translateY(0) rotate(-45deg);
-    -o-transform: translateY(0) rotate(-45deg);
-    -ms-transform: translateY(0) rotate(-45deg);
-    transform: translateY(0) rotate(-45deg);
-  }
-}
-}
-
-.store-info {
-  width: 125px;
-  height: 60px;
-  background: white;
-  border: 2px solid $accentColor;
-  border-radius: 2px;
-  position: absolute;
-  top: -65px;
-  left: 16px;
-  font-size: 0.92em;
-  color: black;
-  margin: auto;
-  cursor: pointer;
-  z-index: 1000;
-
-  :after {
-    content: '';
-    display: block;
-    position: absolute;
-    right: 100%;
-    top: 85%;
-    margin-top: -10px;
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-right: 8px solid $accentColor;
-    border-bottom: 10px solid transparent;
-    border-left: 8px solid transparent;
-  }
 }

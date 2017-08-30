@@ -28,7 +28,7 @@ class StoreMap extends React.Component {
   }
   render () {
     return (
-      <div style={{width: '100%', height: '600px'}}>
+      <div className='store-map'>
         <div>
           Find your closest Humphrey Law retailers<br />
           <TextField
@@ -63,6 +63,16 @@ class StoreMap extends React.Component {
           ))
           : null}
         </GoogleMapReact>
+        <div className='store-map-names'>
+          {this.props.geo.stores.length > 0
+          ? this.props.geo.stores.map((store, i) => (
+            <div className='store-map-name' key={i}>
+              <div><b>{store.name}</b></div>
+              <div>{store.address}</div>
+            </div>
+          ))
+          : null}
+        </div>
       </div>
     )
   }
