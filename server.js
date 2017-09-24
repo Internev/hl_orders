@@ -65,8 +65,10 @@ app.use('/api', authCheckMiddleware)
 // routes
 const authRoutes = require('./server/routes/auth')
 const apiRoutes = require('./server/routes/api')
+const mapRoutes = require('./server/routes/map')
 app.use('/auth', authRoutes)
 app.use('/api', apiRoutes)
+app.use('/store-geo', mapRoutes)
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client', 'index.html'))
 })

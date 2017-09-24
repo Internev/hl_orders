@@ -51,11 +51,10 @@ export function getStoreGeo (search) {
   return dispatch => {
     const config = {
       headers: {
-        'authorization': localStorage.getItem('id_token'),
         search
       }
     }
-    axios.get('/api/store-geo', config)
+    axios.get('/store-geo', config)
       .then(res => {
         console.log('storegeores:', res)
         return dispatch(getStoreGeoSuccess(res.data.geo, res.data.searchPoint))
