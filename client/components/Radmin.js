@@ -244,7 +244,7 @@ class Radmin extends React.Component {
             </table>
             : null}
           </div>
-          <div style={{width: '100%', height: '800px'}}>
+          <div>
             <StoreMap />
           </div>
         </CardText>

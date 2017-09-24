@@ -7,6 +7,7 @@ import Radmin from './Radmin'
 import ConfirmOrder from './ConfirmOrder'
 import OrderSummary from './OrderSummary'
 import OrderHistory from './OrderHistory'
+import StoreMap from './geo/StoreMap'
 import store from './redux/store'
 import { logoutUser } from './redux/authCreators'
 import { clearMessage } from './redux/actionCreators'
@@ -96,6 +97,11 @@ const routes = {
         // change the current URL to /login
         replace('/login')
       }
+    },
+
+    {
+      path: '/map',
+      component: StoreMap
     }
   ]
 }
