@@ -30,6 +30,7 @@ const Storedorder = db.define('storedorder', {
 const Storegeo = db.define('storegeo', {
   name: Sequelize.STRING,
   address: Sequelize.STRING,
+  comment: Sequelize.STRING,
   location: Sequelize.GEOMETRY('POINT')
 })
 

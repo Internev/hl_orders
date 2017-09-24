@@ -67,7 +67,7 @@ class StoreMap extends React.Component {
           {this.props.geo.stores.length > 0
           ? this.props.geo.stores.map((store, i) => (
             <div className='store-map-name' key={i}>
-              <div><b>{store.name}</b></div>
+              <div><b>{store.name}</b> {store.comment ? store.comment : null}</div>
               <div>{store.address}</div>
             </div>
           ))

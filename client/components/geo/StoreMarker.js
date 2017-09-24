@@ -20,6 +20,9 @@ class StoreMarker extends React.Component {
   handleClick () {
     this.setState({hover: false, popup: !this.state.popup})
   }
+  componentDidMount () {
+    console.log('Store Marker props:', this.props)
+  }
   render () {
     return (
       <div style={{position: 'relative'}}>
@@ -32,7 +35,7 @@ class StoreMarker extends React.Component {
         <div
           className='store-info'
           style={{display: this.state.hover ? 'block' : 'none'}}>
-          <div>{this.props.store.name}</div>
+          <div>{this.props.store.name}{this.props.store.comment ? `: ${this.props.store.comment}` : null}</div>
           <div>{this.props.store.address}</div>
         </div>
         <div
@@ -40,7 +43,7 @@ class StoreMarker extends React.Component {
           style={{display: this.state.popup ? 'block' : 'none'}}
           onClick={this.handleClick}
           >
-          <div>{this.props.store.name}</div>
+          <div>{this.props.store.name}{this.props.store.comment ? `: ${this.props.store.comment}` : null}</div>
           <div>{this.props.store.address}</div>
         </div>
       </div>

@@ -131,9 +131,11 @@ router.post('/store-geo', (req, res) => {
     if (c.name) {
       let query = `${c.name},${c.street},${c.suburb},${c.state},${c.postcode}`.replace(/[ \t]/g, '+')
       let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
+      console.log(`Comment for ${c.name}: ${c.comment}`)
       storeNames.push({
         name: c.name.trim(),
-        address: `${c.street},${c.suburb},${c.state}`
+        address: `${c.street},${c.suburb},${c.state}`,
+        comment: c.comment
       })
       geoRequests.push(pThrottle.add(axios.request.bind(this, url)))
     }
@@ -151,6 +153,7 @@ router.post('/store-geo', (req, res) => {
           geoResults.push(Storegeo.create({
             name: storeNames[i].name,
             address: geo.formatted_address,
+            comment: storeNames[i].comment,
             location: point
           }))
         } else {

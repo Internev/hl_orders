@@ -78,7 +78,8 @@ export const parseStoreGeo = (csv) => {
       street: store[2],
       suburb: store[3],
       state: store[4],
-      postcode: store[5]
+      postcode: store[5],
+      comment: store[6]
     }
     return storeObj
   })
