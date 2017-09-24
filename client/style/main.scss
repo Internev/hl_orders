@@ -4,6 +4,7 @@ $baseColor: rgb(33, 33, 33);
 $backgroundColor: rgba(242,242,242,1);
 $headFont: 'Crimson Text', serif;
 $baseFont: 'Open Sans', sans-serif;
+@import 'geo.scss';
 
 body {
   margin: 0;
