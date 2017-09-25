@@ -35,7 +35,8 @@ class StoreMarker extends React.Component {
         <div
           className='store-info'
           style={{display: this.state.hover ? 'block' : 'none'}}>
-          <div>{this.props.store.name}{this.props.store.comment ? `: ${this.props.store.comment}` : null}</div>
+          <div>{this.props.store.name}</div>
+          {this.props.store.comment ? (<div>({this.props.store.comment})</div>) : null}
           <div>{this.props.store.address}</div>
         </div>
         <div
@@ -43,7 +44,8 @@ class StoreMarker extends React.Component {
           style={{display: this.state.popup ? 'block' : 'none'}}
           onClick={this.handleClick}
           >
-          <div>{this.props.store.name}{this.props.store.comment ? `: ${this.props.store.comment}` : null}</div>
+          <div>{this.props.store.name}</div>
+          {this.props.store.comment ? (<div>({this.props.store.comment})</div>) : null}
           <div>{this.props.store.address}</div>
         </div>
       </div>
