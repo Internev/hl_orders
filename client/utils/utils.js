@@ -71,15 +71,24 @@ const fixTrademark = (s) => {
 export const parseStoreGeo = (csv) => {
   let rows = csv.split(/\r\n/).map(item => item.split(','))
   rows.shift()
+  console.log('rows from psg:', rows)
   return rows.map(store => {
+    let len = store.length
+    // Handle potential for street to inlcude commas/additional info.
+    let street = store[2]
+    let i = 3
+    while (store[i] !== store[len-4] && i < 6) {
+      street += store[i]
+      i++
+    }
     let storeObj = {
       custCode: store[0],
       name: store[1],
-      street: store[2],
-      suburb: store[3],
-      state: store[4],
-      postcode: store[5],
-      comment: store[6]
+      street,
+      suburb: store[len-4],
+      state: store[len-3],
+      postcode: store[len-2],
+      comment: store[len-1]
     }
     return storeObj
   })

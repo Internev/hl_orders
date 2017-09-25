@@ -43,7 +43,7 @@ class Radmin extends React.Component {
     this.props.dispatch(uploadGeoProcessing())
     let reader = new FileReader()
     reader.onload = (file) => {
-      // console.log(parseStoreGeo(file.target.result))
+      // console.log('Parse Store Geo:', parseStoreGeo(file.target.result))
       this.props.dispatch(uploadStoreGeo(parseStoreGeo(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
