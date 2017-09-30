@@ -9,7 +9,7 @@ import {
 const DEFAULT_STATE = {
   stores: [],
   failures: [],
-  focusPoint: {lat: -37.8009595, lng: 144.9873447},
+  focusPoint: {lat: -37.8291163, lng: 145.2559383},
   msg: '',
   processing: false
 }
