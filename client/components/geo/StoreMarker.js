@@ -21,7 +21,7 @@ class StoreMarker extends React.Component {
     this.setState({hover: false, popup: !this.state.popup})
   }
   componentDidMount () {
-    console.log('Store Marker props:', this.props)
+    // console.log('Store Marker props:', this.props)
   }
   render () {
     return (

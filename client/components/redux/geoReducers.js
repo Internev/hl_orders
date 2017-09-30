@@ -2,13 +2,14 @@ import {
   UPLOAD_GEO_PROCESSING,
   UPLOAD_GEO_SUCCESS,
   UPLOAD_GEO_FAILURE,
-  GET_STORE_GEO_SUCCESS
+  GET_STORE_GEO_SUCCESS,
+  SET_GEO_FOCUS
 } from './actions'
 
 const DEFAULT_STATE = {
   stores: [],
   failures: [],
-  searchPoint: {lat: -37.8009595, lng: 144.9873447},
+  focusPoint: {lat: -37.8009595, lng: 144.9873447},
   msg: '',
   processing: false
 }
@@ -49,9 +50,14 @@ const getStoreGeoSuccess = (state, action) => {
     ...state,
     ...{
       stores: action.stores,
-      searchPoint: action.searchPoint
+      focusPoint: action.focusPoint
     }
   }
+  return newState
+}
+
+const setGeoFocus = (state, action) => {
+  const newState = {...state, ...{focusPoint: action.focusPoint}}
   return newState
 }
 
@@ -65,6 +71,8 @@ export default function (state = DEFAULT_STATE, action) {
       return uploadGeoFailure(state, action)
     case GET_STORE_GEO_SUCCESS:
       return getStoreGeoSuccess(state, action)
+    case SET_GEO_FOCUS:
+      return setGeoFocus(state, action)
     default:
       return state
   }

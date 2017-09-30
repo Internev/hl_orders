@@ -3,7 +3,8 @@ import {
   UPLOAD_GEO_FAILURE,
   UPLOAD_GEO_PROCESSING,
   GET_STORE_GEO_SUCCESS,
-  GET_STORE_GEO_FAILURE
+  GET_STORE_GEO_FAILURE,
+  SET_GEO_FOCUS
 } from './actions'
 import axios from 'axios'
 
@@ -56,19 +57,26 @@ export function getStoreGeo (search) {
     }
     axios.get('/store-geo', config)
       .then(res => {
-        console.log('storegeores:', res)
+        // console.log('storegeores:', res)
         return dispatch(getStoreGeoSuccess(res.data.geo, res.data.searchPoint))
       })
       .catch(err => {
-        console.log('storegeo error:', err)
+        // console.log('storegeo error:', err)
       })
     }
 }
 
-function getStoreGeoSuccess (stores, searchPoint) {
+function getStoreGeoSuccess (stores, focusPoint) {
   return {
     type: GET_STORE_GEO_SUCCESS,
     stores,
-    searchPoint
+    focusPoint
+  }
+}
+
+export function setGeoFocus (focusPoint) {
+  return {
+    type: SET_GEO_FOCUS,
+    focusPoint
   }
 }
