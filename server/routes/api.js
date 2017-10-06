@@ -121,7 +121,7 @@ router.get('/order-form', (req, res) => {
 
 router.post('/store-geo', (req, res) => {
   let pThrottle = new PromiseThrottle({
-    requestsPerSecond: 50,
+    requestsPerSecond: 25,
     promiseImplementation: Promise
   })
   let geoRequests = []
@@ -131,7 +131,7 @@ router.post('/store-geo', (req, res) => {
     if (c.name) {
       let query = `${c.name},${c.street},${c.suburb},${c.state},${c.postcode}`.replace(/[ \t]/g, '+')
       let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
-      console.log(`Comment for ${c.name}: ${c.comment}`)
+      // console.log(`Comment for ${c.name}: ${c.comment}`)
       storeNames.push({
         name: c.name.trim(),
         address: `${c.street},${c.suburb},${c.state}`,
@@ -144,7 +144,7 @@ router.post('/store-geo', (req, res) => {
   let geoResults = []
   let geoFailures = []
   Storegeo.sync({force: true})
-  Promise.all(geoRequests)
+  Promise.all(geoRequests.map(p => p.catch(e => e)))
     .then(resList => {
       resList.forEach((res, i) => {
         if (res.data.status === 'OK') {
@@ -178,7 +178,8 @@ router.post('/store-geo', (req, res) => {
         })
     })
     .catch(err => {
-      if (err) console.log('geoRequests error:', err)
+      if (err) console.log('geoRequests promise error:', err)
+      res.status(500).json({message: 'Geocoding failure, please try again later.', err})
     })
 })
 
