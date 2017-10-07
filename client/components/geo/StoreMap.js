@@ -33,9 +33,10 @@ class StoreMap extends React.Component {
       this.props.dispatch(getStoreGeo(this.state.storeSearch))
     }
   }
-  handleStoreNameClick (store) {
+  handleStoreNameClick (store, index) {
     // console.log('store clicked:', store)
     this.props.dispatch(setGeoFocus({lat: store.location.coordinates[1], lng: store.location.coordinates[0]}))
+    this.refs[index].handleClick(true)
   }
   render () {
     return (
@@ -53,7 +54,7 @@ class StoreMap extends React.Component {
               }
             }}
           />&nbsp;
-        <RaisedButton
+          <RaisedButton
             label='Search'
             onClick={this.handleStoreSearch}
           />
@@ -66,6 +67,7 @@ class StoreMap extends React.Component {
           {this.props.geo.stores.length > 0
           ? this.props.geo.stores.map((store, i) => (
             <StoreMarker
+              ref={i}
               key={i}
               lat={store.location.coordinates[1]}
               lng={store.location.coordinates[0]}
@@ -77,9 +79,9 @@ class StoreMap extends React.Component {
         <div className='store-map-names'>
           {this.props.geo.stores.length > 0
           ? this.props.geo.stores.map((store, i) => (
-            <div className='store-map-name' key={i} onClick={() => this.handleStoreNameClick(store)}>
+            <div className='store-map-name' key={i} onClick={() => this.handleStoreNameClick(store, i)}>
               <div><b>{store.name}</b></div>
-               {store.comment ? (<div>({store.comment})</div>) : null}
+              {store.comment ? (<div>({store.comment})</div>) : null}
               <div>{store.address}</div>
             </div>
           ))

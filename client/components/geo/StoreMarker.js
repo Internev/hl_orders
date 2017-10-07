@@ -17,8 +17,8 @@ class StoreMarker extends React.Component {
   handleMouseOut () {
     this.setState({hover: false})
   }
-  handleClick () {
-    this.setState({hover: false, popup: !this.state.popup})
+  handleClick (open) {
+    this.setState({hover: false, popup: open})
   }
   componentDidMount () {
     // console.log('Store Marker props:', this.props)
@@ -42,7 +42,7 @@ class StoreMarker extends React.Component {
         <div
           className='store-info'
           style={{display: this.state.popup ? 'block' : 'none'}}
-          onClick={this.handleClick}
+          onClick={() => this.handleClick(!this.state.popup)}
           >
           <div>{this.props.store.name}</div>
           {this.props.store.comment ? (<div>({this.props.store.comment})</div>) : null}
