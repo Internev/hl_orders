@@ -1,14 +1,12 @@
 const express = require('express')
-const { Order, Storedorder, User, Storegeo, genHash } = require('../models/db')
-const path = require('path')
+const { Storegeo } = require('../models/db')
 const axios = require('axios')
-const PromiseThrottle = require('promise-throttle')
 const config = require('../../config')
 
 const router = new express.Router()
 
 router.get('/', (req, res) => {
-  let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req.headers.search}&components=country:AU&region=au&key=${config.GMAPS_API}`
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${req.headers.search}&components=country:AU|country:NZ&key=${config.GMAPS_API}`
   let searchPoint = {
   }
   axios.request(url)
