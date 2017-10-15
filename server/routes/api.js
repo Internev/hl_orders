@@ -3,10 +3,6 @@ const { Order, Storedorder, User, Storegeo, genHash } = require('../models/db')
 const { customerEmail, factoryEmail, agentEmail } = require('../utils/sendmail')
 const { createPdfBinary } = require('../utils/createPdf')
 const { assembleCsv } = require('../utils/createCsv')
-const path = require('path')
-const axios = require('axios')
-const PromiseThrottle = require('promise-throttle')
-const config = require('../../config')
 
 const router = new express.Router()
 
@@ -120,67 +116,31 @@ router.get('/order-form', (req, res) => {
 })
 
 router.post('/store-geo', (req, res) => {
-  let pThrottle = new PromiseThrottle({
-    requestsPerSecond: 25,
-    promiseImplementation: Promise
-  })
-  let geoRequests = []
-  let storeNames = []
-
-  req.body.forEach(c => {
-    if (c.name) {
-      let query = `${c.name},${c.street},${c.suburb},${c.state},${c.postcode}`.replace(/[ \t]/g, '+')
-      let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=au&key=${config.GMAPS_API}`
-      // console.log(`Comment for ${c.name}: ${c.comment}`)
-      storeNames.push({
-        name: c.name.trim(),
-        address: `${c.street},${c.suburb},${c.state}`,
-        comment: c.comment
+  Storegeo.sync({force: true}).then(r => {
+    let dbCreates = req.body.map(s => {
+      return Storegeo.create({
+        name: s.name,
+        address: `${s.name}, ${s.street}, ${s.suburb}, ${s.state}, ${s.postcode}`,
+        comment: s.comment,
+        location: {type: 'Point', coordinates: [s.lng, s.lat]}
       })
-      geoRequests.push(pThrottle.add(axios.request.bind(this, url)))
-    }
-  })
-
-  let geoResults = []
-  let geoFailures = []
-  Storegeo.sync({force: true})
-  Promise.all(geoRequests.map(p => p.catch(e => e)))
-    .then(resList => {
-      resList.forEach((res, i) => {
-        if (res.data.status === 'OK') {
-          let geo = res.data.results[0]
-          let point = {type: 'Point', coordinates: [geo.geometry.location.lng, geo.geometry.location.lat]}
-          geoResults.push(Storegeo.create({
-            name: storeNames[i].name,
-            address: geo.formatted_address,
-            comment: storeNames[i].comment,
-            location: point
-          }))
-        } else {
-          geoFailures.push({
-            store: storeNames[i],
-            status: res.data.status
-          })
-        }
+    })
+    Promise.all(dbCreates)
+      .then(dbList => {
+        console.log('dbList promise response is:', dbList)
+        res.status(200).json({
+          message: 'Geolocation upload successful',
+          dbList
+        })
       })
-      Promise.all(geoResults)
-        .then(dbList => {
-          res.status(200).json({
-            message: 'Store locations uploaded.',
-            geoFailures
-          })
+      .catch(err => {
+        console.log('dbCreate promise error:', err)
+        res.status(500).json({
+          message: 'Geolocation upload failure',
+          err
         })
-        .catch(err => {
-          if (err) {
-            console.log('geoResults error:', err)
-            res.status(500).json({err})
-          }
-        })
-    })
-    .catch(err => {
-      if (err) console.log('geoRequests promise error:', err)
-      res.status(500).json({message: 'Geocoding failure, please try again later.', err})
-    })
+      })
+  })
 })
 
 // router.get('/store-geo', (req, res) => {

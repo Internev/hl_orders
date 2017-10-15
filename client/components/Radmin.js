@@ -226,23 +226,8 @@ class Radmin extends React.Component {
             : ''}
           </div>
         </div>
-        <div>
-          <CsvDownload />
-        </div>
           <div>
-            {this.props.geo.failures.length > 0
-            ? <table>
-              <tbody>
-                {this.props.geo.failures.map((failure, i) => (
-                  <tr key={i}>
-                    <td>{failure.store.name}</td>
-                    <td>{failure.store.address}</td>
-                    <td>{failure.status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            : null}
+            <CsvDownload />
           </div>
           <div>
             <StoreMap />
