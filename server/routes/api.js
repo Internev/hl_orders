@@ -120,7 +120,7 @@ router.post('/store-geo', (req, res) => {
     let dbCreates = req.body.map(s => {
       return Storegeo.create({
         name: s.name,
-        address: `${s.name}, ${s.street}, ${s.suburb}, ${s.state}, ${s.postcode}`,
+        address: `${s.street}, ${s.suburb}, ${s.state}, ${s.postcode}`,
         comment: s.comment,
         location: {type: 'Point', coordinates: [s.lng, s.lat]}
       })
@@ -129,8 +129,7 @@ router.post('/store-geo', (req, res) => {
       .then(dbList => {
         console.log('dbList promise response is:', dbList)
         res.status(200).json({
-          message: 'Geolocation upload successful',
-          dbList
+          message: 'Geolocation upload successful'
         })
       })
       .catch(err => {
