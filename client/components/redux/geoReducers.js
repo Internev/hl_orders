@@ -19,7 +19,7 @@ const uploadGeoProcessing = (state, action) => {
     ...state,
     ...{
       processing: true,
-      msg: 'Getting geolocations for stores. This can be a slow process!'
+      msg: 'Uploading store location data.'
     }}
   return newState
 }
@@ -30,7 +30,7 @@ const uploadGeoSuccess = (state, action) => {
     ...{
       failures: action.failures.geoFailures,
       processing: false,
-      msg: 'Geolocation complete. Any failed addresses listed below.'
+      msg: 'Store locations written to database.'
     }}
   return newState
 }

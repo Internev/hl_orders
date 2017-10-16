@@ -37,7 +37,8 @@ class StoreMarker extends React.Component {
           style={{display: this.state.hover ? 'block' : 'none'}}>
           <div>{this.props.store.name}</div>
           {this.props.store.comment ? (<div>({this.props.store.comment})</div>) : null}
-          <div>{this.props.store.address}</div>
+          <div>{this.props.store.address.split(',')[0]}</div>
+          <div>{this.props.store.address.split(',')[1] + ', ' + this.props.store.address.split(',')[2]}</div>
         </div>
         <div
           className='store-info'
@@ -46,7 +47,8 @@ class StoreMarker extends React.Component {
           >
           <div>{this.props.store.name}</div>
           {this.props.store.comment ? (<div>({this.props.store.comment})</div>) : null}
-          <div>{this.props.store.address}</div>
+          <div>{this.props.store.address.split(',')[0]}</div>
+          <div>{this.props.store.address.split(',')[1] + ', ' + this.props.store.address.split(',')[2]}</div>
         </div>
       </div>
     )
