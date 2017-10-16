@@ -36,7 +36,16 @@ class StoreMap extends React.Component {
   handleStoreNameClick (store, index) {
     // console.log('store clicked:', store)
     this.props.dispatch(setGeoFocus({lat: store.location.coordinates[1], lng: store.location.coordinates[0]}))
-    this.refs[index].handleClick(true)
+    console.log(this.refs[index], store)
+
+    for (let ref in this.refs) {
+      console.log('current ref:', this.refs[ref])
+      console.log('clicked ref:', this.refs[index])
+      console.log('compare:', ref, index, ref == index)
+
+      ref == index ? this.refs[index].handleClick(true) : this.refs[ref].handleClick(false)
+    }
+    // this.refs[index].handleClick(true)
   }
   render () {
     return (
@@ -44,7 +53,8 @@ class StoreMap extends React.Component {
         <div>
           Find your closest Humphrey Law retailers<br />
           <TextField
-            hintText='Search by postcode or address'
+            style={{width: '290px'}}
+            hintText='Search by postcode or suburb and state'
             value={this.state.storeSearch}
             onChange={this.updateStoreSearch}
             onKeyPress={e => {
