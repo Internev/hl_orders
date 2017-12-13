@@ -8,10 +8,10 @@ import Checkbox from 'material-ui/Checkbox'
 import StoreMap from './geo/StoreMap'
 import CsvDownload from './CsvDownload'
 // import TextField from 'material-ui/TextField'
-import { uploadOrderForm, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent, setMessage } from './redux/actionCreators'
+import { uploadOrderForm, uploadCustomers, getOrderHistory, setOrderDisplay, getProxyUser, toggleAdmin, toggleAgent, setMessage, clearMessage } from './redux/actionCreators'
 import { uploadStoreGeo, uploadGeoProcessing, getStoreGeo } from './redux/geoActionCreators'
 import { parseOrderForm, parseStoreGeo, parseCustomers } from '../utils/utils'
-import axios from 'axios'
+// import axios from 'axios'
 
 class Radmin extends React.Component {
   constructor (props) {
@@ -41,18 +41,31 @@ class Radmin extends React.Component {
   }
   uploadStoreGeo (e) {
     this.props.dispatch(uploadGeoProcessing())
+    const filename = e.target.files[0].name
     let reader = new FileReader()
     reader.onload = (file) => {
+      console.log('store geo file obj:', filename)
+      if (filename !== 'CustFinalList.csv') {
+        this.props.dispatch(setMessage('Expected filename "CustFinalList.csv", for store location data. Please double check your uploaded file.'))
+      } else {
+        this.props.dispatch(clearMessage())
+        this.props.dispatch(uploadStoreGeo(parseStoreGeo(file.target.result)))
+      }
       // console.log('Parse Store Geo:', parseStoreGeo(file.target.result))
-      this.props.dispatch(uploadStoreGeo(parseStoreGeo(file.target.result)))
     }
     reader.readAsText(e.target.files[0])
     this.storeGeo.value = null
   }
   uploadOrderForm (e) {
     let reader = new FileReader()
+    const filename = e.target.files[0].name
     reader.onload = (file) => {
-      this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
+      if (filename !== 'WebOrdFormData.csv') {
+        this.props.dispatch(setMessage('Expected filename "WebOrdFormData.csv", for order form upload. Please double check your uploaded file.'))
+      } else {
+        this.props.dispatch(clearMessage())
+        this.props.dispatch(uploadOrderForm(parseOrderForm(file.target.result)))
+      }
     }
     reader.readAsText(e.target.files[0])
     this.orderInput.value = null
@@ -60,8 +73,14 @@ class Radmin extends React.Component {
   uploadCustomers (e) {
     e.preventDefault()
     let reader = new FileReader()
+    const filename = e.target.files[0].name
     reader.onload = (file) => {
-      this.props.dispatch(uploadCustomers(parseCustomers(file.target.result)))
+      if (filename !== 'RetailerLogin.csv') {
+        this.props.dispatch(setMessage('Expected filename "RetailerLogin.csv", for customer list upload. Please double check your uploaded file.'))
+      } else {
+        this.props.dispatch(clearMessage())
+        this.props.dispatch(uploadCustomers(parseCustomers(file.target.result)))
+      }
     }
     reader.readAsText(e.target.files[0])
     this.customerUpload.value = null
@@ -175,11 +194,7 @@ class Radmin extends React.Component {
                   this.customerUpload.click()
                 }, 200)
               }}
-            />&nbsp;
-            <RaisedButton
-              label='StoreGeoTest'
-              onClick={this.storeGeoTest}
-            />&nbsp;
+            />
         </div>
         <div className='user-upgrade'>
           <div>
